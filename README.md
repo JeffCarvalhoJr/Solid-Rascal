@@ -20,4 +20,4 @@ the project will be entirely open source, i'll try my best to fill it with usefu
     What is a dungeon without monsters? diverses creatures for the player to encounter, slaughter and probably die to.
 * ### Various Weapons and Items
 
-    Who knows what you'll find on the dark corners of the dungeons? stay live longer with equipment find on the dungeons
+    Who knows what you'll find on the dark corners of the dungeons? stay live longer with equipment that you find on the dungeons
