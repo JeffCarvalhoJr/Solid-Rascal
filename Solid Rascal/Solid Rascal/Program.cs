@@ -8,8 +8,13 @@ namespace Solid_Rascal
 {
     class Program
     {
+        public static MainGame game;
+
         static void Main(string[] args)
         {
+
+            game = new MainGame();
+
         }
     }
 }
