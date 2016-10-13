@@ -2,11 +2,11 @@
 Welcome to the development of my first Roguelike!
 
 ## Introduction
-**Solid_Rascal** is my first attempt of developing a roguelike, heavily inspired (almost a clone) in ROGUE, this game will have the basics features of a roguelike.
+**Solid_Rascal** is my first attempt of developing a roguelike, heavily inspired in ROGUE (almost a clone), this game will have the basics features of a roguelike.
 
 The main objective of this project besides my sincere tribute to ROGUE, is to learn how to develop Roguelikes, and i hope that by trying to replicate the first game that brings this genre to life, is a good way to do so.
 
-the project will be entirely open sourced, i'll try my best to fill it with useful commentaries, so fell free to take this code and learn with it, maybe develop your own game, and i'll be glad to know if this was useful to someone.
+the project will be entirely open source, i'll try my best to fill it with useful commentaries, so fell free to take this code and learn with it, maybe develop your own game, and i'll be glad to know if this was useful to someone.
 
 ## Planned Features
 * ### Dungeon Generator 
