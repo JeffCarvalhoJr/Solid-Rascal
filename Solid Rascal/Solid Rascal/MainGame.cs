@@ -60,9 +60,9 @@ namespace Solid_Rascal
            
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
-                PlaceActors();
                 PlaceExit();
                 PrintMap();
+                PlaceActors();
                 PlayerMovement();
                
                 try
@@ -79,6 +79,7 @@ namespace Solid_Rascal
 
         void PlaceActors()
         {
+            //Only player for now
             int randRoomX = rand.Next(0, 3);
             int randRoomY = rand.Next(0, 3);
             Room spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
@@ -89,9 +90,14 @@ namespace Solid_Rascal
             playerY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
 
-            newPlayer = new Player(playerX, playerY);
 
+            newPlayer = new Player(playerX, playerY);
+            occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos];
             currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+            Console.SetCursorPosition(playerX, playerY);
+            Console.Write(TILESET.TileType(currentMap[playerY, playerX]));
+           
             
         }
 
@@ -120,22 +126,20 @@ namespace Solid_Rascal
                 for (int j = 0; j < MAPWidth; j++)
                 {
                     Console.SetCursorPosition(j, i);
-                    if (currentMap[i, j] == 11)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.BackgroundColor = ConsoleColor.Blue;
-                        Console.Write(TILESET.TileType(mapGen.MAP[i, j]));
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.Write(TILESET.TileType(mapGen.MAP[i, j]));
-                    }
-
+                    Console.Write(TILESET.TileType(currentMap[i, j]));
                     //System.Threading.Thread.Sleep(1);//function to see the map being printed on the console with a delay (kinda nice)
                 }
             }
+        }
+
+        void UpdateActors()
+        {
+            int x, y;
+            x = 0;
+            y = 0;
+
+            Console.SetCursorPosition(y, x);
+            Console.Write(TILESET.TileType(currentMap[y, x]));
         }
 
         void PlayerMovement()
@@ -148,10 +152,19 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 0 || currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 9 || currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 10)
                     {
                         currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
                         occupiedTile = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
+
                         newPlayer.yPos--;
                         currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
-                        PrintMap();
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        //PrintMap();
                         alert.Action("North");
                     }
                     else
@@ -164,10 +177,18 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 0 || currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 9 || currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 10)
                     {
                         currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
                         occupiedTile = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
+
                         newPlayer.yPos++;
                         currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
-                        PrintMap();
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
                         alert.Action("South");
                     }
                     else
@@ -180,10 +201,18 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 0 || currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 9 || currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 10)
                     {
                         currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
                         occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
+
                         newPlayer.xPos--;
                         currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
-                        PrintMap();
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
                         alert.Action("West");
                     }
                     else
@@ -196,10 +225,18 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 0 || currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 9 || currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 10)
                     {
                         currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
                         occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
+
                         newPlayer.xPos++;
                         currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
-                        PrintMap();
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
                         alert.Action("East");
                     }
                     else
@@ -213,7 +250,7 @@ namespace Solid_Rascal
                 }
                 else
                 {
-                    alert.Warning("I Dont know this command");
+                    alert.Action("I Dont know this command");
                 }
             }
         }
