@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />
@@ -54,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Characters\Enemies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

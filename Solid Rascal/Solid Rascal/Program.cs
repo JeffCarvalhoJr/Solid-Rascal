@@ -12,7 +12,7 @@ namespace Solid_Rascal
 
         static void Main(string[] args)
         {
-
+            Console.SetWindowSize(120, 40);
             game = new MainGame();
 
         }

@@ -15,7 +15,7 @@ namespace Solid_Rascal
 
         public Random rand = new Random();
 
-        public Room[,] _RoomsL;
+        public Room[,] _RoomsL { get; set; }
 
         public List<Corridor> _CorridorsL;
 

@@ -34,6 +34,10 @@ namespace Solid_Rascal
                     return "▓";
                 case 10:
                     return "+";
+                case 11:
+                    return "↕";
+                case 52:
+                    return "@";
                 default:
                     return "X";
             }

@@ -55,6 +55,20 @@ namespace Solid_Rascal.UI
             Console.ReadLine();
         }
 
+        public void Action(string ACTION)
+        {
+            ClearLine();
+            if (MAPHeight > 0)
+            {
+                Console.SetCursorPosition(0, MAPHeight + 1);
+            }
+            else
+            {
+                Console.SetCursorPosition(0, Console.CursorTop);
+            }
+            Console.Write("" + ACTION + "!");
+        }
+
         //Method to clear a single line for the console
         //Mainly to be used with the Question and Warning methods
         void ClearLine()

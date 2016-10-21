@@ -1,4 +1,5 @@
 ﻿using Solid_Rascal.UI;
+using Solid_Rascal.Characters.Player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,14 +26,15 @@ namespace Solid_Rascal
         public int MAPWidth;
         public int MaxRooms;
 
-        //public static List<Room> _RoomsL;
-        public Room[,] _RoomsL;
+        public int occupiedTile;
 
-        public static List<Corridor> _CorridorsL;
+        Player newPlayer;
 
         Alert alert = new Alert();
 
         public string playerAnswer;
+
+        public ConsoleKeyInfo userCKI;
 
 
         public MainGame()
@@ -45,7 +47,8 @@ namespace Solid_Rascal
 
         void GameStart()
         {
-
+            Console.CursorVisible = false;
+            Console.OutputEncoding = Encoding.UTF8;
             MAPWidth = 90;
             MAPHeight = 30;
 
@@ -54,18 +57,14 @@ namespace Solid_Rascal
             //generating map loop
             do
             {
-                try
-                {
-                    mapGen = new Map(MAPWidth, MAPHeight);
-                    currentMap = mapGen.GetMap();
-                    PrintMap();
-                }
-                catch
-                {
-                    alert.Warning("An error ocurried while the map was being generated");
-                }
-                
-                
+           
+                mapGen = new Map(MAPWidth, MAPHeight);
+                currentMap = mapGen.GetMap();
+                PlaceExit();
+                PrintMap();
+                PlaceActors();
+                PlayerMovement();
+               
                 try
                 {
                     playerAnswer = alert.Question("Want to generate again? (y/n)");
@@ -77,7 +76,46 @@ namespace Solid_Rascal
             } while (playerAnswer.Equals("Y") || playerAnswer.Equals("y"));
 
         }
- 
+
+        void PlaceActors()
+        {
+            //Only player for now
+            int randRoomX = rand.Next(0, 3);
+            int randRoomY = rand.Next(0, 3);
+            Room spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+            int playerX, playerY;
+
+            playerX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+            playerY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+
+
+            newPlayer = new Player(playerX, playerY);
+            occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos];
+            currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+            Console.SetCursorPosition(playerX, playerY);
+            Console.Write(TILESET.TileType(currentMap[playerY, playerX]));
+           
+            
+        }
+
+        void PlaceExit()
+        {
+            int randRoomX = rand.Next(0, 3);
+            int randRoomY = rand.Next(0, 3);
+            Room spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+            int exitX, exitY;
+
+            exitX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+            exitY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+            currentMap[exitY, exitX] = 11;
+        }
+        
+        //probably need an update
         void PrintMap()
         {
             Console.SetCursorPosition(0, Console.CursorTop);
@@ -88,10 +126,133 @@ namespace Solid_Rascal
                 for (int j = 0; j < MAPWidth; j++)
                 {
                     Console.SetCursorPosition(j, i);
-                    Console.Write(TILESET.TileType(mapGen.MAP[i, j]));
+                    Console.Write(TILESET.TileType(currentMap[i, j]));
                     //System.Threading.Thread.Sleep(1);//function to see the map being printed on the console with a delay (kinda nice)
                 }
             }
-        }   
+        }
+
+        void UpdateActors()
+        {
+            int x, y;
+            x = 0;
+            y = 0;
+
+            Console.SetCursorPosition(y, x);
+            Console.Write(TILESET.TileType(currentMap[y, x]));
+        }
+
+        void PlayerMovement()
+        {
+            while (true)
+            {
+                userCKI = Console.ReadKey(true);
+                if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.W)
+                {
+                    if (currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 0 || currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 9 || currentMap[newPlayer.yPos - 1, newPlayer.xPos] == 10)
+                    {
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        occupiedTile = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
+
+                        newPlayer.yPos--;
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        //PrintMap();
+                        alert.Action("North");
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.X)
+                {
+                    if (currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 0 || currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 9 || currentMap[newPlayer.yPos + 1, newPlayer.xPos] == 10)
+                    {
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        occupiedTile = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
+
+                        newPlayer.yPos++;
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
+                        alert.Action("South");
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.A)
+                {
+                    if (currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 0 || currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 9 || currentMap[newPlayer.yPos, newPlayer.xPos - 1] == 10)
+                    {
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
+
+                        newPlayer.xPos--;
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
+                        alert.Action("West");
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.D)
+                {
+                    if (currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 0 || currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 9 || currentMap[newPlayer.yPos, newPlayer.xPos + 1] == 10)
+                    {
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = occupiedTile;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+
+                        occupiedTile = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
+
+                        newPlayer.xPos++;
+                        currentMap[newPlayer.yPos, newPlayer.xPos] = 52;
+
+                        Console.SetCursorPosition(newPlayer.xPos, newPlayer.yPos);
+                        Console.Write(TILESET.TileType(currentMap[newPlayer.yPos, newPlayer.xPos]));
+                        //PrintMap();
+                        alert.Action("East");
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+                else
+                {
+                    alert.Action("I Dont know this command");
+                }
+            }
+        }
     }
 }
