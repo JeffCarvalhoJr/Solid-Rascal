@@ -25,7 +25,7 @@ namespace Solid_Rascal
                 case 5:
                     return "╝";
                 case 6:
-                    return "╔ ";
+                    return "╔";
                 case 7:
                     return "╚";
                 case 8:

@@ -1,4 +1,5 @@
 ﻿using Solid_Rascal.UI;
+using Solid_Rascal.Map_Gen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Solid_Rascal
     {
         public int MAPHeight { get; set; }
         public int MAPWidth { get; set; }
-        public int[,] MAP { get; set; }
+        //public int[,] MAP { get; set; }
+        public Tile[,] MAP { get; set; }
 
         public Random rand = new Random();
 
@@ -27,7 +29,7 @@ namespace Solid_Rascal
             MAPWidth = Width;
             MAPHeight = Height;
 
-            MAP = new int[Height, Width];
+            MAP = new Tile[Height, Width];
 
             SetupMap();
         }
@@ -38,8 +40,9 @@ namespace Solid_Rascal
             {
                 for (int j = 0; j < MAPWidth; j++)
                 {
-                    //set the initial map to only have walls
-                    MAP[i, j] = 1;
+                    //set the initial map to only have walls,
+                    Tile nextTile = new Tile(j, i, 1);
+                    MAP[i, j] = nextTile;
                 }
             }
 
@@ -380,14 +383,14 @@ namespace Solid_Rascal
             }
         }
 
-        public int[,] GetMap()
+        public Tile[,] GetMap()
         {
             return MAP;
         }
 
         public void SetMapTile(int y, int x, int tile)
         {
-            MAP[y, x] = tile;
+            MAP[y, x].UpdateTile(tile);
         }
 
         /* maybe on the future

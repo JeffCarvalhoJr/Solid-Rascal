@@ -48,6 +48,7 @@
     <Compile Include="Map Gen\Corridor.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />
+    <Compile Include="Map Gen\Tile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Map Gen\Room.cs" />
