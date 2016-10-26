@@ -155,31 +155,31 @@ namespace Solid_Rascal
                     //The conditions are to see the borders of the room, borders will receive wall tiles, the others floor tiles
                     if (y == room.Y && x == room.X)
                     {
-                        SetMapTile(y, x, 6); //╔
+                        SetMapTile(y, x, 6, 2); //╔
                     }
                     else if (y == room.Y && x == room.X + room.Width - 1)
                     {
-                        SetMapTile(y, x, 4);//╗
+                        SetMapTile(y, x, 4, 2);//╗
                     }
                     else if (y == room.Y + room.Height - 1 && x == room.X)
                     {
-                        SetMapTile(y, x, 7);//╚
+                        SetMapTile(y, x, 7, 2);//╚
                     }
                     else if (x == room.X + room.Width - 1 && y == room.Y + room.Height - 1)
                     {
-                        SetMapTile(y, x, 5);//╝
+                        SetMapTile(y, x, 5, 2);//╝
                     }
                     else if (y > room.Y && y < room.Y + room.Height - 1 && x == room.X || x == room.X + room.Width - 1)
                     {
-                        SetMapTile(y, x, 3);//║
+                        SetMapTile(y, x, 3, 2);//║
                     }
                     else if (y == room.Y || y == room.Y + room.Height - 1 && x > room.X && x < room.X + room.Width - 1)
                     {
-                        SetMapTile(y, x, 8);//═
+                        SetMapTile(y, x, 8, 2);//═
                     }
                     else
                     {
-                        SetMapTile(y, x, 0);
+                        SetMapTile(y, x, 0, 1);
                     }
                 }
             }
@@ -212,11 +212,11 @@ namespace Solid_Rascal
                             //if is the first block of corridor, put a door tile on it;
                             if (x == 0)
                             {
-                                SetMapTile(nextCorridor.cY1, nextCorridor.cX1 + x, 10);
+                                SetMapTile(nextCorridor.cY1, nextCorridor.cX1 + x, 10, 1);
                             }//else a corridor tile
                             else
                             {
-                                SetMapTile(nextCorridor.cY1, nextCorridor.cX1 + x, 9);
+                                SetMapTile(nextCorridor.cY1, nextCorridor.cX1 + x, 9, 1);
                             }
                         }
 
@@ -225,11 +225,11 @@ namespace Solid_Rascal
                         {
                             if (x2 == 0)
                             {
-                                SetMapTile(nextCorridor.cY2, nextCorridor.cX2 - x2, 10);
+                                SetMapTile(nextCorridor.cY2, nextCorridor.cX2 - x2, 10, 1);
                             }
                             else
                             {
-                                SetMapTile(nextCorridor.cY2, nextCorridor.cX2 - x2, 9);
+                                SetMapTile(nextCorridor.cY2, nextCorridor.cX2 - x2, 9, 1);
                             }
                         }
 
@@ -240,14 +240,14 @@ namespace Solid_Rascal
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - c, nextCorridor.cX1 + nextCorridor.c1, 9);
+                                SetMapTile(nextCorridor.cY1 - c, nextCorridor.cX1 + nextCorridor.c1, 9, 1);
                             }
                         }
                         else
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 + c, nextCorridor.cX1 + nextCorridor.c1, 9);
+                                SetMapTile(nextCorridor.cY1 + c, nextCorridor.cX1 + nextCorridor.c1, 9, 1);
                             }
                         }
                     }
@@ -262,11 +262,11 @@ namespace Solid_Rascal
                             //Corredor sala 1
                             if (y == 0)
                             {
-                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 10);
+                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 10, 1);
                             }
                             else
                             {
-                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 9);
+                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 9, 1);
                             }
 
                         }
@@ -276,11 +276,11 @@ namespace Solid_Rascal
                             //Corredor sala 2
                             if (y2 == 0)
                             {
-                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 10);
+                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 10, 1);
                             }
                             else
                             {
-                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 9);
+                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 9, 1);
                             }
                         }
 
@@ -289,14 +289,14 @@ namespace Solid_Rascal
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 - c, 9);
+                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 - c, 9, 1);
                             }
                         }
                         else
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 + c, 9);
+                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 + c, 9, 1);
                             }
                         }
                     }
@@ -311,26 +311,26 @@ namespace Solid_Rascal
                         //Intersection = Y
                         for (int x = 0; x < nextCorridor.c1; x++)
                         {
-                            SetMapTile(nextCorridor.cY1, nextCorridor.cX1 - x, 9);
+                            SetMapTile(nextCorridor.cY1, nextCorridor.cX1 - x, 9, 1);
                         }
 
                         for (int x2 = nextCorridor.c2; x2 > 0; x2--)
                         {
-                            SetMapTile(nextCorridor.cY2, nextCorridor.cX2 + x2, 9);
+                            SetMapTile(nextCorridor.cY2, nextCorridor.cX2 + x2, 9, 1);
                         }
 
                         if (nextCorridor.cY1 > nextCorridor.cY2)
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - c, nextCorridor.cX1 - nextCorridor.c1, 9);
+                                SetMapTile(nextCorridor.cY1 - c, nextCorridor.cX1 - nextCorridor.c1, 9, 1);
                             }
                         }
                         else
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 + c, nextCorridor.cX1 - nextCorridor.c1, 9);
+                                SetMapTile(nextCorridor.cY1 + c, nextCorridor.cX1 - nextCorridor.c1, 9, 1);
                             }
                         }
                     }
@@ -344,11 +344,11 @@ namespace Solid_Rascal
                         {
                             if (y == 0)
                             {
-                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 10);
+                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 10, 1);
                             }
                             else
                             {
-                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 9);
+                                SetMapTile(nextCorridor.cY1 - y, nextCorridor.cX1, 9, 1);
                             }
                         }
 
@@ -356,11 +356,11 @@ namespace Solid_Rascal
                         {
                             if (y2 == 0)
                             {
-                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 10);
+                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 10, 1);
                             }
                             else
                             {
-                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 9);
+                                SetMapTile(nextCorridor.cY2 + y2, nextCorridor.cX2, 9, 1);
                             }
                         }
 
@@ -368,14 +368,14 @@ namespace Solid_Rascal
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 - c, 9);
+                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 - c, 9, 1);
                             }
                         }
                         else
                         {
                             for (int c = 0; c < nextCorridor.cConnection; c++)
                             {
-                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 + c, 9);
+                                SetMapTile(nextCorridor.cY1 - nextCorridor.c1, nextCorridor.cX1 + c, 9, 1);
                             }
                         }
                     }
@@ -388,9 +388,9 @@ namespace Solid_Rascal
             return MAP;
         }
 
-        public void SetMapTile(int y, int x, int tile)
+        public void SetMapTile(int y, int x, int tile, int color)
         {
-            MAP[y, x].UpdateTile(tile);
+            MAP[y, x].UpdateTile(tile, color);
         }
 
         /* maybe on the future

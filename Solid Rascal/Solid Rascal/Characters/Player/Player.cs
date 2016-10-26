@@ -11,6 +11,7 @@ namespace Solid_Rascal.Characters.Player
 
         public Player(int x, int y)
         {
+            charID = 52;
             xPos = x;
             yPos = y;
             aHealth = 100;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Solid_Rascal.Characters;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,25 @@ namespace Solid_Rascal.Map_Gen
     {
         Tileset TILESET;
 
+        int COLOR;
+
         int TYPE {get; set;}
         int X { get; set; }
         int Y { get; set; }
 
+        Character _Char;
+
         bool isPassable { get; set; }
-        bool hasPlayer;
+        bool hasChar;
+
+        bool isVisible;
+        bool isVisited;
 
         public Tile(int x, int y, int id)
         {
             TILESET = new Tileset();
+
+            isVisited = false;
 
             X = x;
             Y = y;
@@ -27,9 +37,10 @@ namespace Solid_Rascal.Map_Gen
 
         }
 
-        public void UpdateTile(int newTile)
+        public void UpdateTile(int newTile, int color)
         {
             TYPE = newTile;
+            COLOR = color;
             if(TYPE != 0 && TYPE != 9 && TYPE != 10)
             {
                 isPassable = false;
@@ -41,7 +52,14 @@ namespace Solid_Rascal.Map_Gen
 
         public void PrintTile()
         {
-            if (!hasPlayer)
+            if (isVisible)
+            {
+                SetTileColor(1);
+            }else
+            {
+                SetTileColor(0);
+            }
+            if (!hasChar)
             {
                 Console.SetCursorPosition(X, Y);
                 Console.Write(TILESET.TileType(TYPE));
@@ -49,7 +67,7 @@ namespace Solid_Rascal.Map_Gen
             else
             {
                 Console.SetCursorPosition(X, Y);
-                Console.Write(TILESET.TileType(52));
+                Console.Write(TILESET.TileType(_Char.charID));
             }
         }
 
@@ -58,16 +76,46 @@ namespace Solid_Rascal.Map_Gen
             return isPassable;
         }
 
-        public void SetPlayer()
+        public void SetCharacter(Character character)
         {
-            hasPlayer = true;
+            _Char = character;
+            hasChar = true;
         }
 
-        public void RemovePlayer()
+        public void SetVisible()
         {
-            hasPlayer = false;
+            COLOR = 1;
+            isVisible = true;
+            isVisited = true;
+            PrintTile();
         }
 
+        public void RemoveChar()
+        {
+            _Char = null;
+            hasChar = false;
+        }
+
+        void SetTileColor(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    //black
+                    break;
+                case 1:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    //Gray
+                    break;
+                case 2:
+                    //yellow
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    break;
+                default:
+                    break;
+            }
+        }
 
     }
 }

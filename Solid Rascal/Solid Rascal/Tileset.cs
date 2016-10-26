@@ -17,7 +17,7 @@ namespace Solid_Rascal
                 case 1:
                     return " ";
                 case 2:
-                    return "@";
+                    return "X";
                 case 3:
                     return "║";
                 case 4:
@@ -36,8 +36,13 @@ namespace Solid_Rascal
                     return "+";
                 case 11:
                     return "↕";
+                ///Characters
+                //1. Player
+                //2. Enemies
                 case 52:
                     return "@";
+                case 53:
+                    return "P";
                 default:
                     return "X";
             }

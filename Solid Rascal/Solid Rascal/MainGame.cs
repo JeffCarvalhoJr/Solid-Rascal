@@ -1,5 +1,6 @@
 ﻿using Solid_Rascal.UI;
 using Solid_Rascal.Map_Gen;
+using Solid_Rascal.Characters;
 using Solid_Rascal.Characters.Player;
 using System;
 using System.Collections.Generic;
@@ -59,11 +60,11 @@ namespace Solid_Rascal
            
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
-                PlaceExit();
                 PrintMap();
                 PlaceActors();
                 PlayerMovement();
-               
+                //CharacterMovement(1, newPlayer);
+
                 try
                 {
                     playerAnswer = alert.Question("Want to generate again? (y/n)");
@@ -91,27 +92,14 @@ namespace Solid_Rascal
 
 
             newPlayer = new Player(playerX, playerY);
-            currentMap[newPlayer.yPos, newPlayer.xPos].SetPlayer();
+            currentMap[newPlayer.yPos, newPlayer.xPos].SetCharacter(newPlayer);
+            currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-            
+
+            RevealTiles();
+
         }
-
-        void PlaceExit()
-        {
-            /*
-            int randRoomX = rand.Next(0, 3);
-            int randRoomY = rand.Next(0, 3);
-            Room spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
-
-            int exitX, exitY;
-
-            exitX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
-            exitY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
-
-            currentMap[exitY, exitX] = 11;
-            */
-        }
-        
+ 
         //probably need an update
         void PrintMap()
         {
@@ -120,10 +108,69 @@ namespace Solid_Rascal
             {
                 for (int j = 0; j < MAPWidth; j++)
                 {
-                        currentMap[i, j].PrintTile();
+                    currentMap[i, j].PrintTile();
                     //System.Threading.Thread.Sleep(1);//function to see the map being printed on the console with a delay (kinda nice)
                 }
             }
+        }
+
+        void CharacterMovement(int dir, Character actor)
+        {
+            switch (dir)
+            {
+                //1 north
+                case 1:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos--;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //2 south
+                case 2:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos++;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //3 west
+                case 3:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.xPos--;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //4 east
+                case 4:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.xPos++;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+            }
+        }
+
+        void RevealTiles()
+        {
+            currentMap[newPlayer.yPos, newPlayer.xPos - 1].SetVisible();
+            currentMap[newPlayer.yPos, newPlayer.xPos + 1].SetVisible();
+            currentMap[newPlayer.yPos - 1, newPlayer.xPos].SetVisible();
+            currentMap[newPlayer.yPos + 1, newPlayer.xPos].SetVisible();
+            currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1].SetVisible();
+            currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1].SetVisible();
+            currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1].SetVisible();
+            currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1].SetVisible();
         }
 
         void PlayerMovement()
@@ -135,15 +182,10 @@ namespace Solid_Rascal
                 {
                     if (currentMap[newPlayer.yPos - 1, newPlayer.xPos].CanPass())
                     {
-                        currentMap[newPlayer.yPos, newPlayer.xPos].RemovePlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();      
-
-                        newPlayer.yPos--;
-                        currentMap[newPlayer.yPos, newPlayer.xPos].SetPlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-
-                        //PrintMap();
+                        CharacterMovement(1, newPlayer);
+                        RevealTiles();
                         alert.Action("North");
+                        //move enemy
                     }
                     else
                     {
@@ -154,14 +196,10 @@ namespace Solid_Rascal
                 {
                     if (currentMap[newPlayer.yPos + 1, newPlayer.xPos].CanPass())
                     {
-                        currentMap[newPlayer.yPos, newPlayer.xPos].RemovePlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-                    
-                        newPlayer.yPos++;
-                        currentMap[newPlayer.yPos, newPlayer.xPos].SetPlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();     
-                        //PrintMap();
+                        CharacterMovement(2, newPlayer);
+                        RevealTiles();
                         alert.Action("South");
+                        //move enemy
                     }
                     else
                     {
@@ -172,16 +210,10 @@ namespace Solid_Rascal
                 {
                     if (currentMap[newPlayer.yPos, newPlayer.xPos - 1].CanPass())
                     {
-                        currentMap[newPlayer.yPos, newPlayer.xPos].RemovePlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-
-                        newPlayer.xPos--;
-
-                        currentMap[newPlayer.yPos, newPlayer.xPos].SetPlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-       
-                        //PrintMap();
+                        CharacterMovement(3, newPlayer);
+                        RevealTiles();
                         alert.Action("West");
+                        //move enemy
                     }
                     else
                     {
@@ -192,16 +224,10 @@ namespace Solid_Rascal
                 {
                     if (currentMap[newPlayer.yPos, newPlayer.xPos + 1].CanPass())
                     {
-                        currentMap[newPlayer.yPos, newPlayer.xPos].RemovePlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-
-                        newPlayer.xPos++;
-
-                        currentMap[newPlayer.yPos, newPlayer.xPos].SetPlayer();
-                        currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
-
-                        //PrintMap();
+                        CharacterMovement(4, newPlayer);
+                        RevealTiles();
                         alert.Action("East");
+                        //move enemy
                     }
                     else
                     {
