@@ -20,6 +20,7 @@ namespace Solid_Rascal
 
         public Map mapGen;
         public Tile[,] currentMap;
+        public List<Tile> visibleMap;
 
         public Tileset TILESET;
 
@@ -39,6 +40,7 @@ namespace Solid_Rascal
 
         public MainGame()
         {
+            visibleMap = new List<Tile>();
             TILESET = new Tileset();
             GameStart();
 
@@ -96,7 +98,7 @@ namespace Solid_Rascal
             currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
 
-            RevealTiles();
+            FogOfWarReveal();
 
         }
  
@@ -111,6 +113,18 @@ namespace Solid_Rascal
                     currentMap[i, j].PrintTile();
                     //System.Threading.Thread.Sleep(1);//function to see the map being printed on the console with a delay (kinda nice)
                 }
+            }
+        }
+
+        void UpdateMap()
+        {
+            foreach(Tile tile in visibleMap)
+            {
+                    
+                int index = 0;
+                visibleMap[index].PrintTile();
+                index++;
+                
             }
         }
 
@@ -161,16 +175,93 @@ namespace Solid_Rascal
             }
         }
 
-        void RevealTiles()
+        void FogOfWarReveal()
         {
-            currentMap[newPlayer.yPos, newPlayer.xPos - 1].SetVisible();
-            currentMap[newPlayer.yPos, newPlayer.xPos + 1].SetVisible();
-            currentMap[newPlayer.yPos - 1, newPlayer.xPos].SetVisible();
-            currentMap[newPlayer.yPos + 1, newPlayer.xPos].SetVisible();
-            currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1].SetVisible();
-            currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1].SetVisible();
-            currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1].SetVisible();
-            currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1].SetVisible();
+            int eastWall = 0;
+            int westWall = 0;
+            int northWall = 0;
+            int southWall = 0;
+
+            int roomSizeX;
+            int roomSizeY;
+
+
+            //reset previous revealed tiles
+            int index = 0;
+            foreach (Tile tile in visibleMap)
+            {
+                visibleMap[index].Reset();
+                index++;
+            }
+
+            visibleMap.Clear();
+
+            northWall = DistanceToWall(1) + 1;
+            southWall = DistanceToWall(2) + 1;
+            westWall = DistanceToWall(3) + 1;
+            eastWall = DistanceToWall(4) + 1;
+
+            roomSizeY = (northWall + southWall);
+            roomSizeX = (eastWall + westWall);
+
+            for (int y = newPlayer.yPos - northWall; y < newPlayer.yPos + southWall + 1; y++)
+            {
+                for (int x = newPlayer.xPos - westWall; x < newPlayer.xPos + eastWall + 1; x++)
+                {
+                    visibleMap.Add(currentMap[y, x]);
+                }
+            }
+
+            index = 0;
+            foreach (Tile tile in visibleMap)
+            {
+                visibleMap[index].SetVisible();
+                index++;
+            }
+           
+        }
+
+        int DistanceToWall(int wall)
+        {
+            int index = 1;
+            int distance = 0;
+
+            switch (wall)
+            {
+                case 1:
+                    //north wall
+                    while (currentMap[newPlayer.yPos - index, newPlayer.xPos].TYPE == 0)
+                    {
+                        distance++;
+                        index++;
+                    }
+                    return distance;
+                case 2:
+                    //south wall
+                    while (currentMap[newPlayer.yPos + index, newPlayer.xPos].TYPE == 0)
+                    {
+                        distance++;
+                        index++;
+                    }
+                    return distance;
+                case 3:
+                    //west wall
+                    while (currentMap[newPlayer.yPos, newPlayer.xPos - index].TYPE == 0)
+                    {
+                        distance++;
+                        index++;
+                    }
+                    return distance;
+                case 4:
+                    //east wall
+                    while (currentMap[newPlayer.yPos, newPlayer.xPos + index].TYPE == 0)
+                    {
+                        distance++;
+                        index++;
+                    }
+                    return distance;
+            }
+            return 0;
         }
 
         void PlayerMovement()
@@ -183,7 +274,7 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos - 1, newPlayer.xPos].CanPass())
                     {
                         CharacterMovement(1, newPlayer);
-                        RevealTiles();
+                        FogOfWarReveal();
                         alert.Action("North");
                         //move enemy
                     }
@@ -197,7 +288,7 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos + 1, newPlayer.xPos].CanPass())
                     {
                         CharacterMovement(2, newPlayer);
-                        RevealTiles();
+                        FogOfWarReveal();
                         alert.Action("South");
                         //move enemy
                     }
@@ -211,7 +302,7 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos, newPlayer.xPos - 1].CanPass())
                     {
                         CharacterMovement(3, newPlayer);
-                        RevealTiles();
+                        FogOfWarReveal();
                         alert.Action("West");
                         //move enemy
                     }
@@ -225,7 +316,7 @@ namespace Solid_Rascal
                     if (currentMap[newPlayer.yPos, newPlayer.xPos + 1].CanPass())
                     {
                         CharacterMovement(4, newPlayer);
-                        RevealTiles();
+                        FogOfWarReveal();
                         alert.Action("East");
                         //move enemy
                     }

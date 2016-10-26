@@ -13,7 +13,7 @@ namespace Solid_Rascal.Map_Gen
 
         int COLOR;
 
-        int TYPE {get; set;}
+        public int TYPE {get; set;}
         int X { get; set; }
         int Y { get; set; }
 
@@ -54,11 +54,16 @@ namespace Solid_Rascal.Map_Gen
         {
             if (isVisible)
             {
+                SetTileColor(2);
+            }else if(!isVisible && isVisited) 
+            {
                 SetTileColor(1);
             }else
             {
                 SetTileColor(0);
             }
+
+
             if (!hasChar)
             {
                 Console.SetCursorPosition(X, Y);
@@ -76,6 +81,12 @@ namespace Solid_Rascal.Map_Gen
             return isPassable;
         }
 
+        public void Reset()
+        {
+            isVisible = false;
+            PrintTile();    
+        }
+
         public void SetCharacter(Character character)
         {
             _Char = character;
@@ -84,7 +95,6 @@ namespace Solid_Rascal.Map_Gen
 
         public void SetVisible()
         {
-            COLOR = 1;
             isVisible = true;
             isVisited = true;
             PrintTile();
@@ -110,7 +120,7 @@ namespace Solid_Rascal.Map_Gen
                     break;
                 case 2:
                     //yellow
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     break;
                 default:
                     break;

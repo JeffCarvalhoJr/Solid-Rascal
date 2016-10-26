@@ -31,7 +31,7 @@ namespace Solid_Rascal.UI
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
-
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("" + QUESTION + ": ");
 
             return Console.ReadLine();
@@ -51,6 +51,7 @@ namespace Solid_Rascal.UI
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("" + WARNING + "!");
             Console.ReadLine();
         }
@@ -66,6 +67,7 @@ namespace Solid_Rascal.UI
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("" + ACTION + "!");
         }
 
