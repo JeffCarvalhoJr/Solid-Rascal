@@ -17,7 +17,7 @@ namespace Solid_Rascal.Map_Gen
         int X { get; set; }
         int Y { get; set; }
 
-        Character _Char;
+        public Character _Char { get; set; }
 
         bool isPassable { get; set; }
         bool hasChar;
@@ -55,25 +55,29 @@ namespace Solid_Rascal.Map_Gen
             if (isVisible)
             {
                 SetTileColor(2);
-            }else if(!isVisible && isVisited) 
+                if (!hasChar)
+                {
+                    Console.SetCursorPosition(X, Y);
+                    Console.Write(TILESET.TileType(TYPE));
+                }
+                else
+                {
+                    Console.SetCursorPosition(X, Y);
+                    Console.Write(TILESET.TileType(_Char.charID));
+                }
+            }
+            else if(!isVisible && isVisited) 
             {
                 SetTileColor(1);
-            }else
-            {
-                SetTileColor(0);
-            }
-
-
-            if (!hasChar)
-            {
                 Console.SetCursorPosition(X, Y);
                 Console.Write(TILESET.TileType(TYPE));
             }
             else
             {
-                Console.SetCursorPosition(X, Y);
-                Console.Write(TILESET.TileType(_Char.charID));
+                SetTileColor(0);
             }
+
+            
         }
 
         public bool CanPass()
@@ -91,6 +95,7 @@ namespace Solid_Rascal.Map_Gen
         {
             _Char = character;
             hasChar = true;
+            isPassable = false;
         }
 
         public void SetVisible()
@@ -104,6 +109,12 @@ namespace Solid_Rascal.Map_Gen
         {
             _Char = null;
             hasChar = false;
+            isPassable = true;
+        }
+
+        public bool HasCharacter()
+        {
+            return hasChar;
         }
 
         void SetTileColor(int id)
@@ -111,16 +122,16 @@ namespace Solid_Rascal.Map_Gen
             switch (id)
             {
                 case 0:
+                    //Undiscovered
                     Console.ForegroundColor = ConsoleColor.Black;
-                    //black
                     break;
                 case 1:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    //Gray
+                    //Visited Tile
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
                 case 2:
-                    //yellow
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    //Visible Tile
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 default:
                     break;

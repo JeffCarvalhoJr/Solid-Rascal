@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solid_Rascal.Characters.Player
+namespace Solid_Rascal.Characters.Enemies
 {
-    class Player : Character
+    class Slime : Character
     {
-
-        public Player(int x, int y)
+        public Slime(int x, int y)
         {
-
-            charNAME = "player";
+            charNAME = "Slime";
 
             _ATK = 1;
-            charID = 52;
+            charID = 53;
             xPos = x;
             yPos = y;
-            _Health = 100;
+            _Health = 5;
         }
+
 
     }
 }

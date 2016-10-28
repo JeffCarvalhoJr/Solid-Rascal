@@ -2,6 +2,7 @@
 using Solid_Rascal.Map_Gen;
 using Solid_Rascal.Characters;
 using Solid_Rascal.Characters.Player;
+using Solid_Rascal.Characters.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,9 @@ namespace Solid_Rascal
         public int MaxRooms;
 
         Player newPlayer;
+        Slime newSlime;
+
+        Battle battle;
 
         Alert alert = new Alert();
 
@@ -59,7 +63,7 @@ namespace Solid_Rascal
             //generating map loop
             do
             {
-           
+
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
                 PrintMap();
@@ -81,27 +85,51 @@ namespace Solid_Rascal
 
         void PlaceActors()
         {
+            Tile tileToCheck;
+
             //Only player for now
-            int randRoomX = rand.Next(0, 3);
-            int randRoomY = rand.Next(0, 3);
-            Room spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+            int randRoomX;
+            int randRoomY;
+            Room spawnRoom;
 
             int playerX, playerY;
+            int enemyX, enemyY;
 
-            playerX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
-            playerY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+            do
+            {
+                randRoomX = rand.Next(0, 3);
+                randRoomY = rand.Next(0, 3);
+                spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
 
+                playerX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                playerY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
+                tileToCheck = currentMap[playerY, playerX];
+            } while (tileToCheck.HasCharacter());
 
             newPlayer = new Player(playerX, playerY);
             currentMap[newPlayer.yPos, newPlayer.xPos].SetCharacter(newPlayer);
             currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
 
+            do
+            {
+                randRoomX = rand.Next(0, 3);
+                randRoomY = rand.Next(0, 3);
+                spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+                enemyX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                enemyY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+                tileToCheck = currentMap[enemyY, enemyX];
+            } while (tileToCheck.HasCharacter());
+
+            newSlime = new Slime(enemyX, enemyY);
+            currentMap[newSlime.yPos, newSlime.xPos].SetCharacter(newSlime);
             FogOfWarReveal();
 
         }
- 
+
         //probably need an update
         void PrintMap()
         {
@@ -118,59 +146,126 @@ namespace Solid_Rascal
 
         void UpdateMap()
         {
-            foreach(Tile tile in visibleMap)
+            foreach (Tile tile in visibleMap)
             {
-                    
+
                 int index = 0;
                 visibleMap[index].PrintTile();
                 index++;
-                
+
             }
         }
 
         void CharacterMovement(int dir, Character actor)
         {
+            Tile tileToCheck;
             switch (dir)
             {
                 //1 north
                 case 1:
-                    currentMap[actor.yPos, actor.xPos].RemoveChar();
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    tileToCheck = currentMap[actor.yPos - 1, actor.xPos];
 
-                    actor.yPos--;
+                    if (tileToCheck.CanPass())
+                    {
+                        //Check to see if has itens
+                        //Walk
+                        currentMap[actor.yPos, actor.xPos].RemoveChar();
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                        actor.yPos--;
+
+                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //Battle
+                        battle = new Battle(actor, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //bump head
+                        alert.Action("Stop trying hit the wall");
+                    }
+
                     break;
                 //2 south
                 case 2:
-                    currentMap[actor.yPos, actor.xPos].RemoveChar();
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    tileToCheck = currentMap[actor.yPos + 1, actor.xPos];
 
-                    actor.yPos++;
+                    if (tileToCheck.CanPass())
+                    {
+                        //Walk
+                        currentMap[actor.yPos, actor.xPos].RemoveChar();
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                        actor.yPos++;
+
+                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //Battle
+                        battle = new Battle(actor, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //bump
+                        alert.Action("Stop trying hit the wall");
+                    }
+
                     break;
                 //3 west
                 case 3:
-                    currentMap[actor.yPos, actor.xPos].RemoveChar();
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    tileToCheck = currentMap[actor.yPos, actor.xPos - 1];
 
-                    actor.xPos--;
+                    if (tileToCheck.CanPass())
+                    {
+                        currentMap[actor.yPos, actor.xPos].RemoveChar();
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                        actor.xPos--;
+
+                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //Battle
+                        battle = new Battle(actor, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //Bump
+                        alert.Action("Stop trying hit the wall");
+                    }
+
                     break;
                 //4 east
                 case 4:
-                    currentMap[actor.yPos, actor.xPos].RemoveChar();
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    tileToCheck = currentMap[actor.yPos, actor.xPos + 1];
 
-                    actor.xPos++;
+                    if (tileToCheck.CanPass())
+                    {
+                        currentMap[actor.yPos, actor.xPos].RemoveChar();
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                        actor.xPos++;
+
+                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //battle
+                        battle = new Battle(actor, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //bump
+                    }
+
                     break;
             }
         }
@@ -218,7 +313,7 @@ namespace Solid_Rascal
                 visibleMap[index].SetVisible();
                 index++;
             }
-           
+
         }
 
         int DistanceToWall(int wall)
@@ -271,59 +366,28 @@ namespace Solid_Rascal
                 userCKI = Console.ReadKey(true);
                 if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.W)
                 {
-                    if (currentMap[newPlayer.yPos - 1, newPlayer.xPos].CanPass())
-                    {
-                        CharacterMovement(1, newPlayer);
-                        FogOfWarReveal();
-                        alert.Action("North");
-                        //move enemy
-                    }
-                    else
-                    {
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    CharacterMovement(1, newPlayer);
+                    FogOfWarReveal();
+                    alert.Action("North");
+                    //move enemy
                 }
                 else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.X)
                 {
-                    if (currentMap[newPlayer.yPos + 1, newPlayer.xPos].CanPass())
-                    {
-                        CharacterMovement(2, newPlayer);
-                        FogOfWarReveal();
-                        alert.Action("South");
-                        //move enemy
-                    }
-                    else
-                    {
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    CharacterMovement(2, newPlayer);
+                    FogOfWarReveal();
+                    alert.Action("South");
                 }
                 else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.A)
                 {
-                    if (currentMap[newPlayer.yPos, newPlayer.xPos - 1].CanPass())
-                    {
-                        CharacterMovement(3, newPlayer);
-                        FogOfWarReveal();
-                        alert.Action("West");
-                        //move enemy
-                    }
-                    else
-                    {
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    CharacterMovement(3, newPlayer);
+                    FogOfWarReveal();
+                    alert.Action("West");
                 }
                 else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.D)
                 {
-                    if (currentMap[newPlayer.yPos, newPlayer.xPos + 1].CanPass())
-                    {
-                        CharacterMovement(4, newPlayer);
-                        FogOfWarReveal();
-                        alert.Action("East");
-                        //move enemy
-                    }
-                    else
-                    {
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    CharacterMovement(4, newPlayer);
+                    FogOfWarReveal();
+                    alert.Action("East");
                 }
                 else if (userCKI.Key == ConsoleKey.Escape)
                 {
@@ -333,7 +397,7 @@ namespace Solid_Rascal
                 {
                     alert.Action("I Dont know this command");
                 }
-            } 
+            }
         }
 
     }

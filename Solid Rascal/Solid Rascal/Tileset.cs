@@ -33,7 +33,7 @@ namespace Solid_Rascal
                 case 9:
                     return "▓";
                 case 10:
-                    return "+";
+                    return "╬";
                 case 11:
                     return "↕";
                 ///Characters
@@ -43,6 +43,8 @@ namespace Solid_Rascal
                     return "@";
                 case 53:
                     return "P";
+                case 54:
+                    return "S";
                 default:
                     return "X";
             }
