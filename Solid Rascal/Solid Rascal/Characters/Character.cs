@@ -14,11 +14,14 @@ namespace Solid_Rascal.Characters
         public int yPos { get; set; }
         public int charID { get; set; }
 
-        public int _ATK;
+        public int sLEVEL { get; set; }
+        public int sARMOR { get; set; }
+        public int sSTR { get; set; }
+        public int sMSTR { get; set; }
+        public int sHP { get; set; }
+        public int sMHP { get; set; }
 
-        public int _Health;
-
-        public int _AiChoice;
+        //public int _AiChoice;
 
         public void SetNewPosition(int x, int y)
         {
@@ -26,5 +29,23 @@ namespace Solid_Rascal.Characters
             yPos = y;
         }
 
+        public void IncreaseHealth(int value)
+        {
+            sHP += value;
+
+            if (sHP > 100)
+            {
+                sHP = 100;
+            }
+        }
+
+        public void ReduceHealth(int value)
+        {
+            sHP -= value;
+            if (sHP < 0)
+            {
+                sHP = 0;
+            }
+        }
     }
 }

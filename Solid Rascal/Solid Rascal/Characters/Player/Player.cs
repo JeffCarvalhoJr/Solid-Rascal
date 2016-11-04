@@ -11,14 +11,17 @@ namespace Solid_Rascal.Characters.Player
 
         public Player(int x, int y)
         {
-
-            charNAME = "player";
-
-            _ATK = 1;
-            charID = 52;
             xPos = x;
             yPos = y;
-            _Health = 1;
+
+            charNAME = "player";
+            charID = 52;
+
+            sSTR = 10;
+            sMSTR = 10;
+            sARMOR = 1;
+            sHP = 10;
+            sMHP = 10;
         }
 
     }

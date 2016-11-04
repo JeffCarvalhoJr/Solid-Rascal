@@ -20,7 +20,7 @@ namespace Solid_Rascal
         public static int TRIES = 0;
 
         public Map mapGen;
-        public Tile[,] currentMap;
+        public static Tile[,] currentMap;
         public List<Tile> visibleMap;
 
         public Tileset TILESET;
@@ -116,20 +116,24 @@ namespace Solid_Rascal
             currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
 
-            do
+            //Slimes for battle tests!
+            for (int i = 0; i < 5; i++)
             {
-                randRoomX = rand.Next(0, 3);
-                randRoomY = rand.Next(0, 3);
-                spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+                do
+                {
+                    randRoomX = rand.Next(0, 3);
+                    randRoomY = rand.Next(0, 3);
+                    spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
 
-                enemyX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
-                enemyY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+                    enemyX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                    enemyY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
-                tileToCheck = currentMap[enemyY, enemyX];
-            } while (tileToCheck.HasCharacter());
+                    tileToCheck = currentMap[enemyY, enemyX];
+                } while (tileToCheck.HasCharacter());
 
-            newSlime = new Slime(enemyX, enemyY);
-            currentMap[newSlime.yPos, newSlime.xPos].SetCharacter(newSlime);
+                newSlime = new Slime(enemyX, enemyY);
+                currentMap[newSlime.yPos, newSlime.xPos].SetCharacter(newSlime);
+            }
             FogOfWarReveal();
 
         }
@@ -397,8 +401,8 @@ namespace Solid_Rascal
                 }
                 else if (userCKI.Key == ConsoleKey.F)
                 {
-                    newPlayer._Health++;
-                    alert.Action("More Health!" + " new health: " + newPlayer._Health);
+                    newPlayer.sHP++;
+                    alert.Action("More Health!" + " new health: " + newPlayer.sHP);
                 }
                 else if (userCKI.Key == ConsoleKey.Escape)
                 {
@@ -411,5 +415,9 @@ namespace Solid_Rascal
             }
         }
 
+        public static void UpdateMapTile(int y, int x)
+        {
+            currentMap[y, x].RemoveChar();
+        }
     }
 }

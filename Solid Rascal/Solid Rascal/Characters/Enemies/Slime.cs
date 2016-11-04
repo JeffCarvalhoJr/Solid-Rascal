@@ -8,17 +8,19 @@ namespace Solid_Rascal.Characters.Enemies
 {
     class Slime : Character
     {
-        public Slime(int x, int y)
-        {
-            charNAME = "Slime";
+        public Slime(int x, int y) { 
 
-            _ATK = 1;
-            charID = 54;
             xPos = x;
             yPos = y;
-            _Health = 5;
+
+            sARMOR = 0;
+
+            charNAME = "Slime";
+            charID = 54;
+
+            sHP = 20;
+            sMHP = 20;
+           
         }
-
-
     }
 }

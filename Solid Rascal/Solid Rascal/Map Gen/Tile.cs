@@ -69,9 +69,6 @@ namespace Solid_Rascal.Map_Gen
             else if(!isVisible && isVisited) 
             {
                 SetTileColor(1);
-
-
-
                 Console.SetCursorPosition(X, Y);
                 Console.Write(TILESET.TileType(TYPE));
             }
