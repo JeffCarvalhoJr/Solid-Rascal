@@ -18,7 +18,7 @@ namespace Solid_Rascal.Characters.Player
             charID = 52;
             xPos = x;
             yPos = y;
-            _Health = 100;
+            _Health = 1;
         }
 
     }

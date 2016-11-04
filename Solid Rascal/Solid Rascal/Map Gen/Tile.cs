@@ -69,6 +69,9 @@ namespace Solid_Rascal.Map_Gen
             else if(!isVisible && isVisited) 
             {
                 SetTileColor(1);
+
+
+
                 Console.SetCursorPosition(X, Y);
                 Console.Write(TILESET.TileType(TYPE));
             }
@@ -76,8 +79,6 @@ namespace Solid_Rascal.Map_Gen
             {
                 SetTileColor(0);
             }
-
-            
         }
 
         public bool CanPass()
@@ -137,6 +138,5 @@ namespace Solid_Rascal.Map_Gen
                     break;
             }
         }
-
     }
 }

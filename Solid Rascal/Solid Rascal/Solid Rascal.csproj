@@ -57,6 +57,7 @@
     <Compile Include="Map Gen\Room.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="UI\Alert.cs" />
+    <Compile Include="UI\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

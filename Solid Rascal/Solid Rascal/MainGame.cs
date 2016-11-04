@@ -36,6 +36,7 @@ namespace Solid_Rascal
         Battle battle;
 
         Alert alert = new Alert();
+        Stats playerStats;
 
         public string playerAnswer;
 
@@ -63,11 +64,14 @@ namespace Solid_Rascal
             //generating map loop
             do
             {
-
+                Console.Clear();
+                visibleMap.Clear();
+                currentMap = new Tile[0,0];
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
                 PrintMap();
                 PlaceActors();
+                playerStats = new Stats(MAPHeight,newPlayer);
                 PlayerMovement();
                 //CharacterMovement(1, newPlayer);
 
@@ -361,8 +365,10 @@ namespace Solid_Rascal
 
         void PlayerMovement()
         {
+
             while (true)
             {
+                playerStats.Action(newPlayer);
                 userCKI = Console.ReadKey(true);
                 if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.W)
                 {
@@ -388,6 +394,11 @@ namespace Solid_Rascal
                     CharacterMovement(4, newPlayer);
                     FogOfWarReveal();
                     alert.Action("East");
+                }
+                else if (userCKI.Key == ConsoleKey.F)
+                {
+                    newPlayer._Health++;
+                    alert.Action("More Health!" + " new health: " + newPlayer._Health);
                 }
                 else if (userCKI.Key == ConsoleKey.Escape)
                 {
