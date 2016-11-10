@@ -66,12 +66,12 @@ namespace Solid_Rascal
             {
                 Console.Clear();
                 visibleMap.Clear();
-                currentMap = new Tile[0,0];
+                currentMap = new Tile[0, 0];
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
                 PrintMap();
                 PlaceActors();
-                playerStats = new Stats(MAPHeight,newPlayer);
+                playerStats = new Stats(MAPHeight, newPlayer);
                 PlayerMovement();
                 //CharacterMovement(1, newPlayer);
 
@@ -166,114 +166,55 @@ namespace Solid_Rascal
 
         void CharacterMovement(int dir, Character actor)
         {
-            Tile tileToCheck;
             switch (dir)
             {
                 //1 north
                 case 1:
-                    tileToCheck = currentMap[actor.yPos - 1, actor.xPos];
 
-                    if (tileToCheck.CanPass())
-                    {
-                        //Check to see if has itens
-                        //Walk
-                        currentMap[actor.yPos, actor.xPos].RemoveChar();
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    //Walk
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                        actor.yPos--;
+                    actor.yPos--;
 
-                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
-                    }
-                    else if (tileToCheck.HasCharacter())
-                    {
-                        //Battle
-                        battle = new Battle(actor, tileToCheck._Char);
-                    }
-                    else
-                    {
-                        //bump head
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
                     break;
                 //2 south
                 case 2:
-                    tileToCheck = currentMap[actor.yPos + 1, actor.xPos];
 
-                    if (tileToCheck.CanPass())
-                    {
-                        //Walk
-                        currentMap[actor.yPos, actor.xPos].RemoveChar();
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    //Walk
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                        actor.yPos++;
+                    actor.yPos++;
 
-                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
-                    }
-                    else if (tileToCheck.HasCharacter())
-                    {
-                        //Battle
-                        battle = new Battle(actor, tileToCheck._Char);
-                    }
-                    else
-                    {
-                        //bump
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
                     break;
                 //3 west
                 case 3:
-                    tileToCheck = currentMap[actor.yPos, actor.xPos - 1];
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                    if (tileToCheck.CanPass())
-                    {
-                        currentMap[actor.yPos, actor.xPos].RemoveChar();
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    actor.xPos--;
 
-                        actor.xPos--;
-
-                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
-                    }
-                    else if (tileToCheck.HasCharacter())
-                    {
-                        //Battle
-                        battle = new Battle(actor, tileToCheck._Char);
-                    }
-                    else
-                    {
-                        //Bump
-                        alert.Action("Stop trying hit the wall");
-                    }
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
                     break;
                 //4 east
                 case 4:
-                    tileToCheck = currentMap[actor.yPos, actor.xPos + 1];
 
-                    if (tileToCheck.CanPass())
-                    {
-                        currentMap[actor.yPos, actor.xPos].RemoveChar();
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
 
-                        actor.xPos++;
+                    actor.xPos++;
 
-                        currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
-                        currentMap[actor.yPos, actor.xPos].PrintTile();
-                    }
-                    else if (tileToCheck.HasCharacter())
-                    {
-                        //battle
-                        battle = new Battle(actor, tileToCheck._Char);
-                    }
-                    else
-                    {
-                        //bump
-                    }
-
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
                     break;
             }
         }
@@ -372,32 +313,91 @@ namespace Solid_Rascal
 
             while (true)
             {
+                Tile tileToCheck;
                 playerStats.Action(newPlayer);
                 userCKI = Console.ReadKey(true);
+
                 if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.W)
                 {
-                    CharacterMovement(1, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("North");
+                    tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(1, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("North");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //Battle
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //bump nose
+                        alert.Action("Stop trying hit the wall");
+                    }
                     //move enemy
                 }
                 else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.X)
                 {
-                    CharacterMovement(2, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("South");
+                    tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(2, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("South");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        //Battle
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        //bump head
+                        alert.Action("Stop trying hit the Wall");
+                    }
+                    //move enemy
                 }
                 else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.A)
                 {
-                    CharacterMovement(3, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("West");
+                    tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(3, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("West");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying to hit the wall");
+                    }
                 }
                 else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.D)
                 {
-                    CharacterMovement(4, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("East");
+                    tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(4, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("East");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
                 }
                 else if (userCKI.Key == ConsoleKey.F)
                 {
