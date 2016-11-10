@@ -64,7 +64,15 @@ namespace Solid_Rascal.Characters
             {
                 case 1:
                     //Idle
-                    return rand.Next(1, 5);
+                    int chance = rand.Next(0, 100);
+                    if (chance > 10)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return rand.Next(1, 5);
+                    }   
                 case 2:
                     //Chase
                     return 0;
@@ -73,7 +81,6 @@ namespace Solid_Rascal.Characters
                     return 0;
                 default:
                     return 0;
-                    break;
             }
         }
     }

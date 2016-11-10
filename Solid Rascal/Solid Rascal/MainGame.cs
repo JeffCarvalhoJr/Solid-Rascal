@@ -219,6 +219,51 @@ namespace Solid_Rascal
                     currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
                     currentMap[actor.yPos, actor.xPos].PrintTile();
                     break;
+                //5 north west
+                case 5:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos--;
+                    actor.xPos--;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //6 north east
+                case 6:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos--;
+                    actor.xPos++;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //7 south east
+                case 7:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos++;
+                    actor.xPos++;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+                //8 south west
+                case 8:
+                    currentMap[actor.yPos, actor.xPos].RemoveChar();
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+
+                    actor.yPos++;
+                    actor.xPos--;
+
+                    currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
+                    currentMap[actor.yPos, actor.xPos].PrintTile();
+                    break;
+
             }
         }
 
@@ -320,7 +365,7 @@ namespace Solid_Rascal
                 playerStats.Action(newPlayer);
                 userCKI = Console.ReadKey(true);
 
-                if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.W)
+                if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
                 {
                     tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
 
@@ -342,7 +387,7 @@ namespace Solid_Rascal
                     }
                     //move enemy
                 }
-                else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.X)
+                else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.NumPad2)
                 {
                     tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
 
@@ -364,7 +409,7 @@ namespace Solid_Rascal
                     }
                     //move enemy
                 }
-                else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.A)
+                else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.NumPad4)
                 {
                     tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
 
@@ -383,7 +428,7 @@ namespace Solid_Rascal
                         alert.Action("Stop trying to hit the wall");
                     }
                 }
-                else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.D)
+                else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.NumPad6)
                 {
                     tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
 
@@ -402,6 +447,90 @@ namespace Solid_Rascal
                         alert.Action("Stop trying hit the wall");
                     }
                 }
+                else if (userCKI.Key == ConsoleKey.NumPad7)
+                {
+                    //North West
+                    tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(5, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("North West");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.NumPad9)
+                {
+                    //North East
+                    tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(6, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("North East");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.NumPad3)
+                {
+                    //South East
+                    tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(7, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("South East");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.NumPad1)
+                {
+                    //South West
+                    tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1];
+
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(8, newPlayer);
+                        FogOfWarReveal();
+                        alert.Action("South West");
+                    }
+                    else if (tileToCheck.HasCharacter())
+                    {
+                        battle = new Battle(newPlayer, tileToCheck._Char);
+                    }
+                    else
+                    {
+                        alert.Action("Stop trying hit the wall");
+                    }
+                }
+                else if (userCKI.Key == ConsoleKey.Spacebar)
+                {
+                    //Skip Turn
+                }
                 else if (userCKI.Key == ConsoleKey.F)
                 {
                     newPlayer.sHP++;
@@ -419,49 +548,58 @@ namespace Solid_Rascal
             }
         }
 
-        void EnemiesTurn()
+        void EnemyMovement(Character enemy, int direction)
         {
             Tile tileToCheck;
+
+            if (direction == 1)
+            {
+                tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(1, enemy);
+                }
+            }
+            else if (direction == 2)
+            {
+                tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(2, enemy);
+                }
+            }
+            else if (direction == 3)
+            {
+                tileToCheck = currentMap[enemy.yPos, enemy.xPos - 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(3, enemy);
+                }
+            }
+            else if (direction == 4)
+            {
+                tileToCheck = currentMap[enemy.yPos, enemy.xPos + 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(4, enemy);
+                }
+            }
+        }
+
+        void EnemiesTurn()
+        {
+
 
             int index = 0;
             int AiChoice;
             foreach (Character enemy in enemies)
             {
+                if (enemies[index]._AiState == 1)
+                {
+                    AiChoice = enemies[index].AiMovement();
+                    EnemyMovement(enemies[index], AiChoice);
+                }
 
-                AiChoice = enemies[index].AiMovement();
-
-                if (AiChoice == 1)
-                {
-                    tileToCheck = currentMap[enemies[index].yPos - 1, enemies[index].xPos];
-                    if (tileToCheck.CanPass())
-                    {
-                        CharacterMovement(1, enemies[index]);
-                    }
-                }
-                else if (AiChoice == 2)
-                {
-                    tileToCheck = currentMap[enemies[index].yPos + 1, enemies[index].xPos];
-                    if (tileToCheck.CanPass())
-                    {  
-                        CharacterMovement(2, enemies[index]);
-                    }
-                }
-                else if (AiChoice == 3)
-                {
-                    tileToCheck = currentMap[enemies[index].yPos, enemies[index].xPos - 1];
-                    if (tileToCheck.CanPass())
-                    {
-                        CharacterMovement(3, enemies[index]);
-                    }
-                }
-                else if (AiChoice == 4)
-                {
-                    tileToCheck = currentMap[enemies[index].yPos, enemies[index].xPos + 1];
-                    if (tileToCheck.CanPass())
-                    {
-                        CharacterMovement(4, enemies[index]);
-                    }
-                }
                 index++;
             }
         }
