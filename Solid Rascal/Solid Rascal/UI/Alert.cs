@@ -51,9 +51,9 @@ namespace Solid_Rascal.UI
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("" + WARNING + "!");
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
         public void Action(string ACTION)

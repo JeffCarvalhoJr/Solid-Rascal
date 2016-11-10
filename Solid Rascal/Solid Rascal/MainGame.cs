@@ -33,6 +33,8 @@ namespace Solid_Rascal
         Player newPlayer;
         Slime newSlime;
 
+        public List<Character> enemies;
+
         Battle battle;
 
         Alert alert = new Alert();
@@ -46,6 +48,7 @@ namespace Solid_Rascal
         public MainGame()
         {
             visibleMap = new List<Tile>();
+            enemies = new List<Character>();
             TILESET = new Tileset();
             GameStart();
 
@@ -91,7 +94,6 @@ namespace Solid_Rascal
         {
             Tile tileToCheck;
 
-            //Only player for now
             int randRoomX;
             int randRoomY;
             Room spawnRoom;
@@ -117,7 +119,7 @@ namespace Solid_Rascal
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
 
             //Slimes for battle tests!
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
                 do
                 {
@@ -133,6 +135,7 @@ namespace Solid_Rascal
 
                 newSlime = new Slime(enemyX, enemyY);
                 currentMap[newSlime.yPos, newSlime.xPos].SetCharacter(newSlime);
+                enemies.Add(newSlime);
             }
             FogOfWarReveal();
 
@@ -412,6 +415,54 @@ namespace Solid_Rascal
                 {
                     alert.Action("I Dont know this command");
                 }
+                EnemiesTurn();
+            }
+        }
+
+        void EnemiesTurn()
+        {
+            Tile tileToCheck;
+
+            int index = 0;
+            int AiChoice;
+            foreach (Character enemy in enemies)
+            {
+
+                AiChoice = enemies[index].AiMovement();
+
+                if (AiChoice == 1)
+                {
+                    tileToCheck = currentMap[enemies[index].yPos - 1, enemies[index].xPos];
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(1, enemies[index]);
+                    }
+                }
+                else if (AiChoice == 2)
+                {
+                    tileToCheck = currentMap[enemies[index].yPos + 1, enemies[index].xPos];
+                    if (tileToCheck.CanPass())
+                    {  
+                        CharacterMovement(2, enemies[index]);
+                    }
+                }
+                else if (AiChoice == 3)
+                {
+                    tileToCheck = currentMap[enemies[index].yPos, enemies[index].xPos - 1];
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(3, enemies[index]);
+                    }
+                }
+                else if (AiChoice == 4)
+                {
+                    tileToCheck = currentMap[enemies[index].yPos, enemies[index].xPos + 1];
+                    if (tileToCheck.CanPass())
+                    {
+                        CharacterMovement(4, enemies[index]);
+                    }
+                }
+                index++;
             }
         }
 

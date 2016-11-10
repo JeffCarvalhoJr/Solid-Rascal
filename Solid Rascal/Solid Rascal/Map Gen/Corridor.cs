@@ -9,7 +9,7 @@ namespace Solid_Rascal
     class Corridor
     {
         //this is random
-        Random rand = new Random();
+        Random rand;
 
         ///Rooms coordinates
         //Room1
@@ -45,6 +45,7 @@ namespace Solid_Rascal
 
         public Corridor(Room room1, Room room2)
         {
+            rand = MainGame.rand;
             int coin = rand.Next(0, 2);
 
             ///Rooms coordinates

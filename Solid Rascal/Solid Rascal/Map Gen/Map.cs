@@ -15,7 +15,7 @@ namespace Solid_Rascal
         //public int[,] MAP { get; set; }
         public Tile[,] MAP { get; set; }
 
-        public Random rand = new Random();
+        public Random rand;
 
         public Room[,] _RoomsL { get; set; }
 
@@ -26,6 +26,7 @@ namespace Solid_Rascal
 
         public Map(int Width, int Height)
         {
+            rand = MainGame.rand;
             MAPWidth = Width;
             MAPHeight = Height;
 

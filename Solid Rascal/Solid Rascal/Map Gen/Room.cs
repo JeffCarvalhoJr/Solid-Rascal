@@ -9,7 +9,7 @@ namespace Solid_Rascal
     class Room
     {
         //This is random.
-        public static Random rand = new Random();
+        public static Random rand;
 
         //Room variables
         public int X { get; set; }
@@ -20,7 +20,7 @@ namespace Solid_Rascal
 
         public Room(int minX, int maxX, int minY, int maxY, int id)
         {
-
+            rand = MainGame.rand;
             Width = rand.Next(4, 25);
             Height = rand.Next(4, 8);
 

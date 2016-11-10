@@ -10,10 +10,11 @@ namespace Solid_Rascal
     {
         int number;
         int sides;
-        Random rand = new Random();
+        Random rand;
 
         public Dice()
         {
+            rand = MainGame.rand;
             number = 0;
             sides = 0;
         }
