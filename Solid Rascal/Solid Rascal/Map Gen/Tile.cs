@@ -14,16 +14,19 @@ namespace Solid_Rascal.Map_Gen
         int COLOR;
 
         public int TYPE {get; set;}
-        int X { get; set; }
-        int Y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Character _Char { get; set; }
 
         bool isPassable { get; set; }
         bool hasChar;
+        bool hasPlayer;
 
         bool isVisible;
         bool isVisited;
+
+        public int value { get; set; }
 
         public Tile(int x, int y, int id)
         {
@@ -35,13 +38,15 @@ namespace Solid_Rascal.Map_Gen
             Y = y;
             TYPE = id;
 
+            value = 0;
+
         }
 
-        public void UpdateTile(int newTile, int color)
+        public void UpdateTile(int newTile, int color, int pass)
         {
             TYPE = newTile;
             COLOR = color;
-            if(TYPE != 0 && TYPE != 9 && TYPE != 10)
+            if(pass == 0)
             {
                 isPassable = false;
             }else
@@ -94,6 +99,14 @@ namespace Solid_Rascal.Map_Gen
             _Char = character;
             hasChar = true;
             isPassable = false;
+
+            if(character.charID == 52)
+            {
+                hasPlayer = true;
+            }else
+            {
+                hasPlayer = false;
+            }
         }
 
         public void SetVisible()
@@ -108,11 +121,17 @@ namespace Solid_Rascal.Map_Gen
             _Char = null;
             hasChar = false;
             isPassable = true;
+            hasPlayer = false;
         }
 
         public bool HasCharacter()
         {
             return hasChar;
+        }
+
+        public bool HasPlayer()
+        {
+            return hasPlayer;
         }
 
         void SetTileColor(int id)
@@ -134,6 +153,11 @@ namespace Solid_Rascal.Map_Gen
                 default:
                     break;
             }
+        }
+
+        public void SetValue(int v)
+        {
+            value = v;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Solid_Rascal.Characters
         public int xPos { get; set; }
         public int yPos { get; set; }
         public int charID { get; set; }
+        public bool isPlayer { get; set; }
 
         public int sLEVEL { get; set; }
         public int sARMOR { get; set; }
@@ -23,8 +24,9 @@ namespace Solid_Rascal.Characters
         public int sHP { get; set; }
         public int sMHP { get; set; }
 
-        public int _AiState { get; }
+        public int _AiState { get; set; }
         public int _AiChoice;
+        public List<int> _AIMoveLIB;
 
         public Character()
         {
@@ -58,6 +60,32 @@ namespace Solid_Rascal.Characters
             }
         }
 
+        public void SetMovLib(List<int> lib)
+        {
+            _AIMoveLIB = lib;
+        }
+
+        public int GetNextTile()
+        {
+            if (_AIMoveLIB.Count > 0)
+            {
+                int dir = _AIMoveLIB[_AIMoveLIB.Count - 1];
+                _AIMoveLIB.RemoveAt(_AIMoveLIB.Count - 1);
+                return dir;
+            }
+            else
+            {
+                //Possivel ERror
+                return 0;
+            }
+        }
+
+        public int GetID()
+        {
+            return 0;
+        }
+
+
         public int AiMovement()
         {
             switch (_AiState)
@@ -71,7 +99,7 @@ namespace Solid_Rascal.Characters
                     }
                     else
                     {
-                        return rand.Next(1, 5);
+                        return rand.Next(1, 9);
                     }   
                 case 2:
                     //Chase

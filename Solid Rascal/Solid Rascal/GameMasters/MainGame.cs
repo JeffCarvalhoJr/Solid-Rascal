@@ -3,6 +3,7 @@ using Solid_Rascal.Map_Gen;
 using Solid_Rascal.Characters;
 using Solid_Rascal.Characters.Player;
 using Solid_Rascal.Characters.Enemies;
+using Solid_Rascal.Characters.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Solid_Rascal
         public int MAPWidth;
         public int MaxRooms;
 
+        Pathfind pathF;
+
         Player newPlayer;
         Slime newSlime;
 
@@ -47,6 +50,7 @@ namespace Solid_Rascal
 
         public MainGame()
         {
+            pathF = new Pathfind();
             visibleMap = new List<Tile>();
             enemies = new List<Character>();
             TILESET = new Tileset();
@@ -584,6 +588,38 @@ namespace Solid_Rascal
                     CharacterMovement(4, enemy);
                 }
             }
+            else if (direction == 5)
+            {
+                tileToCheck = currentMap[enemy.yPos-1, enemy.xPos - 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(5, enemy);
+                }
+            }
+            else if (direction == 6)
+            {
+                tileToCheck = currentMap[enemy.yPos- 1, enemy.xPos + 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(6, enemy);
+                }
+            }
+            else if (direction == 7)
+            {
+                tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos + 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(7, enemy);
+                }
+            }
+            else if (direction == 8)
+            {
+                tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos - 1];
+                if (tileToCheck.CanPass())
+                {
+                    CharacterMovement(8, enemy);
+                }
+            }
         }
 
         void EnemiesTurn()
@@ -594,14 +630,34 @@ namespace Solid_Rascal
             int AiChoice;
             foreach (Character enemy in enemies)
             {
+                CheckForPlayer(enemies[index]);
                 if (enemies[index]._AiState == 1)
                 {
                     AiChoice = enemies[index].AiMovement();
                     EnemyMovement(enemies[index], AiChoice);
+                }else if(enemies[index]._AiState == 2)
+                {
+                    pathF.CreatePath(enemies[index], newPlayer, currentMap);
+                    enemies[index].SetMovLib(pathF.GetDirections());
+                    EnemyMovement(enemies[index], enemies[index].GetNextTile());
                 }
 
                 index++;
             }
+        }
+
+        void CheckForPlayer(Character actor)
+        {
+            for(int x = -1; x <2; x++)
+            {
+                for(int y = -1; y < 2; y++)
+                {
+                    if(currentMap[actor.yPos + y, actor.xPos + x].HasPlayer())
+                    {
+                        actor._AiState = 2;
+                    }
+                }
+            }   
         }
 
         public static void UpdateMapTile(int y, int x)

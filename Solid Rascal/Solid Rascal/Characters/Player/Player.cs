@@ -13,6 +13,7 @@ namespace Solid_Rascal.Characters.Player
         {
             xPos = x;
             yPos = y;
+            isPlayer = true;
 
             charNAME = "player";
             charID = 52;

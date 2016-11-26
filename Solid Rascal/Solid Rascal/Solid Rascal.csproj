@@ -43,19 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Battle.cs" />
+    <Compile Include="GameMasters\Battle.cs" />
+    <Compile Include="Characters\AI\Pathfind.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\Enemies\Slime.cs" />
     <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
-    <Compile Include="MainGame.cs" />
+    <Compile Include="GameMasters\MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />
     <Compile Include="Map Gen\Tile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Map Gen\Room.cs" />
-    <Compile Include="Tileset.cs" />
+    <Compile Include="GameMasters\Tileset.cs" />
     <Compile Include="UI\Alert.cs" />
     <Compile Include="UI\Stats.cs" />
   </ItemGroup>
