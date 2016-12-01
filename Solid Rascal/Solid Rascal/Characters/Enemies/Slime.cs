@@ -13,7 +13,7 @@ namespace Solid_Rascal.Characters.Enemies
             sARMOR = 0;
 
             charNAME = "Slime";
-            charID = 54;
+            charID = 100;
 
             sHP = 20;
             sMHP = 20;
