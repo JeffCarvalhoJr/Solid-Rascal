@@ -9,10 +9,8 @@ namespace Solid_Rascal.Characters.Player
     class Player : Character
     {
 
-        public Player(int x, int y)
+        public Player()
         {
-            xPos = x;
-            yPos = y;
             isPlayer = true;
 
             charNAME = "player";

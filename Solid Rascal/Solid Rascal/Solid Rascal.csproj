@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Characters\Enemies\Golem.cs" />
+    <Compile Include="Characters\Enemies\Phantom.cs" />
     <Compile Include="GameMasters\Battle.cs" />
     <Compile Include="Characters\AI\Pathfind.cs" />
     <Compile Include="Characters\Character.cs" />

@@ -17,7 +17,6 @@ namespace Solid_Rascal.Characters
         public int charID { get; set; }
         public bool isPlayer { get; set; }
 
-        public int sLEVEL { get; set; }
         public int sARMOR { get; set; }
         public int sSTR { get; set; }
         public int sMSTR { get; set; }

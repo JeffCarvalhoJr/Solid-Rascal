@@ -77,6 +77,7 @@ namespace Solid_Rascal.Characters.AI
                                 {
                                     hasPath = true;
                                     cReachTarget = true;
+                                    unfinished.Clear();
                                     directions.Clear();
                                     directions.Add(GetInstantDirection(x, y));
                                 }

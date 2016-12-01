@@ -8,10 +8,7 @@ namespace Solid_Rascal.Characters.Enemies
 {
     class Slime : Character
     {
-        public Slime(int x, int y) { 
-
-            xPos = x;
-            yPos = y;
+        public Slime() { 
 
             sARMOR = 0;
 

@@ -12,7 +12,6 @@ namespace Solid_Rascal
     {
         public int MAPHeight { get; set; }
         public int MAPWidth { get; set; }
-        //public int[,] MAP { get; set; }
         public Tile[,] MAP { get; set; }
 
         public Random rand;

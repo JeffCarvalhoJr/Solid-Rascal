@@ -17,42 +17,54 @@ namespace Solid_Rascal
         //This is random
         public static Random rand = new Random();
 
-        //Room Placement Tries
+        //Debug
         public static int TRIES = 0;
+        Slime newSlime;
 
-        public Map mapGen;
-        public static Tile[,] currentMap;
-        public List<Tile> visibleMap;
+        ///UI
+        public string playerAnswer;
+        Alert alert;
+        Stats playerInfo;
 
+        ///Amazing GFX
         public Tileset TILESET;
 
-        //map Variables
+        ///Map
+        public Map mapGen;
         public int MAPHeight;
         public int MAPWidth;
         public int MaxRooms;
 
+        ///Ai
         Pathfind pathF;
 
+        ///Game
+        //Player
         Player newPlayer;
-        Slime newSlime;
-
-        public List<Character> enemies;
-
+        //Battle
         Battle battle;
+        //Level
+        public static int currentLevel;
+        public static Tile[,] currentMap;
+        public List<Tile> visibleMap;
+        //Enemies
+        Character[] enemyPool1;
+        Character[] enemyPool2;
+        Character[] enemyPool3;
+        public static List<Character> activeEnemies;
 
-        Alert alert = new Alert();
-        Stats playerStats;
 
-        public string playerAnswer;
 
+        //Input
         public ConsoleKeyInfo userCKI;
 
 
         public MainGame()
         {
+            alert = new Alert();
             pathF = new Pathfind();
             visibleMap = new List<Tile>();
-            enemies = new List<Character>();
+            activeEnemies = new List<Character>();
             TILESET = new Tileset();
             GameStart();
 
@@ -61,6 +73,7 @@ namespace Solid_Rascal
 
         void GameStart()
         {
+            currentLevel = 0;
             Console.CursorVisible = false;
             Console.OutputEncoding = Encoding.UTF8;
             MAPWidth = 90;
@@ -68,19 +81,29 @@ namespace Solid_Rascal
 
             MaxRooms = 9;
 
+            //init player
+          
+
             //generating map loop
             do
             {
+                //Setup map
                 Console.Clear();
                 visibleMap.Clear();
-                currentMap = new Tile[0, 0];
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
                 PrintMap();
+                currentLevel++;
+
+                newPlayer = new Player();
+
+
+                //Setup Actors
                 PlaceActors();
-                playerStats = new Stats(MAPHeight, newPlayer);
+
+                //
+                playerInfo = new Stats(MAPHeight, newPlayer);
                 PlayerMovement();
-                //CharacterMovement(1, newPlayer);
 
                 try
                 {
@@ -117,7 +140,7 @@ namespace Solid_Rascal
                 tileToCheck = currentMap[playerY, playerX];
             } while (tileToCheck.HasCharacter());
 
-            newPlayer = new Player(playerX, playerY);
+            newPlayer.SetNewPosition(playerX, playerY);
             currentMap[newPlayer.yPos, newPlayer.xPos].SetCharacter(newPlayer);
             currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
@@ -125,6 +148,7 @@ namespace Solid_Rascal
             //Slimes for battle tests!
             for (int i = 0; i < 20; i++)
             {
+                newSlime = new Slime();
                 do
                 {
                     randRoomX = rand.Next(0, 3);
@@ -136,10 +160,10 @@ namespace Solid_Rascal
 
                     tileToCheck = currentMap[enemyY, enemyX];
                 } while (tileToCheck.HasCharacter());
-
-                newSlime = new Slime(enemyX, enemyY);
+                newSlime.SetNewPosition(enemyX, enemyY);
+               
                 currentMap[newSlime.yPos, newSlime.xPos].SetCharacter(newSlime);
-                enemies.Add(newSlime);
+                activeEnemies.Add(newSlime);
             }
             FogOfWarReveal();
 
@@ -267,7 +291,6 @@ namespace Solid_Rascal
                     currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
                     currentMap[actor.yPos, actor.xPos].PrintTile();
                     break;
-
             }
         }
 
@@ -366,7 +389,7 @@ namespace Solid_Rascal
             while (true)
             {
                 Tile tileToCheck;
-                playerStats.Action(newPlayer);
+                playerInfo.Action(newPlayer);
                 userCKI = Console.ReadKey(true);
 
                 if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
@@ -562,6 +585,9 @@ namespace Solid_Rascal
                 if (tileToCheck.CanPass())
                 {
                     CharacterMovement(1, enemy);
+                }else if (tileToCheck.HasPlayer())
+                {
+                    battle = new Battle(enemy, tileToCheck._Char);
                 }
             }
             else if (direction == 2)
@@ -571,6 +597,11 @@ namespace Solid_Rascal
                 {
                     CharacterMovement(2, enemy);
                 }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
+                }
             }
             else if (direction == 3)
             {
@@ -578,6 +609,11 @@ namespace Solid_Rascal
                 if (tileToCheck.CanPass())
                 {
                     CharacterMovement(3, enemy);
+                }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
                 }
             }
             else if (direction == 4)
@@ -587,6 +623,11 @@ namespace Solid_Rascal
                 {
                     CharacterMovement(4, enemy);
                 }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
+                }
             }
             else if (direction == 5)
             {
@@ -594,6 +635,11 @@ namespace Solid_Rascal
                 if (tileToCheck.CanPass())
                 {
                     CharacterMovement(5, enemy);
+                }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
                 }
             }
             else if (direction == 6)
@@ -603,6 +649,11 @@ namespace Solid_Rascal
                 {
                     CharacterMovement(6, enemy);
                 }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
+                }
             }
             else if (direction == 7)
             {
@@ -610,6 +661,11 @@ namespace Solid_Rascal
                 if (tileToCheck.CanPass())
                 {
                     CharacterMovement(7, enemy);
+                }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
                 }
             }
             else if (direction == 8)
@@ -619,30 +675,46 @@ namespace Solid_Rascal
                 {
                     CharacterMovement(8, enemy);
                 }
+                else if (tileToCheck.HasPlayer())
+                {
+                    //Battle
+                    battle = new Battle(enemy, tileToCheck._Char);
+                }
             }
         }
 
         void EnemiesTurn()
         {
-
-
             int index = 0;
             int AiChoice;
-            foreach (Character enemy in enemies)
+            foreach (Character enemy in activeEnemies)
             {
-                CheckForPlayer(enemies[index]);
-                if (enemies[index]._AiState == 1)
+                CheckForPlayer(activeEnemies[index]);
+                if (activeEnemies[index]._AiState == 1)
                 {
-                    AiChoice = enemies[index].AiMovement();
-                    EnemyMovement(enemies[index], AiChoice);
-                }else if(enemies[index]._AiState == 2)
+                    AiChoice = activeEnemies[index].AiMovement();
+                    EnemyMovement(activeEnemies[index], AiChoice);
+                }else if(activeEnemies[index]._AiState == 2)
                 {
-                    pathF.CreatePath(enemies[index], newPlayer, currentMap);
-                    enemies[index].SetMovLib(pathF.GetDirections());
-                    EnemyMovement(enemies[index], enemies[index].GetNextTile());
+                    pathF.CreatePath(activeEnemies[index], newPlayer, currentMap);
+                    activeEnemies[index].SetMovLib(pathF.GetDirections());
+                    EnemyMovement(activeEnemies[index], activeEnemies[index].GetNextTile());
                 }
 
                 index++;
+            }
+        }
+
+        public static void KillAnEnemy(Character enemy)
+        {
+            for(int i = 0; i < activeEnemies.Count; i++)
+            {
+                Character enemyTC = activeEnemies[i];
+                if (enemyTC == enemy)
+                {
+                    currentMap[enemyTC.yPos, enemyTC.xPos].RemoveChar();
+                    activeEnemies.RemoveAt(i);
+                }
             }
         }
 
