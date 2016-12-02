@@ -55,11 +55,11 @@ namespace Solid_Rascal
             _CorridorsL = new List<Corridor>(9);
 
             GenerateRooms();
-            alert.Warning("Rooms Generated");
+            //alert.Warning("Rooms Generated");
             GenerateCorridors();
             PlaceCorridors();
-            alert.Warning("Corridors Generated");
-            alert.Warning("Map is ready!");
+            //alert.Warning("Corridors Generated");
+            //alert.Warning("Map is ready!");
         }
 
         void GenerateRooms()

@@ -51,6 +51,7 @@
     <Compile Include="Characters\Enemies\Slime.cs" />
     <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Dice.cs" />
+    <Compile Include="GameMasters\EnemySpawner.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
     <Compile Include="GameMasters\MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />

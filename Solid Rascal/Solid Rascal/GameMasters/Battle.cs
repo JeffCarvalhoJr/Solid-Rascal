@@ -28,18 +28,18 @@ namespace Solid_Rascal
             ATK = (int)FA + _Dice.Roll(1, 100);
             DEF = (int)FD + _Dice.Roll(1, 100);
 
-            _Alert.Warning("[DEBUG] ATK: " + ATK + " DEF " + DEF + " [DEBUG]");
+           // _Alert.Warning("[DEBUG] ATK: " + ATK + " DEF " + DEF + " [DEBUG]");
 
             if (ATK > DEF)
             {
                 //Acertou
                 defender.ReduceHealth((int)FA);
-                _Alert.Warning("" + attacker.charNAME + " Attacks the " + defender.charNAME + " for " + FA + " damage");
+                _Alert.Warning("" + attacker.charNAME + " Attacks " + defender.charNAME + " for " + FA + " damage");
             }
             else if(ATK <= DEF)
             {
                 //Errou
-                _Alert.Warning("" + attacker.charNAME + " Attacks the " + defender.charNAME + " and Misses!");
+                _Alert.Warning("" + attacker.charNAME + " Attacks " + defender.charNAME + " and Misses!");
             }
 
             if(defender.sHP <= 0)
@@ -50,4 +50,4 @@ namespace Solid_Rascal
             }
         }
     }
-}
+}   

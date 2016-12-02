@@ -22,6 +22,7 @@ namespace Solid_Rascal.Map_Gen
         bool isPassable { get; set; }
         bool hasChar;
         bool hasPlayer;
+        public bool isExit { get; set; }
 
         bool isVisible;
         bool isVisited;
@@ -86,6 +87,12 @@ namespace Solid_Rascal.Map_Gen
         public bool CanPass()
         {
             return isPassable;
+        }
+
+        public void SetExit()
+        {
+            TYPE = 11;
+            isExit = true;
         }
 
         public void Reset()

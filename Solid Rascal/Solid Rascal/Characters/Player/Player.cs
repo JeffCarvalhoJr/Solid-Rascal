@@ -9,18 +9,18 @@ namespace Solid_Rascal.Characters.Player
     class Player : Character
     {
 
-        public Player()
+        public Player(string name)
         {
             isPlayer = true;
 
-            charNAME = "player";
+            charNAME = name;
             charID = 52;
 
             sSTR = 10;
             sMSTR = 10;
             sARMOR = 1;
-            sHP = 10;
-            sMHP = 10;
+            sHP = 50;
+            sMHP = 50;
         }
 
     }

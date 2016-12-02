@@ -13,6 +13,8 @@ namespace Solid_Rascal
         static void Main(string[] args)
         {
             Console.SetWindowSize(110, 36);
+            Console.CursorVisible = false;
+            Console.OutputEncoding = Encoding.UTF8;
             game = new MainGame();
 
         }
