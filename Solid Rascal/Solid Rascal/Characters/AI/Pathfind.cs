@@ -54,8 +54,8 @@ namespace Solid_Rascal.Characters.AI
 
             while (unfinished.Count > 0 && !hasPath)
             {
-                actualTileX = unfinished[0].X;
-                actualTileY = unfinished[0].Y;
+                actualTileX = unfinished[0].tX;
+                actualTileY = unfinished[0].tY;
                 unfinished.RemoveAt(0);
 
                 for (int y = -1; y < 2 && !hasPath; y++)
@@ -71,7 +71,7 @@ namespace Solid_Rascal.Characters.AI
                             nextTileX = actualTileX + x;
                             nextTileY = actualTileY + y;
 
-                            if (pathMap[nextTileY, nextTileX]._Char == _Target)
+                            if (pathMap[nextTileY, nextTileX].tChar == _Target)
                             {
                                 if (pathMap[actualTileY, actualTileX].value == 0)
                                 {
@@ -87,11 +87,11 @@ namespace Solid_Rascal.Characters.AI
                                     cReachTarget = false;
                                     pathMap[nextTileY, nextTileX].SetValue(pathMap[actualTileY, actualTileX].value + 1);
 
-                                    actualTileX = pathMap[nextTileY, nextTileX].X;
-                                    actualTileY = pathMap[nextTileY, nextTileX].Y;
+                                    actualTileX = pathMap[nextTileY, nextTileX].tX;
+                                    actualTileY = pathMap[nextTileY, nextTileX].tY;
                                 }
                             }
-                            else if (pathMap[nextTileY, nextTileX].CanPass() && pathMap[nextTileY, nextTileX].value == 0 && pathMap[nextTileY, nextTileX]._Char != _Actor)
+                            else if (pathMap[nextTileY, nextTileX].isPassable && pathMap[nextTileY, nextTileX].value == 0 && pathMap[nextTileY, nextTileX].tChar != _Actor)
                             {
                                 pathMap[nextTileY, nextTileX].SetValue(pathMap[actualTileY, actualTileX].value + 1);
                                 unfinished.Add(pathMap[nextTileY, nextTileX]);
@@ -115,21 +115,21 @@ namespace Solid_Rascal.Characters.AI
                             nextTileX = actualTileX + x;
                             nextTileY = actualTileY + y;
 
-                            if (pathMap[nextTileY, nextTileX].HasCharacter())
+                            if (pathMap[nextTileY, nextTileX].hasChar)
                             {
-                                if (pathMap[nextTileY, nextTileX]._Char == _Actor)
+                                if (pathMap[nextTileY, nextTileX].tChar == _Actor)
                                 {
                                     cReachTarget = true;
                                     directions.Add(GetNextDirection(x, y));
                                 }
                             }
-                            else if (pathMap[nextTileY, nextTileX].value == pathMap[actualTileY, actualTileX].value - 1 && pathMap[nextTileY, nextTileX].CanPass())
+                            else if (pathMap[nextTileY, nextTileX].value == pathMap[actualTileY, actualTileX].value - 1 && pathMap[nextTileY, nextTileX].isPassable)
                             {
 
                                 pathMap[actualTileY, actualTileX].SetValue(-1);
                                 directions.Add(GetNextDirection(x, y));
-                                actualTileX = pathMap[nextTileY, nextTileX].X;
-                                actualTileY = pathMap[nextTileY, nextTileX].Y;
+                                actualTileX = pathMap[nextTileY, nextTileX].tX;
+                                actualTileY = pathMap[nextTileY, nextTileX].tY;
                             }
                         }
                     }

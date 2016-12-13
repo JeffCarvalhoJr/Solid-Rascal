@@ -13,19 +13,20 @@ namespace Solid_Rascal.Map_Gen
 
         int COLOR;
 
-        public int TYPE {get; set;}
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int tID {get; set;}
+        public int tX { get; set; }
+        public int tY { get; set; }
 
-        public Character _Char { get; set; }
+        public Character tChar { get; set; }
 
-        bool isPassable { get; set; }
-        bool hasChar;
-        bool hasPlayer;
+        public bool isPassable { get; set; }
+        public bool hasItem { get; set; }
+        public bool hasChar { get; set; }
+        public bool hasPlayer { get; set; }
         public bool isExit { get; set; }
 
         bool isVisible;
-        bool isVisited;
+        bool isDiscovered;
 
         public int value { get; set; }
 
@@ -33,19 +34,18 @@ namespace Solid_Rascal.Map_Gen
         {
             TILESET = new Tileset();
 
-            isVisited = false;
+            isDiscovered = false;
 
-            X = x;
-            Y = y;
-            TYPE = id;
+            tX = x;
+            tY = y;
+            tID = id;
 
             value = 0;
-
         }
 
         public void UpdateTile(int newTile, int color, int pass)
         {
-            TYPE = newTile;
+            tID = newTile;
             COLOR = color;
             if(pass == 0)
             {
@@ -61,22 +61,26 @@ namespace Solid_Rascal.Map_Gen
             if (isVisible)
             {
                 SetTileColor(2);
-                if (!hasChar)
+                if (hasChar)
                 {
-                    Console.SetCursorPosition(X, Y);
-                    Console.Write(TILESET.TileType(TYPE));
+                    Console.SetCursorPosition(tX, tY);
+                    Console.Write(TILESET.TileType(tChar.charID));
+                }else if (hasItem)
+                {
+                    //Color blue
+                    //print item id
                 }
                 else
                 {
-                    Console.SetCursorPosition(X, Y);
-                    Console.Write(TILESET.TileType(_Char.charID));
+                    Console.SetCursorPosition(tX, tY);
+                    Console.Write(TILESET.TileType(tID));
                 }
             }
-            else if(!isVisible && isVisited) 
+            else if(!isVisible && isDiscovered) 
             {
                 SetTileColor(1);
-                Console.SetCursorPosition(X, Y);
-                Console.Write(TILESET.TileType(TYPE));
+                Console.SetCursorPosition(tX, tY);
+                Console.Write(TILESET.TileType(tID));
             }
             else
             {
@@ -84,14 +88,9 @@ namespace Solid_Rascal.Map_Gen
             }
         }
 
-        public bool CanPass()
-        {
-            return isPassable;
-        }
-
         public void SetExit()
         {
-            TYPE = 11;
+            tID = 11;
             isExit = true;
         }
 
@@ -103,7 +102,7 @@ namespace Solid_Rascal.Map_Gen
 
         public void SetCharacter(Character character)
         {
-            _Char = character;
+            tChar = character;
             hasChar = true;
             isPassable = false;
 
@@ -116,29 +115,24 @@ namespace Solid_Rascal.Map_Gen
             }
         }
 
-        public void SetVisible()
-        {
-            isVisible = true;
-            isVisited = true;
-            PrintTile();
-        }
-
         public void RemoveChar()
         {
-            _Char = null;
+            tChar = null;
             hasChar = false;
             isPassable = true;
             hasPlayer = false;
         }
 
-        public bool HasCharacter()
+        public void SetItem()
         {
-            return hasChar;
-        }
 
-        public bool HasPlayer()
+        }    
+
+        public void SetVisible()
         {
-            return hasPlayer;
+            isVisible = true;
+            isDiscovered = true;
+            PrintTile();
         }
 
         void SetTileColor(int id)

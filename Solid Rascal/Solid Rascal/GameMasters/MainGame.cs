@@ -2,7 +2,6 @@
 using Solid_Rascal.Map_Gen;
 using Solid_Rascal.Characters;
 using Solid_Rascal.Characters.Player;
-using Solid_Rascal.Characters.Enemies;
 using Solid_Rascal.Characters.AI;
 using Solid_Rascal.GameMasters;
 using System;
@@ -141,6 +140,7 @@ namespace Solid_Rascal
             }
 
             alert.Warning("Thanks for playing Solid Rascal Ver.0.1");
+            Console.ReadLine();
 
         }
 
@@ -184,7 +184,7 @@ namespace Solid_Rascal
                 playerY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
                 tileToCheck = currentMap[playerY, playerX];
-            } while (tileToCheck.HasCharacter());
+            } while (tileToCheck.hasChar);
 
             newPlayer.SetNewPosition(playerX, playerY);
             currentMap[newPlayer.yPos, newPlayer.xPos].SetCharacter(newPlayer);
@@ -204,7 +204,7 @@ namespace Solid_Rascal
                     enemyY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
                     tileToCheck = currentMap[enemyY, enemyX];
-                } while (tileToCheck.HasCharacter());
+                } while (tileToCheck.hasChar);
                 activeEnemies[i].SetNewPosition(enemyX, enemyY);
 
                 currentMap[activeEnemies[i].yPos, activeEnemies[i].xPos].SetCharacter(activeEnemies[i]);
@@ -363,43 +363,42 @@ namespace Solid_Rascal
             Tile tileToCheck;
             playerInfo.Action(newPlayer);
             userCKI = Console.ReadKey(true);
-
+    
             if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
             {
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(1, newPlayer);
                     FogOfWarReveal();
                     alert.Action("North");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
                     //Battle
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
                     //bump nose
                     alert.Action("Stop trying hit the wall");
                 }
-                //move enemy
             }
             else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.NumPad2)
             {
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(2, newPlayer);
                     FogOfWarReveal();
                     alert.Action("South");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
                     //Battle
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -411,15 +410,15 @@ namespace Solid_Rascal
             {
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(3, newPlayer);
                     FogOfWarReveal();
                     alert.Action("West");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -430,15 +429,15 @@ namespace Solid_Rascal
             {
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(4, newPlayer);
                     FogOfWarReveal();
                     alert.Action("East");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -450,15 +449,15 @@ namespace Solid_Rascal
                 //North West
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(5, newPlayer);
                     FogOfWarReveal();
                     alert.Action("North West");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -470,15 +469,15 @@ namespace Solid_Rascal
                 //North East
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(6, newPlayer);
                     FogOfWarReveal();
                     alert.Action("North East");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -490,15 +489,15 @@ namespace Solid_Rascal
                 //South East
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(7, newPlayer);
                     FogOfWarReveal();
                     alert.Action("South East");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -510,15 +509,15 @@ namespace Solid_Rascal
                 //South West
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1];
 
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(8, newPlayer);
                     FogOfWarReveal();
                     alert.Action("South West");
                 }
-                else if (tileToCheck.HasCharacter())
+                else if (tileToCheck.hasChar)
                 {
-                    battle = new Battle(newPlayer, tileToCheck._Char);
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
                 }
                 else
                 {
@@ -575,104 +574,104 @@ namespace Solid_Rascal
             if (direction == 1)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(1, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 2)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(2, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 3)
             {
                 tileToCheck = currentMap[enemy.yPos, enemy.xPos - 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(3, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 4)
             {
                 tileToCheck = currentMap[enemy.yPos, enemy.xPos + 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(4, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 5)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos - 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(5, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 6)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos + 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(6, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 7)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos + 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(7, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
             else if (direction == 8)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos - 1];
-                if (tileToCheck.CanPass())
+                if (tileToCheck.isPassable)
                 {
                     CharacterMovement(8, enemy);
                 }
-                else if (tileToCheck.HasPlayer())
+                else if (tileToCheck.hasPlayer)
                 {
                     //Battle
-                    battle = new Battle(enemy, tileToCheck._Char);
+                    battle = new Battle(enemy, tileToCheck.tChar);
                 }
             }
         }
@@ -731,7 +730,7 @@ namespace Solid_Rascal
             {
                 case 1:
                     //north wall
-                    while (currentMap[newPlayer.yPos - index, newPlayer.xPos].TYPE == 0 || currentMap[newPlayer.yPos - index, newPlayer.xPos].TYPE == 11)
+                    while (currentMap[newPlayer.yPos - index, newPlayer.xPos].tID == 0 || currentMap[newPlayer.yPos - index, newPlayer.xPos].tID == 11)
                     {
                         distance++;
                         index++;
@@ -739,7 +738,7 @@ namespace Solid_Rascal
                     return distance;
                 case 2:
                     //south wall
-                    while (currentMap[newPlayer.yPos + index, newPlayer.xPos].TYPE == 0 || currentMap[newPlayer.yPos + index, newPlayer.xPos].TYPE == 11)
+                    while (currentMap[newPlayer.yPos + index, newPlayer.xPos].tID == 0 || currentMap[newPlayer.yPos + index, newPlayer.xPos].tID == 11)
                     {
                         distance++;
                         index++;
@@ -747,7 +746,7 @@ namespace Solid_Rascal
                     return distance;
                 case 3:
                     //west wall
-                    while (currentMap[newPlayer.yPos, newPlayer.xPos - index].TYPE == 0 || currentMap[newPlayer.yPos, newPlayer.xPos - index].TYPE == 11)
+                    while (currentMap[newPlayer.yPos, newPlayer.xPos - index].tID == 0 || currentMap[newPlayer.yPos, newPlayer.xPos - index].tID == 11)
                     {
                         distance++;
                         index++;
@@ -755,7 +754,7 @@ namespace Solid_Rascal
                     return distance;
                 case 4:
                     //east wall
-                    while (currentMap[newPlayer.yPos, newPlayer.xPos + index].TYPE == 0 || currentMap[newPlayer.yPos, newPlayer.xPos + index].TYPE == 11)
+                    while (currentMap[newPlayer.yPos, newPlayer.xPos + index].tID == 0 || currentMap[newPlayer.yPos, newPlayer.xPos + index].tID == 11)
                     {
                         distance++;
                         index++;
@@ -784,7 +783,7 @@ namespace Solid_Rascal
             {
                 for (int y = -1; y < 2; y++)
                 {
-                    if (currentMap[actor.yPos + y, actor.xPos + x].HasPlayer())
+                    if (currentMap[actor.yPos + y, actor.xPos + x].hasPlayer)
                     {
                         actor._AiState = 2;
                     }

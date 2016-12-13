@@ -23,5 +23,20 @@ namespace Solid_Rascal.Characters.Player
             sMHP = 50;
         }
 
+        public void Wear()
+        {
+
+        }
+
+        public void Consume()
+        {
+
+        }
+
+        public void Wield()
+        {
+
+        }
+
     }
 }

@@ -47,6 +47,12 @@ namespace Solid_Rascal
                     return "P";
                 case 102:
                     return "G";
+                ///Items
+                //Potions
+                case 200:
+                    return "¿";
+                case 201:
+                    return "¡";
                 default:
                     return "X";
             }

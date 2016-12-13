@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Characters\Enemies\Golem.cs" />
     <Compile Include="Characters\Enemies\Phantom.cs" />
+    <Compile Include="Characters\Player\Inventory.cs" />
     <Compile Include="GameMasters\Battle.cs" />
     <Compile Include="Characters\AI\Pathfind.cs" />
     <Compile Include="Characters\Character.cs" />
@@ -52,6 +53,8 @@
     <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="GameMasters\EnemySpawner.cs" />
+    <Compile Include="Items\Consumables\HealthPotion.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
     <Compile Include="GameMasters\MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />
@@ -66,7 +69,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Items\Armors\" />
+    <Folder Include="Items\Weapons\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
