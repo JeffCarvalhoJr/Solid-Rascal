@@ -408,6 +408,7 @@ namespace Solid_Rascal
 
             Tile tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos];
             int moveId = 0;
+            bool hasMoved = false;
             playerInfo.Action(newPlayer);
             userCKI = Console.ReadKey(true);
     
@@ -415,43 +416,50 @@ namespace Solid_Rascal
             {
                 //North
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
-                moveId = 1;   
+                moveId = 1;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.NumPad2)
             {
                 //South
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
                 moveId = 2;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.NumPad4)
             {
                 //West
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
                 moveId = 3;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.NumPad6)
             {
                 //East
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
                 moveId = 4;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.NumPad7)
             {
                 //North West
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1];
                 moveId = 5;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.NumPad9)
             {
                 //North East
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1];
                 moveId = 6;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.NumPad3)
             {
                 //South East
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1];
                 moveId = 7;
+                hasMoved = true;
 
             }
             else if (userCKI.Key == ConsoleKey.NumPad1)
@@ -459,6 +467,7 @@ namespace Solid_Rascal
                 //South West
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1];
                 moveId = 8;
+                hasMoved = true;
             }
             else if (userCKI.Key == ConsoleKey.Spacebar)
             {
@@ -479,24 +488,27 @@ namespace Solid_Rascal
                 bQuit = true;
             }
 
-            if (tileToCheck.isPassable)
+            if (hasMoved)
             {
-                if (tileToCheck.hasItem)
+                if (tileToCheck.isPassable)
                 {
-                    tileToCheck.tItem.Collect();
+                    if (tileToCheck.hasItem)
+                    {
+                        tileToCheck.tItem.Collect();
+                    }
+                    CharacterMovement(moveId, newPlayer);
+                    FogOfWarReveal();
                 }
-                CharacterMovement(moveId, newPlayer);
-                FogOfWarReveal();
-            }
-            else if (tileToCheck.hasChar)
-            {
-                //Battle
-                battle = new Battle(newPlayer, tileToCheck.tChar);
-            }
-            else
-            {
-                //bump nose
-                alert.Action("Stop trying hit the wall");
+                else if (tileToCheck.hasChar)
+                {
+                    //Battle
+                    battle = new Battle(newPlayer, tileToCheck.tChar);
+                }
+                else
+                {
+                    //bump nose
+                    alert.Action("Stop trying hit the wall");
+                }
             }
         }
 
