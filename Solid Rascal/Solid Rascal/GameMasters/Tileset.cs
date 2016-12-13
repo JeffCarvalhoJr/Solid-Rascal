@@ -53,6 +53,10 @@ namespace Solid_Rascal
                     return "¿";
                 case 201:
                     return "¡";
+                //Collectibles
+                //Diamond
+                case 210:
+                    return "♦";
                 default:
                     return "X";
             }

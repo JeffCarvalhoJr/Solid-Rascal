@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solid_Rascal.Items.Consumables
+namespace Solid_Rascal.Items.Collectibles
 {
-    class HealthPotion : Item
+    class Diamond : Item
     {
 
 
-        public HealthPotion()
+        public Diamond()
         {
-           
+            iType = 210;
+            iCat = 3;
         }
 
     }

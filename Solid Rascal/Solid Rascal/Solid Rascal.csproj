@@ -53,6 +53,7 @@
     <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="GameMasters\EnemySpawner.cs" />
+    <Compile Include="Items\Collectibles\Diamond.cs" />
     <Compile Include="Items\Consumables\HealthPotion.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Map Gen\Corridor.cs" />

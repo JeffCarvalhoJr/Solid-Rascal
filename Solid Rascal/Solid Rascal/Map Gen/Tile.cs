@@ -1,5 +1,6 @@
 ﻿using System;
 using Solid_Rascal.Characters;
+using Solid_Rascal.Items;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Solid_Rascal.Map_Gen
         public int tY { get; set; }
 
         public Character tChar { get; set; }
+        public Item tItem { get; set; }
 
         public bool isPassable { get; set; }
         public bool hasItem { get; set; }
@@ -61,6 +63,7 @@ namespace Solid_Rascal.Map_Gen
             if (isVisible)
             {
                 SetTileColor(2);
+
                 if (hasChar)
                 {
                     Console.SetCursorPosition(tX, tY);
@@ -68,12 +71,24 @@ namespace Solid_Rascal.Map_Gen
                 }else if (hasItem)
                 {
                     //Color blue
-                    //print item id
+                    //print item 
+                    SetTileColor(3);
+                    Console.SetCursorPosition(tX, tY);
+                    Console.Write(TILESET.TileType(tItem.iType));
                 }
                 else
                 {
-                    Console.SetCursorPosition(tX, tY);
-                    Console.Write(TILESET.TileType(tID));
+                    if (isExit)
+                    {
+                        SetTileColor(4);
+                        Console.SetCursorPosition(tX, tY);
+                        Console.Write(TILESET.TileType(tID));
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(tX, tY);
+                        Console.Write(TILESET.TileType(tID));
+                    }
                 }
             }
             else if(!isVisible && isDiscovered) 
@@ -123,10 +138,19 @@ namespace Solid_Rascal.Map_Gen
             hasPlayer = false;
         }
 
-        public void SetItem()
+        public void SetItem(Item item)
         {
+            tItem = item;
+            hasItem = true;
+        }
 
-        }    
+        public Item GiveItem()
+        {
+            Item item = tItem;
+            tItem = null;
+            hasItem = false;
+            return item;
+        }
 
         public void SetVisible()
         {
@@ -142,14 +166,27 @@ namespace Solid_Rascal.Map_Gen
                 case 0:
                     //Undiscovered
                     Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Black;
                     break;
                 case 1:
                     //Visited Tile
                     Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.BackgroundColor = ConsoleColor.Black;
                     break;
                 case 2:
                     //Visible Tile
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case 3:
+                    //Tile with item
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case 4:
+                    //Tile with special feature
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
                     break;
                 default:
                     break;

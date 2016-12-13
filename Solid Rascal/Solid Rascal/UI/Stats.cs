@@ -25,9 +25,9 @@ namespace Solid_Rascal.UI
            
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(@"
-╔══════════╦══════════╦════════╦════════╦════════╗
-║♥HP:{0}({1})" + @"│STR:{2}({3})│Armor:{4}│Gold:{5}│LEVEL:{6}║  
-╚══════════╩══════════╩════════╩════════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
+╔══════════╦══════════╦════════╦═════╦════════╗
+║♥HP:{0}({1})" + @"│STR:{2}({3})│Armor:{4}│♦:{5}│LEVEL:{6}║  
+╚══════════╩══════════╩════════╩═════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
                                                             PLAYER.sSTR.ToString("00"), PLAYER.sMSTR.ToString("00"),
                                                             PLAYER.sARMOR.ToString("00"),00.ToString("000"),MainGame.currentLevel.ToString("00"));
         }

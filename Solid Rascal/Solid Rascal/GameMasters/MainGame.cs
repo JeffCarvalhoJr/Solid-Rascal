@@ -4,6 +4,9 @@ using Solid_Rascal.Characters;
 using Solid_Rascal.Characters.Player;
 using Solid_Rascal.Characters.AI;
 using Solid_Rascal.GameMasters;
+using Solid_Rascal.Items;
+using Solid_Rascal.Items.Collectibles;
+using Solid_Rascal.Items.Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +39,7 @@ namespace Solid_Rascal
         public int MaxRooms;
 
         ///Ai
-        Pathfind pathF;
+        Pathfind mPathF;
 
         ///Game
         //Player
@@ -58,10 +61,11 @@ namespace Solid_Rascal
         int[] enemyPool3;
         public static List<Character> activeEnemies;
 
-
-
         //Input
         public ConsoleKeyInfo userCKI;
+
+        //Test
+        Diamond diamond;
 
 
         public MainGame()
@@ -69,7 +73,7 @@ namespace Solid_Rascal
             bQuit = false;
 
             alert = new Alert();
-            pathF = new Pathfind();
+            mPathF = new Pathfind();
             visibleMap = new List<Tile>();
             activeEnemies = new List<Character>();
             TILESET = new Tileset();
@@ -112,14 +116,17 @@ namespace Solid_Rascal
                 visibleMap.Clear();
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
-                PrintMap();
+       
                 currentLevel++;
 
                 PlaceExit();
                 //Setup Actors
                 PlaceActors();
-                
-              
+                PlaceItems();
+
+
+                PrintMap();
+
                 //
                 playerInfo = new Stats(MAPHeight, newPlayer);
                 while (newPlayer.sHP > 0 && nextLevel == false && !bQuit)
@@ -212,6 +219,37 @@ namespace Solid_Rascal
             FogOfWarReveal();
         }
 
+        void PlaceItems()
+        {
+            Tile tileToCheck;
+
+            int randRoomX;
+            int randRoomY;
+            Room spawnRoom;
+
+            int itemX, itemY;
+
+            for (int i = 0; i < 50; i++)
+            {
+                do
+                {
+                    randRoomX = rand.Next(0, 3);
+                    randRoomY = rand.Next(0, 3);
+                    spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+                    itemX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                    itemY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+                    tileToCheck = currentMap[itemY, itemX];
+                } while (tileToCheck.hasChar);
+
+                diamond = new Diamond();
+                diamond.SetNewPosition(itemX, itemY);
+                currentMap[diamond.yPos, diamond.xPos].SetItem(diamond);
+            }
+
+        }
+
         //probably need an update
         void PrintMap()
         {
@@ -256,6 +294,11 @@ namespace Solid_Rascal
                     activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
                 }
             }
+        }
+
+        void FillItemList()
+        {
+
         }
 
         void CharacterMovement(int dir, Character actor)
@@ -354,175 +397,68 @@ namespace Solid_Rascal
                     currentMap[actor.yPos, actor.xPos].SetCharacter(actor);
                     currentMap[actor.yPos, actor.xPos].PrintTile();
                     break;
+                default:
+                    alert.Warning("Movement error");
+                    break;
             }
         }
 
         void PlayerMovement()
         {
 
-            Tile tileToCheck;
+            Tile tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos];
+            int moveId = 0;
             playerInfo.Action(newPlayer);
             userCKI = Console.ReadKey(true);
     
             if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
             {
+                //North
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(1, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("North");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    //Battle
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    //bump nose
-                    alert.Action("Stop trying hit the wall");
-                }
+                moveId = 1;   
             }
             else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.NumPad2)
             {
+                //South
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(2, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("South");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    //Battle
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    //bump head
-                    alert.Action("Stop trying hit the Wall");
-                }
+                moveId = 2;
             }
             else if (userCKI.Key == ConsoleKey.LeftArrow || userCKI.Key == ConsoleKey.NumPad4)
             {
+                //West
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos - 1];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(3, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("West");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying to hit the wall");
-                }
+                moveId = 3;
             }
             else if (userCKI.Key == ConsoleKey.RightArrow || userCKI.Key == ConsoleKey.NumPad6)
             {
+                //East
                 tileToCheck = currentMap[newPlayer.yPos, newPlayer.xPos + 1];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(4, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("East");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying hit the wall");
-                }
+                moveId = 4;
             }
             else if (userCKI.Key == ConsoleKey.NumPad7)
             {
                 //North West
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos - 1];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(5, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("North West");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying hit the wall");
-                }
+                moveId = 5;
             }
             else if (userCKI.Key == ConsoleKey.NumPad9)
             {
                 //North East
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos + 1];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(6, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("North East");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying hit the wall");
-                }
+                moveId = 6;
             }
             else if (userCKI.Key == ConsoleKey.NumPad3)
             {
                 //South East
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos + 1];
+                moveId = 7;
 
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(7, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("South East");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying hit the wall");
-                }
             }
             else if (userCKI.Key == ConsoleKey.NumPad1)
             {
                 //South West
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos - 1];
-
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(8, newPlayer);
-                    FogOfWarReveal();
-                    alert.Action("South West");
-                }
-                else if (tileToCheck.hasChar)
-                {
-                    battle = new Battle(newPlayer, tileToCheck.tChar);
-                }
-                else
-                {
-                    alert.Action("Stop trying hit the wall");
-                }
+                moveId = 8;
             }
             else if (userCKI.Key == ConsoleKey.Spacebar)
             {
@@ -535,12 +471,32 @@ namespace Solid_Rascal
             }
             else if (userCKI.Key == ConsoleKey.F)
             {
-                newPlayer.sHP++;
+                newPlayer.sHP += 50;
                 alert.Action("More Health!" + " new health: " + newPlayer.sHP);
             }
             else if (userCKI.Key == ConsoleKey.Escape)
             {
                 bQuit = true;
+            }
+
+            if (tileToCheck.isPassable)
+            {
+                if (tileToCheck.hasItem)
+                {
+                    tileToCheck.tItem.Collect();
+                }
+                CharacterMovement(moveId, newPlayer);
+                FogOfWarReveal();
+            }
+            else if (tileToCheck.hasChar)
+            {
+                //Battle
+                battle = new Battle(newPlayer, tileToCheck.tChar);
+            }
+            else
+            {
+                //bump nose
+                alert.Action("Stop trying hit the wall");
             }
         }
 
@@ -558,8 +514,8 @@ namespace Solid_Rascal
                 }
                 else if (activeEnemies[index]._AiState == 2)
                 {
-                    pathF.CreatePath(activeEnemies[index], newPlayer, currentMap);
-                    activeEnemies[index].SetMovLib(pathF.GetDirections());
+                    mPathF.CreatePath(activeEnemies[index], newPlayer, currentMap);
+                    activeEnemies[index].SetMovLib(mPathF.GetDirections());
                     EnemyMovement(activeEnemies[index], activeEnemies[index].GetNextTile());
                 }
 
@@ -569,110 +525,57 @@ namespace Solid_Rascal
 
         void EnemyMovement(Character enemy, int direction)
         {
-            Tile tileToCheck;
+            Tile tileToCheck = currentMap[enemy.yPos, enemy.xPos];
+            int moveId = 0;
 
             if (direction == 1)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(1, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 1;
             }
             else if (direction == 2)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(2, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 2;
             }
             else if (direction == 3)
             {
                 tileToCheck = currentMap[enemy.yPos, enemy.xPos - 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(3, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 3;
             }
             else if (direction == 4)
             {
                 tileToCheck = currentMap[enemy.yPos, enemy.xPos + 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(4, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 4;
             }
             else if (direction == 5)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos - 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(5, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 5;
             }
             else if (direction == 6)
             {
                 tileToCheck = currentMap[enemy.yPos - 1, enemy.xPos + 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(6, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 6;
             }
             else if (direction == 7)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos + 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(7, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 7;
             }
             else if (direction == 8)
             {
                 tileToCheck = currentMap[enemy.yPos + 1, enemy.xPos - 1];
-                if (tileToCheck.isPassable)
-                {
-                    CharacterMovement(8, enemy);
-                }
-                else if (tileToCheck.hasPlayer)
-                {
-                    //Battle
-                    battle = new Battle(enemy, tileToCheck.tChar);
-                }
+                moveId = 8;
+            }
+
+            if (tileToCheck.isPassable)
+            {
+                CharacterMovement(moveId, enemy);
+            }
+            else if (tileToCheck.hasPlayer)
+            {
+                battle = new Battle(enemy, tileToCheck.tChar);
             }
         }
 
@@ -790,6 +693,5 @@ namespace Solid_Rascal
                 }
             }
         }
-
     }
 }
