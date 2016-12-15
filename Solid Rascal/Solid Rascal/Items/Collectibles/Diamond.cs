@@ -1,4 +1,5 @@
 ﻿using System;
+using Solid_Rascal.Characters.Player;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Solid_Rascal.Items.Collectibles
         {
             iType = 210;
             iCat = 3;
+            iModifier = 1;
         }
-
     }
 }

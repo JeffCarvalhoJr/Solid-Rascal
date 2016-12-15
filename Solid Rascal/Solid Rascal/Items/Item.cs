@@ -1,4 +1,5 @@
 ﻿using System;
+using Solid_Rascal.Characters.Player;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ namespace Solid_Rascal.Items
     {
         public int iType { get; set; }
         public int iCat { get; set; }
-        public int iValue { get; set; }
-        public string Name { get; set; }
+        public int iModifier { get; set; }
+        public string iName { get; set; }
 
         //if player have given a name for the item.
         public bool catalog { get; set; }
@@ -19,6 +20,13 @@ namespace Solid_Rascal.Items
         public int xPos { get; set; }
         public int yPos { get; set; }
 
+        public Item()
+        {
+            iName = "missing";
+            iCat = -1;
+            iType = -1;
+            iModifier = -1;
+        }
 
         public void SetNewPosition(int X, int Y)
         {
@@ -26,7 +34,7 @@ namespace Solid_Rascal.Items
             yPos = Y;
         }
 
-        public void Collect()
+        public void Collect(Player player)
         {
             switch (iCat)
             {
@@ -37,9 +45,9 @@ namespace Solid_Rascal.Items
                     //Collectibles
                     break;
                 case 3:
+                    player.AddGold(10);
                     //Consumables
-                    Console.WriteLine("GOT SOME DIAMONDS!");
-                    Console.ReadLine();
+
                     break;
                 default:
                     break;

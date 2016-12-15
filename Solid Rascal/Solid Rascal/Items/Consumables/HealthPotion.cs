@@ -12,7 +12,10 @@ namespace Solid_Rascal.Items.Consumables
 
         public HealthPotion()
         {
-           
+            iName = "Health Potion";
+            iCat = 2;
+            iType = 200;
+            iModifier = 5;
         }
 
     }

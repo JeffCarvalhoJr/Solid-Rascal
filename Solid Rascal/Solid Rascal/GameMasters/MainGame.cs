@@ -63,9 +63,11 @@ namespace Solid_Rascal
 
         //Input
         public ConsoleKeyInfo userCKI;
-
+            
         //Test
-        Diamond diamond;
+        ItemSpawner itemSpawner;
+        int[] itemPool1;
+        public static List<Item> activeItems;
 
 
         public MainGame()
@@ -76,13 +78,17 @@ namespace Solid_Rascal
             mPathF = new Pathfind();
             visibleMap = new List<Tile>();
             activeEnemies = new List<Character>();
+            activeItems = new List<Item>();
             TILESET = new Tileset();
             enemySpawner = new EnemySpawner();
+            itemSpawner = new ItemSpawner();
 
             //Enemies pool, placeholder for test purpoises.
             enemyPool1 = new int[] { 100 };
             enemyPool2 = new int[] { 100, 101 };
             enemyPool3 = new int[] { 100, 101, 102 };
+
+            itemPool1 = new int[] { 210 };
 
             Console.CursorVisible = true;
             playerName = alert.Question("Who are you?");
@@ -111,6 +117,7 @@ namespace Solid_Rascal
                 nextLevel = false;
                 activeEnemies.Clear();
                 FillEnemyList();
+                FillItemList();
                 //Setup map
                 Console.Clear();
                 visibleMap.Clear();
@@ -221,6 +228,7 @@ namespace Solid_Rascal
 
         void PlaceItems()
         {
+           
             Tile tileToCheck;
 
             int randRoomX;
@@ -229,8 +237,9 @@ namespace Solid_Rascal
 
             int itemX, itemY;
 
-            for (int i = 0; i < 50; i++)
+            for(int i = 0; i < activeEnemies.Count; i++)
             {
+                int tries = 0;
                 do
                 {
                     randRoomX = rand.Next(0, 3);
@@ -241,11 +250,11 @@ namespace Solid_Rascal
                     itemY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
 
                     tileToCheck = currentMap[itemY, itemX];
-                } while (tileToCheck.hasChar);
+                    tries++;
+                }while(tileToCheck.hasItem && tries < 100);
+                activeItems[i].SetNewPosition(itemX, itemY);
 
-                diamond = new Diamond();
-                diamond.SetNewPosition(itemX, itemY);
-                currentMap[diamond.yPos, diamond.xPos].SetItem(diamond);
+                currentMap[activeItems[i].yPos, activeItems[i].xPos].SetItem(activeItems[i]);
             }
 
         }
@@ -298,7 +307,13 @@ namespace Solid_Rascal
 
         void FillItemList()
         {
+            int nextItem;
 
+            for(int i = 0; i < 10; i++)
+            {
+                nextItem = itemPool1[0];
+                activeItems.Add(itemSpawner.GetItem(nextItem));
+            }
         }
 
         void CharacterMovement(int dir, Character actor)
@@ -344,7 +359,6 @@ namespace Solid_Rascal
                     break;
                 //4 east
                 case 4:
-
                     currentMap[actor.yPos, actor.xPos].RemoveChar();
                     currentMap[actor.yPos, actor.xPos].PrintTile();
 
@@ -477,6 +491,13 @@ namespace Solid_Rascal
                     nextLevel = true;
                 }
                 //Skip Turn
+            }else if(userCKI.Key == ConsoleKey.I)
+            {
+                Console.Clear();
+                playerInfo.Inventory();
+                Console.ReadKey();
+                Console.Clear();
+                PrintMap();
             }
             else if (userCKI.Key == ConsoleKey.F)
             {
@@ -494,7 +515,24 @@ namespace Solid_Rascal
                 {
                     if (tileToCheck.hasItem)
                     {
-                        tileToCheck.tItem.Collect();
+                        Item itemToCheck = tileToCheck.tItem;
+                        int itemType = itemToCheck.iCat;
+                        switch (itemType)
+                        {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                itemToCheck.Collect(newPlayer);
+                                tileToCheck.Removetem();
+                                CollectItem(itemToCheck);
+                                //collect
+                                break;
+                            default:
+                                break;
+                        }
+                        
                     }
                     CharacterMovement(moveId, newPlayer);
                     FogOfWarReveal();
@@ -677,6 +715,18 @@ namespace Solid_Rascal
                     return distance;
             }
             return 0;
+        }
+
+        void CollectItem(Item item)
+        {
+            for (int i = 0; i < activeItems.Count; i++)
+            {
+                Item itemTC = activeItems[i];
+                if (itemTC == item)
+                {
+                    activeItems.RemoveAt(i);
+                }
+            }
         }
 
         public static void KillAnEnemy(Character enemy)

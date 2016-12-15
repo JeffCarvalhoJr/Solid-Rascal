@@ -144,12 +144,10 @@ namespace Solid_Rascal.Map_Gen
             hasItem = true;
         }
 
-        public Item GiveItem()
+        public void Removetem()
         {
-            Item item = tItem;
             tItem = null;
             hasItem = false;
-            return item;
         }
 
         public void SetVisible()
