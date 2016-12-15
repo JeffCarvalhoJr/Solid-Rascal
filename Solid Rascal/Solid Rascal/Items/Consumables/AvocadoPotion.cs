@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace Solid_Rascal.Items.Consumables
 {
-    class HealthPotion : Item
+    class AvocadoPotion : Item
     {
-
-
-        public HealthPotion()
+        public AvocadoPotion()
         {
             iName = "Avocado Potion";
             iCat = 2;
-            iType = 200;
-            iValue = 5;
+            iType = 201;
+            iValue = 1;
             iModifier = 1;
         }
-
     }
 }

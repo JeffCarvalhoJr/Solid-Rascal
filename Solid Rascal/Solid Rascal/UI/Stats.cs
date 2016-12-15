@@ -21,10 +21,10 @@ namespace Solid_Rascal.UI
 
         public void Inventory()
         {
-            for(int i = 0; i < PLAYER.inv1.Count; i++)
+            for(int i = 0; i < PLAYER.inv2.Count; i++)
             {
                 Console.SetCursorPosition(0, i);
-                Console.WriteLine("Inventario");
+                Console.WriteLine((i+1)+")" + " "+PLAYER.inv2[i].iName);
             }
             
         }

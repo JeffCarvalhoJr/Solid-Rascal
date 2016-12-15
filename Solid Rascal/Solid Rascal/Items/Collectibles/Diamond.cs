@@ -15,7 +15,7 @@ namespace Solid_Rascal.Items.Collectibles
         {
             iType = 210;
             iCat = 3;
-            iModifier = 1;
+            iValue = 1;
         }
     }
 }

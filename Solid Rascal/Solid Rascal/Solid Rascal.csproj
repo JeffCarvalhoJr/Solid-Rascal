@@ -54,6 +54,7 @@
     <Compile Include="GameMasters\EnemySpawner.cs" />
     <Compile Include="GameMasters\ItemSpawner.cs" />
     <Compile Include="Items\Collectibles\Diamond.cs" />
+    <Compile Include="Items\Consumables\AvocadoPotion.cs" />
     <Compile Include="Items\Consumables\HealthPotion.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
@@ -71,7 +72,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Items\Armors\" />
     <Folder Include="Items\Equipment\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -11,6 +11,7 @@ namespace Solid_Rascal.Items
     {
         public int iType { get; set; }
         public int iCat { get; set; }
+        public int iValue { get; set; }
         public int iModifier { get; set; }
         public string iName { get; set; }
 
@@ -25,6 +26,7 @@ namespace Solid_Rascal.Items
             iName = "missing";
             iCat = -1;
             iType = -1;
+            iValue = -1;
             iModifier = -1;
         }
 
@@ -43,11 +45,11 @@ namespace Solid_Rascal.Items
                     break;
                 case 2:
                     //Collectibles
+                    player.AddItem(iCat, this);
                     break;
                 case 3:
-                    player.AddGold(10);
                     //Consumables
-
+                    player.AddGold(10);
                     break;
                 default:
                     break;
