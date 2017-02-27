@@ -8,5 +8,6 @@ namespace Solid_Rascal.Characters.Enemies
 {
     class Zombie : Character
     {
+
     }
 }

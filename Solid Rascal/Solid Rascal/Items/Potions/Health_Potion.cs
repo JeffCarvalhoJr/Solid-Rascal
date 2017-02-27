@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solid_Rascal.Items
+namespace Solid_Rascal.Items.Potions
 {
-    class HealthPotion : Consumable
+    class Health_Potion : Consumable
     {
-        public HealthPotion()
+        public Health_Potion()
         {
-            iType = 230;
-            iCat = 3;
             iName = "Health Potion";
+            iValue = 10;
+            iModifier = 1;
         }
-
-
     }
 }

@@ -2,6 +2,7 @@
 using Solid_Rascal.Items;
 using Solid_Rascal.Items.Weapons;
 using Solid_Rascal.Items.Armors;
+using Solid_Rascal.Items.Potions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Solid_Rascal.GameMasters
                     nextItem = new LeatherA();
                     return nextItem;
                 case 200:
-                    nextItem = new HealthPotion();
+                    nextItem = new Health_Potion();
                     return nextItem;
                 default:
                     nextItem = new Mace();

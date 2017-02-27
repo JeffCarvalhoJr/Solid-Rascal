@@ -54,6 +54,7 @@ namespace Solid_Rascal
         //Enemies
         EnemySpawner enemySpawner;
         int maxEnemies;
+
         int[] enemyPool;
         int[] enemyPool2;
         int[] enemyPool3;

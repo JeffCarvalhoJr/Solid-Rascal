@@ -67,7 +67,7 @@ namespace Solid_Rascal.Characters.Player
             inv.Add(item);
         }
 
-        public void AddGold(int value)
+        public void AddDiamonds(int value)
         {
             sDiamonds += value;
         }
@@ -120,14 +120,35 @@ namespace Solid_Rascal.Characters.Player
                 }
                 else
                 {
-                    //Consumir poção
                     alert.Action("You drank the " + inv[index].iName);
+                    Consumable currentPotion = inv[index] as Consumable;
+                    currentPotion.Consume(this);
+                    inv.RemoveAt(index);
                 }
             }
-            catch
+            catch { alert.Action("Invalid Choice"); }
+        }
+
+        public void Consume(int type, int value, int time = 0)
+        {
+            switch (type)
             {
-                alert.Action("Invalid Choice");
+                //HP
+                case 1:
+                    ChangeHealth(value);
+                    break;
+                //STR
+                case 2:
+                    break;
+                //DEF
+                case 3:
+                    break;
             }
+        }
+
+        void ChangeHealth(int amount)
+        {
+            sHP += amount;
         }
 
     }
