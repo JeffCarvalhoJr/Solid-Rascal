@@ -67,7 +67,7 @@ namespace Solid_Rascal.Map_Gen
                 if (hasChar)
                 {
                     Console.SetCursorPosition(tX, tY);
-                    Console.Write(TILESET.TileType(tChar.charID));
+                    Console.Write(TILESET.TileType(tChar.cType));
                 }else if (hasItem)
                 {
                     //Color blue
@@ -121,7 +121,7 @@ namespace Solid_Rascal.Map_Gen
             hasChar = true;
             isPassable = false;
 
-            if(character.charID == 52)
+            if(character.cType == 52)
             {
                 hasPlayer = true;
             }else

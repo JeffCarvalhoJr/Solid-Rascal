@@ -11,13 +11,13 @@ namespace Solid_Rascal.Characters
     {
         public Dice _die;
 
-        public string charNAME;
+        public string cName;
 
         Random rand;
 
         public int xPos { get; set; }
         public int yPos { get; set; }
-        public int charID { get; set; }
+        public int cType { get; set; }
         public bool isPlayer { get; set; }
 
         public int sDEF { get; set; }
@@ -36,6 +36,7 @@ namespace Solid_Rascal.Characters
 
         public Character()
         {
+            cType = 0; 
             _die = new Dice();
             _AiState = 1;
             _AiChoice = 0;

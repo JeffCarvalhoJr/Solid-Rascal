@@ -42,11 +42,57 @@ namespace Solid_Rascal
                     return "@";
                 //Enemies
                 case 100:
-                    return "S";
+                    return "A";
                 case 101:
-                    return "P";
+                    return "B";
                 case 102:
+                    return "C";
+                case 103:
+                    return "D";
+                case 104:
+                    return "E";
+                case 105:
+                    return "F";
+                case 106:
                     return "G";
+                case 107:
+                    return "H";
+                case 108:
+                    return "I";
+                case 109:
+                    return "J";
+                case 110:
+                    return "K";
+                case 111:
+                    return "L";
+                case 112:
+                    return "M";
+                case 113:
+                    return "N";
+                case 114:
+                    return "O";
+                case 115:
+                    return "P";
+                case 116:
+                    return "Q";
+                case 117:
+                    return "R";
+                case 118:
+                    return "S";
+                case 119:
+                    return "T";
+                case 120:
+                    return "U";
+                case 121:
+                    return "V";
+                case 122:
+                    return "W";
+                case 123:
+                    return "X";
+                case 124:
+                    return "Y";
+                case 125:
+                    return "Z";
                 ///Items
                 //Weapons
                 case 200:
@@ -65,7 +111,7 @@ namespace Solid_Rascal
                 case 260:
                     return "≈";
                 default:
-                    return "X";
+                    return "0";
             }
         }
     }

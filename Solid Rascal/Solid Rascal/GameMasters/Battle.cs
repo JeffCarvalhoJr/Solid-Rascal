@@ -35,18 +35,18 @@ namespace Solid_Rascal
             {
                 //Acertou
                 defender.ReduceHealth((int)FA);
-                _Alert.Warning("" + attacker.charNAME + " Attacks " + defender.charNAME + " for " + FA + " damage");
+                _Alert.Warning("" + attacker.cName + " Attacks " + defender.cName + " for " + FA + " damage");
             }
             else if(ATK <= DEF)
             {
                 //Errou
-                _Alert.Warning("" + attacker.charNAME + " Attacks " + defender.charNAME + " and Misses!");
+                _Alert.Warning("" + attacker.cName + " Attacks " + defender.cName + " and Misses!");
             }
 
             if(defender.sHP <= 0)
             {
                 //Ded
-                _Alert.Warning("" + attacker.charNAME + " Defeats the " + defender.charNAME);
+                _Alert.Warning("" + attacker.cName + " Defeats the " + defender.cName);
                 MainGame.KillAnEnemy(defender);
             }
         }

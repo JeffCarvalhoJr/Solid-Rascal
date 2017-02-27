@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace Solid_Rascal.Characters.Enemies
 {
-    class Golem : Character
+    class Goblin : Character
     {
-        public Golem()
+        public Goblin()
         {
             sDEF = 1;
 
-            charNAME = "Golem";
-            charID = 102;
+            cName = "Goblin";
+            cType = 106;
 
             sHP = 30;
             sMHP = 30;
+        }
+
+        public override int GetAttackRoll()
+        {
+            return _die.Roll(1, 6);
         }
     }
 }

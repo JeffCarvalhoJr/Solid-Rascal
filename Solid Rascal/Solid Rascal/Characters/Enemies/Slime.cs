@@ -12,8 +12,8 @@ namespace Solid_Rascal.Characters.Enemies
 
             sDEF = 0;
 
-            charNAME = "Slime ";
-            charID = 100;
+            cName = "Slime";
+            cType = 118;
 
             sHP = 10;
             sMHP = 10;

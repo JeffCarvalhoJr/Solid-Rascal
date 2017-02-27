@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Solid_Rascal.Characters.Enemies
 {
-    class Nymph : Character
+    class Antlion : Character
     {
-        public Nymph()
+        public Antlion()
         {
             sDEF = 0;
 
-            cName = "Nymph";
-            cType = 113;
+            cName = "Antlion";
+            cType = 100;
 
             sHP = 10;
             sMHP = 10;

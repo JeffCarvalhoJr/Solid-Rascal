@@ -12,11 +12,16 @@ namespace Solid_Rascal.Characters.Enemies
         {
             sDEF = 0;
 
-            charNAME = "Phantom";
-            charID = 101;
+            cName = "Phantom";
+            cType = 115;
 
             sHP = 25;
             sMHP = 25;
+        }
+
+        public override int GetAttackRoll()
+        {
+            return _die.Roll(1, 6);
         }
     }
 }

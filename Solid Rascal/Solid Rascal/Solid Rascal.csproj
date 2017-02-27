@@ -43,12 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Characters\Enemies\Antlion.cs" />
     <Compile Include="Characters\Enemies\Bat.cs" />
     <Compile Include="Characters\Enemies\Cyclop.cs" />
     <Compile Include="Characters\Enemies\Drake.cs" />
     <Compile Include="Characters\Enemies\Elemental.cs" />
     <Compile Include="Characters\Enemies\Farmer.cs" />
-    <Compile Include="Characters\Enemies\Golem.cs" />
+    <Compile Include="Characters\Enemies\Goblin.cs" />
     <Compile Include="Characters\Enemies\Harpy.cs" />
     <Compile Include="Characters\Enemies\Imp.cs" />
     <Compile Include="Characters\Enemies\Jinn.cs" />

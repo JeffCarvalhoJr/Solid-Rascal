@@ -95,7 +95,9 @@ namespace Solid_Rascal
             itemSpawner = new ItemSpawner();
 
             //Enemies pool, placeholder for test.
-            enemyPool = new int[] { 100, 101, 102 };
+            enemyPool = new int[] { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109 };
+            enemyPool2 = new int[] { 110, 111, 112, 113, 114, 115, 116, 117, 118, 119 };
+            enemyPool3 = new int[] { 120, 121, 122, 123, 124, 125 };
 
             //Items pool, placeholder for test.
 
@@ -111,7 +113,7 @@ namespace Solid_Rascal
         void GameStart()
         {
             currentLevel = 0;
-            maxEnemies = 10;
+            maxEnemies = 18;
 
             MAPWidth = 90;
             MAPHeight = 30;
@@ -247,7 +249,7 @@ namespace Solid_Rascal
 
             int itemX, itemY;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int tries = 0;
                 do
@@ -287,12 +289,32 @@ namespace Solid_Rascal
             int nextEnemy;
             int rN;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < maxEnemies; i++)
             {
-                    //low level enemies
-               rN = rand.Next(0, currentLevel);
-               nextEnemy = enemyPool[rN];
-               activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
+                //low level enemies
+                if (currentLevel < 11)
+                {
+                    rN = rand.Next(0, 10);
+                    nextEnemy = enemyPool[rN];
+                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
+                } //mid level enemies
+                else if (currentLevel < 21)
+                {
+                    rN = rand.Next(0, 10);
+                    nextEnemy = enemyPool2[rN];
+                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
+                }   //high level enemies
+                else if (currentLevel > 20)
+                {
+                    rN = rand.Next(0, 6);
+                    nextEnemy = enemyPool3[rN];
+                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
+                }
+
+               
+
+             
+
             }
         }
 

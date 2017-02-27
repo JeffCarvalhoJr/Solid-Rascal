@@ -28,8 +28,8 @@ namespace Solid_Rascal.Characters.Player
 
             isPlayer = true;
 
-            charNAME = name;
-            charID = 52;
+            cName = name;
+            cType = 52;
 
             sSTR = 5;
             sMSTR = 5;

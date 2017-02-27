@@ -8,5 +8,20 @@ namespace Solid_Rascal.Characters.Enemies
 {
     class Harpy : Character
     {
+        public Harpy()
+        {
+            sDEF = 0;
+
+            cName = "Harpy";
+            cType = 107;
+
+            sHP = 10;
+            sMHP = 10;
+        }
+
+        public override int GetAttackRoll()
+        {
+            return _die.Roll(2, 6);
+        }
     }
 }
