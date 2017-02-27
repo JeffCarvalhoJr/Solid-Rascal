@@ -53,10 +53,13 @@
     <Compile Include="Dice.cs" />
     <Compile Include="GameMasters\EnemySpawner.cs" />
     <Compile Include="GameMasters\ItemSpawner.cs" />
-    <Compile Include="Items\Collectibles\Diamond.cs" />
-    <Compile Include="Items\Consumables\AvocadoPotion.cs" />
+    <Compile Include="Items\Armor.cs" />
+    <Compile Include="Items\Armors\LeatherA.cs" />
+    <Compile Include="Items\Consumable.cs" />
     <Compile Include="Items\Consumables\HealthPotion.cs" />
     <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\Weapon.cs" />
+    <Compile Include="Items\Weapons\Mace.cs" />
     <Compile Include="Map Gen\Corridor.cs" />
     <Compile Include="GameMasters\MainGame.cs" />
     <Compile Include="Map Gen\Map.cs" />
@@ -71,9 +74,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Items\Equipment\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

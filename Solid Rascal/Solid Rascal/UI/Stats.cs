@@ -13,6 +13,8 @@ namespace Solid_Rascal.UI
         int UIHeight;
         Player PLAYER;
 
+        List<Item> useInv;
+
         public Stats(int height, Player newPlayer)
         {
             UIHeight = height;
@@ -21,12 +23,11 @@ namespace Solid_Rascal.UI
 
         public void Inventory()
         {
-            for(int i = 0; i < PLAYER.inv2.Count; i++)
+            for (int i = 0; i < PLAYER.inv.Count; i++)
             {
                 Console.SetCursorPosition(0, i);
-                Console.WriteLine((i+1)+")" + " "+PLAYER.inv2[i].iName);
+                Console.WriteLine(i + ")" + " " + PLAYER.inv[i].iName);
             }
-            
         }
 
         public void Action(Player newPlayer)
@@ -36,11 +37,11 @@ namespace Solid_Rascal.UI
            
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(@"
-╔══════════╦══════════╦════════╦═════╦════════╗
-║♥HP:{0}({1})" + @"│STR:{2}({3})│Armor:{4}│♦:{5}│LEVEL:{6}║  
-╚══════════╩══════════╩════════╩═════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
+╔══════════╦══════════╦══════╦═════╦════════╗
+║♥HP:{0}({1})" + @"│STR:{2}({3})│DEF:{4}│♦:{5}│LEVEL:{6}║  
+╚══════════╩══════════╩══════╩═════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
                                                             PLAYER.sSTR.ToString("00"), PLAYER.sMSTR.ToString("00"),
-                                                            PLAYER.sARMOR.ToString("00"),PLAYER.sDiamonds.ToString("000"),MainGame.currentLevel.ToString("00"));
+                                                            PLAYER.sDEF.ToString("00"),PLAYER.sDiamonds.ToString("000"),MainGame.currentLevel.ToString("00"));
         }
     }
 }

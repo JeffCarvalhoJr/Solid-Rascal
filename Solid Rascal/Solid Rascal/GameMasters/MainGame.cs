@@ -5,8 +5,6 @@ using Solid_Rascal.Characters.Player;
 using Solid_Rascal.Characters.AI;
 using Solid_Rascal.GameMasters;
 using Solid_Rascal.Items;
-using Solid_Rascal.Items.Collectibles;
-using Solid_Rascal.Items.Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,10 +59,11 @@ namespace Solid_Rascal
         int[] enemyPool3;
         public static List<Character> activeEnemies;
 
+
         //Input
         public ConsoleKeyInfo userCKI;
-            
-        //Test
+
+        //Items
         ItemSpawner itemSpawner;
         int[] itemPool1;
         public static List<Item> activeItems;
@@ -74,21 +73,34 @@ namespace Solid_Rascal
         {
             bQuit = false;
 
+            //Ui
             alert = new Alert();
+
+            //GFX
+            TILESET = new Tileset();
+
+            //Map
             mPathF = new Pathfind();
             visibleMap = new List<Tile>();
-            activeEnemies = new List<Character>();
+
+            //Items
             activeItems = new List<Item>();
-            TILESET = new Tileset();
+
+            //Actors
+            activeEnemies = new List<Character>();
+
+            //Spawners
             enemySpawner = new EnemySpawner();
             itemSpawner = new ItemSpawner();
 
-            //Enemies pool, placeholder for test purpoises.
+            //Enemies pool, placeholder for test.
             enemyPool1 = new int[] { 100 };
             enemyPool2 = new int[] { 100, 101 };
             enemyPool3 = new int[] { 100, 101, 102 };
 
-            itemPool1 = new int[] { 200, 210 };
+            //Items pool, placeholder for test.
+
+            itemPool1 = new int[] { 100, 150, 200 };
 
             Console.CursorVisible = true;
             playerName = alert.Question("Who are you?");
@@ -101,7 +113,7 @@ namespace Solid_Rascal
         {
             currentLevel = 0;
             maxEnemies = 10;
-           
+
             MAPWidth = 90;
             MAPHeight = 30;
             MaxRooms = 9;
@@ -111,7 +123,7 @@ namespace Solid_Rascal
             newPlayer = new Player(playerName);
 
 
-            //generating map loop
+            //Game loop
             do
             {
                 nextLevel = false;
@@ -123,14 +135,13 @@ namespace Solid_Rascal
                 visibleMap.Clear();
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
-       
+
                 currentLevel++;
 
                 PlaceExit();
                 //Setup Actors
                 PlaceActors();
                 PlaceItems();
-
 
                 PrintMap();
 
@@ -140,7 +151,7 @@ namespace Solid_Rascal
                 {
                     PlayerMovement();
                     EnemiesTurn();
-                }  
+                }
             } while (newPlayer.sHP > 0 && !bQuit);
 
             Console.Clear();
@@ -148,7 +159,8 @@ namespace Solid_Rascal
             if (newPlayer.sHP <= 0)
             {
                 alert.Warning("You are dead");
-            }else
+            }
+            else
             {
                 alert.Warning("Bye");
             }
@@ -228,7 +240,6 @@ namespace Solid_Rascal
 
         void PlaceItems()
         {
-           
             Tile tileToCheck;
 
             int randRoomX;
@@ -237,7 +248,7 @@ namespace Solid_Rascal
 
             int itemX, itemY;
 
-            for(int i = 0; i < activeEnemies.Count; i++)
+            for (int i = 0; i < 20; i++)
             {
                 int tries = 0;
                 do
@@ -251,7 +262,7 @@ namespace Solid_Rascal
 
                     tileToCheck = currentMap[itemY, itemX];
                     tries++;
-                }while(tileToCheck.hasItem && tries < 100);
+                } while (tileToCheck.hasItem && tries < 100);
                 activeItems[i].SetNewPosition(itemX, itemY);
 
                 currentMap[activeItems[i].yPos, activeItems[i].xPos].SetItem(activeItems[i]);
@@ -427,7 +438,7 @@ namespace Solid_Rascal
             bool hasMoved = false;
             playerInfo.Action(newPlayer);
             userCKI = Console.ReadKey(true);
-    
+
             if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
             {
                 //North
@@ -493,7 +504,8 @@ namespace Solid_Rascal
                     nextLevel = true;
                 }
                 //Skip Turn
-            }else if(userCKI.Key == ConsoleKey.I)
+            }
+            else if (userCKI.Key == ConsoleKey.I)
             {
                 Console.Clear();
                 playerInfo.Inventory();
@@ -501,49 +513,30 @@ namespace Solid_Rascal
                 Console.Clear();
                 PrintMap();
             }
-            else if(userCKI.Key == ConsoleKey.Q)
+            else if (userCKI.Key == ConsoleKey.Q)
             {
-                //Drink
-                if(newPlayer.inv2.Count <= 0)
-                {
-                    alert.Action("You dont have nothing to drink");
-                }else
-                {
-                    
-                    do
-                    {
-                        alert.Action("Choose an item to drink (press i to check your inventory)");
-                        userCKI = Console.ReadKey();
+                //Drink potions
+                UseItem(3);
+                PlayerMovement();
 
-                        if (userCKI.Key == ConsoleKey.I)
-                        {
-                            Console.Clear();
-                            playerInfo.Inventory();
-                            Console.ReadKey();
-                            Console.Clear();
-                            PrintMap();
-                        }else if(userCKI.Key == ConsoleKey.D1)
-                        {
-                            newPlayer.Consume(1);
-                            break;
-                        }
-
-                    } while (userCKI.Key != ConsoleKey.Escape);
-                    PlayerMovement();
-                }
             }
             else if (userCKI.Key == ConsoleKey.W)
             {
-                //Equip
+                //Equip weapons
+                UseItem(1);
+                PlayerMovement();
             }
             else if (userCKI.Key == ConsoleKey.E)
             {
-
+                //Equip Armors
+                UseItem(2);
+                PlayerMovement();
             }
             else if (userCKI.Key == ConsoleKey.F)
             {
+                //Cheaty cheat
                 newPlayer.sHP += 50;
-                alert.Action("More Health!" + " new health: " + newPlayer.sHP);
+                alert.Action("More Health!");
             }
             else if (userCKI.Key == ConsoleKey.Escape)
             {
@@ -558,33 +551,18 @@ namespace Solid_Rascal
                     {
                         Item itemToCheck = tileToCheck.tItem;
                         int itemType = itemToCheck.iCat;
-                        switch (itemType)
+
+                        if (newPlayer.inv.Count < 10)
                         {
-                            case 1:
-                                break;
-                            case 2:
-                                if(newPlayer.inv2.Count < 6)
-                                {
-                                    alert.Action("You have found a potion");
-                                    itemToCheck.Collect(newPlayer);
-                                    tileToCheck.Removetem();
-                                    CollectItem(itemToCheck);
-                                }else
-                                {
-                                    alert.Action("inventory full");
-                                }
-                                break;
-                            case 3:
-                                alert.Action("You have found some Gems");
-                                itemToCheck.Collect(newPlayer);
-                                tileToCheck.Removetem();
-                                CollectItem(itemToCheck);
-                                //collect
-                                break;
-                            default:
-                                break;
+                            alert.Action("You have found a " + itemToCheck.iName);
+                            itemToCheck.Collect(newPlayer);
+                            tileToCheck.Removetem();
+                            CollectItem(itemToCheck);
                         }
-                        
+                        else
+                        {
+                            alert.Action("inventory full");
+                        }
                     }
                     CharacterMovement(moveId, newPlayer);
                     FogOfWarReveal();
@@ -599,6 +577,70 @@ namespace Solid_Rascal
                     //bump nose
                     alert.Action("Stop trying hit the wall");
                 }
+            }
+        }
+
+        void UseItem(int type)
+        {
+            if (newPlayer.inv.Count <= 0)
+            {
+                alert.Action("Your inventory is empty.");
+            }
+            else
+            {
+                do
+                {
+                    switch (type)
+                    {
+                        //Weapons
+                        case 1:
+                            alert.Action("Choose an Weapon to wield (press i to check your inventory)");
+                            break;
+                        //Armor
+                        case 2:
+                            alert.Action("Choose an Armor to wear (press i to check your inventory)");
+                            break;
+                        //Potions
+                        case 3:
+                            alert.Action("Choose a Potion to drink (press i to check your inventory)");
+                            break;
+                        default:
+                            break;
+                    }
+                    userCKI = Console.ReadKey();
+                    int i_Index;
+
+                    if (userCKI.Key == ConsoleKey.I)
+                    {
+                        Console.Clear();
+                        playerInfo.Inventory();
+                        Console.ReadKey();
+                        Console.Clear();
+                        PrintMap();
+                    }
+                    else if (char.IsDigit(userCKI.KeyChar))
+                    {
+                        i_Index = int.Parse(userCKI.KeyChar.ToString());
+                        switch (type)
+                        {
+                            //Weapons
+                            case 1:
+                                newPlayer.Wield(i_Index);
+                                break;
+                            //Armor
+                            case 2:
+                                newPlayer.Wear(i_Index);
+                                break;
+                            //Potions
+                            case 3:
+                                newPlayer.Drink(i_Index);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                } while (userCKI.Key != ConsoleKey.Escape);
             }
         }
 

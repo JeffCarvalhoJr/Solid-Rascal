@@ -10,7 +10,7 @@ namespace Solid_Rascal.Characters.Enemies
     {
         public Golem()
         {
-            sARMOR = 1;
+            sDEF = 1;
 
             charNAME = "Golem";
             charID = 102;

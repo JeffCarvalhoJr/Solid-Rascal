@@ -1,7 +1,7 @@
 ﻿using System;
 using Solid_Rascal.Items;
-using Solid_Rascal.Items.Collectibles;
-using Solid_Rascal.Items.Consumables;
+using Solid_Rascal.Items.Weapons;
+using Solid_Rascal.Items.Armors;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,22 +16,22 @@ namespace Solid_Rascal.GameMasters
             Item nextItem;
             switch (id)
             {
-                //Potions
+                case 100:
+                    nextItem = new Mace();
+                    return nextItem;
+                case 150:
+                    nextItem = new LeatherA();
+                    return nextItem;
                 case 200:
                     nextItem = new HealthPotion();
                     return nextItem;
-                case 201:
-                    nextItem = new Diamond();
-                    return nextItem;
-                //Collectibles
-                case 210:
-                    nextItem = new Diamond();
-                    return nextItem;
                 default:
-                    nextItem = new Diamond();
+                    nextItem = new Mace();
                     return nextItem;
-
             }
         }
+        
+
+       
     }
 }

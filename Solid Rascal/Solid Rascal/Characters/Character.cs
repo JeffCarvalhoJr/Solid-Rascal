@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Solid_Rascal.Items;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ namespace Solid_Rascal.Characters
 {
     class Character
     {
+        public Dice _die;
+
         public string charNAME;
 
         Random rand;
@@ -17,12 +20,15 @@ namespace Solid_Rascal.Characters
         public int charID { get; set; }
         public bool isPlayer { get; set; }
 
-        public int sARMOR { get; set; }
+        public int sDEF { get; set; }
         public int sSTR { get; set; }
         public int sMSTR { get; set; }
         public int sHP { get; set; }
         public int sMHP { get; set; }
         public int sDiamonds { get; set; }
+
+        public Weapon eWeapon;
+        public Armor eArmor;
 
         public int _AiState { get; set; }
         public int _AiChoice;
@@ -30,6 +36,7 @@ namespace Solid_Rascal.Characters
 
         public Character()
         {
+            _die = new Dice();
             _AiState = 1;
             _AiChoice = 0;
             rand = MainGame.rand;
@@ -39,6 +46,16 @@ namespace Solid_Rascal.Characters
         {
             xPos = x;
             yPos = y;
+        }
+
+        public virtual int GetAttackRoll()
+        {
+            return 1;
+        }
+
+        public virtual int GetDefenseRoll()
+        {
+            return 1;
         }
 
         public void IncreaseHealth(int value)

@@ -10,14 +10,19 @@ namespace Solid_Rascal.Characters.Enemies
     {
         public Slime() { 
 
-            sARMOR = 0;
+            sDEF = 0;
 
             charNAME = "Slime ";
             charID = 100;
 
-            sHP = 20;
-            sMHP = 20;
+            sHP = 10;
+            sMHP = 10;
            
+        }
+
+        public override int GetAttackRoll()
+        {
+            return _die.Roll(1, 6);
         }
     }
 }

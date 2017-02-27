@@ -12,43 +12,59 @@ namespace Solid_Rascal.Characters.Player
     {
         Alert alert;
 
-        public List<Item> inv1 { get; set; } //Consumables
-        public List<Item> inv2 { get; set; } //Equipament
+        public bool hasEWeapon;
+        public bool hasEArmor;
+
+        public List<Item> inv { get; set; } //inventory
 
         public Player(string name)
         {
             alert = new Alert();
 
-            inv1 = new List<Item>();
-            inv2 = new List<Item>();
+            inv = new List<Item>();
+
+            hasEWeapon = false;
+            hasEArmor = false;
 
             isPlayer = true;
 
             charNAME = name;
             charID = 52;
 
-            sSTR = 10;
-            sMSTR = 10;
-            sARMOR = 1;
+            sSTR = 5;
+            sMSTR = 5;
+            sDEF = 1;
             sHP = 50;
             sMHP = 50;
-            sDiamonds = 0;  
+            sDiamonds = 0;
         }
 
-
-        public void AddItem(int invType, Item item)
+        public override int GetAttackRoll()
         {
-            switch (invType)
+            if (hasEWeapon)//Has equiped weapon
             {
-                case 1:
-                    inv1.Add(item);
-                    break;
-                case 2:
-                    inv2.Add(item);
-                    break;
-                default:
-                    break;
+                return eWeapon.DamageRoll();
             }
+            else
+            {
+                return 1;//unnarmed attack
+            }
+        }
+
+        public override int GetDefenseRoll()
+        {
+            if (hasEArmor)
+            {
+                return eArmor.DefenseRoll();
+            }else
+            {
+                return 1;
+            }
+        }
+
+        public void AddItem(Item item)
+        {
+            inv.Add(item);
         }
 
         public void AddGold(int value)
@@ -56,33 +72,62 @@ namespace Solid_Rascal.Characters.Player
             sDiamonds += value;
         }
 
-        public void Wear()
+        public void Wield(int index)
         {
-
-        }
-
-        public void Consume(int index)
-        {
-            switch (index)
+            try
             {
-                case 1:
-                    if (inv2[0] != null)
-                    {
-                        IncreaseHealth(inv2[0].iValue);
-                        alert.Action("The player drinks the potion... and it tastes awful(also recovers a little bit of hp)");
-                    }else
-                    {
-                        alert.Action("Your choice is invalid");
-                    }
-                    break;
-                default:
-                    break;
+                if (inv[index].iCat != 1)
+                {
+                    alert.Action("Invalid Choice");
+                }
+                else
+                {
+                    alert.Action("You equipped the " + inv[index].iName);
+                    eWeapon = inv[index] as Weapon;
+                    inv[index].iName = inv[index].iName + " [e]";
+                    hasEWeapon = true;
+                }
             }
+            catch{alert.Action("Invalid Choice");}
         }
 
-        public void Wield()
+        public void Wear(int index)
         {
+            try
+            {
+                if (inv[index].iCat != 2)
+                {
+                    alert.Action("Invalid Choice");
+                }
+                else
+                {
+                    alert.Action("You equipped the " + inv[index].iName);
+                    eArmor = inv[index] as Armor;
+                    inv[index].iName = inv[index].iName + " [e]";
+                    hasEArmor = true;
+                }
+            }
+            catch{alert.Action("Invalid Choice");}
+        }
 
+        public void Drink(int index)
+        {
+            try
+            {
+                if (inv[index].iCat != 3)
+                {
+                    alert.Action("Invalid Choice");
+                }
+                else
+                {
+                    //Consumir poção
+                    alert.Action("You drank the " + inv[index].iName);
+                }
+            }
+            catch
+            {
+                alert.Action("Invalid Choice");
+            }
         }
 
     }

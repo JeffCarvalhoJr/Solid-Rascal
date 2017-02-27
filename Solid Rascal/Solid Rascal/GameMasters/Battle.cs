@@ -22,11 +22,12 @@ namespace Solid_Rascal
             _Alert = new Alert();
             _Dice = new Dice();
 
-            FA = (long)(attacker.sSTR / 4) + _Dice.Roll(1,10);
-            FD = (long)(defender.sARMOR / 4) + _Dice.Roll(1, 10);
+            FA = attacker.sSTR + attacker.GetAttackRoll();
+            FD = defender.sDEF + defender.GetDefenseRoll();
 
-            ATK = (int)FA + _Dice.Roll(1, 100);
-            DEF = (int)FD + _Dice.Roll(1, 100);
+            //doing tests 
+            ATK = (int)FA;
+            DEF = (int)FD;
 
            // _Alert.Warning("[DEBUG] ATK: " + ATK + " DEF " + DEF + " [DEBUG]");
 

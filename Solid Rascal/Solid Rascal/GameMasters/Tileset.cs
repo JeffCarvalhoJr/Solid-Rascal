@@ -48,15 +48,22 @@ namespace Solid_Rascal
                 case 102:
                     return "G";
                 ///Items
-                //Potions
+                //Weapons
                 case 200:
+                    return "↑";
+                //Armor
+                case 220:
+                    return "Δ";
+                //Potions
+                case 230:
                     return "¿";
-                case 201:
-                    return "¡";
                 //Collectibles
                 //Diamond
-                case 210:
+                case 250:
                     return "♦";
+                //Food
+                case 260:
+                    return "≈";
                 default:
                     return "X";
             }

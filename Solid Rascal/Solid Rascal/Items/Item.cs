@@ -9,6 +9,9 @@ namespace Solid_Rascal.Items
 {
     class Item
     {
+        public Dice _die;
+        public Random rand;
+
         public int iType { get; set; }
         public int iCat { get; set; }
         public int iValue { get; set; }
@@ -23,11 +26,9 @@ namespace Solid_Rascal.Items
 
         public Item()
         {
-            iName = "missing";
-            iCat = -1;
-            iType = -1;
-            iValue = -1;
-            iModifier = -1;
+            rand = MainGame.rand;
+            _die = new Dice();
+            CreateItem();
         }
 
         public void SetNewPosition(int X, int Y)
@@ -36,24 +37,40 @@ namespace Solid_Rascal.Items
             yPos = Y;
         }
 
-        public void Collect(Player player)
+        public void CreateItem()
         {
+
             switch (iCat)
             {
+         
                 case 1:
-                    //Wear/Wield equipment
+                    //Weapon
+                    iName = "Weapon";
+                    iType = 200;
                     break;
                 case 2:
-                    //Collectibles
-                    player.AddItem(iCat, this);
+                    //Armor
+                    iName = "Armor";
+                    iType = 220;
                     break;
                 case 3:
-                    //Consumables
-                    player.AddGold(10);
+                    //Consumable
+                    iName = "Consumable";
+                    iType = 230;
+                    break;
+                case 4:
+                    //Collectible
+                    iName = "Collectible";
+                    iType = 250;
                     break;
                 default:
                     break;
             }
+        }
+
+        public void Collect(Player player)
+        {
+          player.AddItem(this);
         }
 
     }

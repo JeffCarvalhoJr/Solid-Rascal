@@ -10,7 +10,7 @@ namespace Solid_Rascal.Characters.Enemies
     {
         public Phantom()
         {
-            sARMOR = 0;
+            sDEF = 0;
 
             charNAME = "Phantom";
             charID = 101;
