@@ -13,5 +13,10 @@ namespace Solid_Rascal.Items
             iCat = 3;
         }
 
+        public void Consume()
+        {
+
+        }
+
     }
 }

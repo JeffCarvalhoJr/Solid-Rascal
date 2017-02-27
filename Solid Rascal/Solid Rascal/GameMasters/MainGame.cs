@@ -54,7 +54,7 @@ namespace Solid_Rascal
         //Enemies
         EnemySpawner enemySpawner;
         int maxEnemies;
-        int[] enemyPool1;
+        int[] enemyPool;
         int[] enemyPool2;
         int[] enemyPool3;
         public static List<Character> activeEnemies;
@@ -94,9 +94,7 @@ namespace Solid_Rascal
             itemSpawner = new ItemSpawner();
 
             //Enemies pool, placeholder for test.
-            enemyPool1 = new int[] { 100 };
-            enemyPool2 = new int[] { 100, 101 };
-            enemyPool3 = new int[] { 100, 101, 102 };
+            enemyPool = new int[] { 100, 101, 102 };
 
             //Items pool, placeholder for test.
 
@@ -290,29 +288,10 @@ namespace Solid_Rascal
 
             for (int i = 0; i < 5; i++)
             {
-
-                if (currentLevel < 3)
-                {
                     //low level enemies
-                    rN = rand.Next(0, enemyPool1.Length);
-                    nextEnemy = enemyPool1[rN];
-                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
-
-                }
-                else if (currentLevel < 5)
-                {
-                    //mid level enemies
-                    rN = rand.Next(0, enemyPool2.Length);
-                    nextEnemy = enemyPool2[rN];
-                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
-                }
-                else if (currentLevel > 5)
-                {
-                    //high level enemies
-                    rN = rand.Next(0, enemyPool3.Length);
-                    nextEnemy = enemyPool3[rN];
-                    activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
-                }
+               rN = rand.Next(0, currentLevel);
+               nextEnemy = enemyPool[rN];
+               activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
             }
         }
 
