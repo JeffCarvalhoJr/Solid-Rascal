@@ -23,8 +23,8 @@ namespace Solid_Rascal.Characters
         public int sDEF { get; set; }
         public int sSTR { get; set; }
         public int sMSTR { get; set; }
-        public int sHP { get; set; }
-        public int sMHP { get; set; }
+        public float sHP { get; set; }
+        public float sMHP { get; set; }
         public int sDiamonds { get; set; }
 
         public Weapon eWeapon;

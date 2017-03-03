@@ -13,8 +13,6 @@ namespace Solid_Rascal.UI
         int UIHeight;
         Player PLAYER;
 
-        List<Item> useInv;
-
         public Stats(int height, Player newPlayer)
         {
             UIHeight = height;
@@ -42,6 +40,23 @@ namespace Solid_Rascal.UI
 ╚══════════╩══════════╩══════╩═════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
                                                             PLAYER.sSTR.ToString("00"), PLAYER.sMSTR.ToString("00"),
                                                             PLAYER.sDEF.ToString("00"),PLAYER.sDiamonds.ToString("000"),MainGame.currentLevel.ToString("00"));
+            if (newPlayer.sHunger < 500)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.Write(@"Peckish");
+            }
+            else if (newPlayer.sHunger < 250)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.Write(@"Starving");
+            }
+            else
+            {
+                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.Write(@"FINE   ");
+            }
         }
     }
 }

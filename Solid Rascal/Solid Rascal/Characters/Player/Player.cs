@@ -17,6 +17,8 @@ namespace Solid_Rascal.Characters.Player
 
         public List<Item> inv { get; set; } //inventory
 
+        public int sHunger;
+
         public Player(string name)
         {
             alert = new Alert();
@@ -31,6 +33,7 @@ namespace Solid_Rascal.Characters.Player
             cName = name;
             cType = 52;
 
+            sHunger = 1000;
             sSTR = 5;
             sMSTR = 5;
             sDEF = 1;
@@ -120,7 +123,7 @@ namespace Solid_Rascal.Characters.Player
                 }
                 else
                 {
-                    alert.Action("You drank the " + inv[index].iName);
+                    alert.Action("You consumed the " + inv[index].iName);
                     Consumable currentPotion = inv[index] as Consumable;
                     currentPotion.Consume(this);
                     inv.RemoveAt(index);
@@ -143,13 +146,29 @@ namespace Solid_Rascal.Characters.Player
                 //DEF
                 case 3:
                     break;
+                //Food
+                case 4:
+                    ChangeFood(value);
+                    break;
             }
         }
 
         void ChangeHealth(int amount)
         {
             sHP += amount;
+            if(sHP >= sMHP)
+            {
+                sHP = sMHP;
+            }
         }
 
+        void ChangeFood(int amount)
+        {
+            sHunger += amount;
+            if(sHunger >= 1000)
+            {
+                sHunger = 1000;
+            }
+        }
     }
 }

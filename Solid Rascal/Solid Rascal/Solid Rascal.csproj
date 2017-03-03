@@ -79,6 +79,7 @@
     <Compile Include="Items\Armor.cs" />
     <Compile Include="Items\Armors\LeatherA.cs" />
     <Compile Include="Items\Consumable.cs" />
+    <Compile Include="Items\Consumables\Food.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potions\Health_Potion.cs" />
     <Compile Include="Items\Weapon.cs" />
@@ -97,9 +98,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Items\Consumables\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

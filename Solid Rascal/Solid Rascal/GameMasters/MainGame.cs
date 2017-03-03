@@ -23,7 +23,7 @@ namespace Solid_Rascal
         bool bQuit;
 
         ///UI
-        public string playerAnswer;
+        //public string playerAnswer;
         Alert alert;
         Stats playerInfo;
 
@@ -68,6 +68,7 @@ namespace Solid_Rascal
         ItemSpawner itemSpawner;
         int[] itemPool1;
         public static List<Item> activeItems;
+        public static List<Item> activeFoods;
 
 
         public MainGame()
@@ -86,6 +87,7 @@ namespace Solid_Rascal
 
             //Items
             activeItems = new List<Item>();
+            activeFoods = new List<Item>();
 
             //Actors
             activeEnemies = new List<Character>();
@@ -101,7 +103,7 @@ namespace Solid_Rascal
 
             //Items pool, placeholder for test.
 
-            itemPool1 = new int[] { 100, 150, 200 };
+            itemPool1 = new int[] { 100, 150, 200,};
 
             Console.CursorVisible = true;
             playerName = alert.Question("Who are you?");
@@ -137,7 +139,7 @@ namespace Solid_Rascal
                 mapGen = new Map(MAPWidth, MAPHeight);
                 currentMap = mapGen.GetMap();
 
-                currentLevel++;
+                currentLevel++;    
 
                 PlaceExit();
                 //Setup Actors
@@ -149,10 +151,12 @@ namespace Solid_Rascal
                 //
                 playerInfo = new Stats(MAPHeight, newPlayer);
                 while (newPlayer.sHP > 0 && nextLevel == false && !bQuit)
-                {
+                {    
                     PlayerMovement();
                     EnemiesTurn();
+                    EndTurn();
                 }
+               
             } while (newPlayer.sHP > 0 && !bQuit);
 
             Console.Clear();
@@ -248,8 +252,8 @@ namespace Solid_Rascal
             Room spawnRoom;
 
             int itemX, itemY;
-
-            for (int i = 0; i < 10; i++)
+          
+            for (int i = 0; i < 3; i++)
             {
                 int tries = 0;
                 do
@@ -267,6 +271,26 @@ namespace Solid_Rascal
                 activeItems[i].SetNewPosition(itemX, itemY);
 
                 currentMap[activeItems[i].yPos, activeItems[i].xPos].SetItem(activeItems[i]);
+            }
+
+            for (int i = 0; i < activeFoods.Count; i++)
+            {
+                int tries = 0;
+                do
+                {
+                    randRoomX = rand.Next(0, 3);
+                    randRoomY = rand.Next(0, 3);
+                    spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+                    itemX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                    itemY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+                    tileToCheck = currentMap[itemY, itemX];
+                    tries++;
+                } while (tileToCheck.hasItem && tries < 100);
+                activeFoods[i].SetNewPosition(itemX, itemY);
+
+                currentMap[activeFoods[i].yPos, activeFoods[i].xPos].SetItem(activeFoods[i]);
             }
 
         }
@@ -310,11 +334,6 @@ namespace Solid_Rascal
                     nextEnemy = enemyPool3[rN];
                     activeEnemies.Add(enemySpawner.GetEnemy(nextEnemy));
                 }
-
-               
-
-             
-
             }
         }
 
@@ -329,6 +348,16 @@ namespace Solid_Rascal
                 nextItem = itemPool1[rN];
                 activeItems.Add(itemSpawner.GetItem(nextItem));
             }
+
+            // food
+
+            int randomFoodN = rand.Next(1, 10);
+
+            for (int i = 0; i < randomFoodN; i++)
+            {
+                activeFoods.Add(itemSpawner.GetItem(250));
+            }
+
         }
 
         void CharacterMovement(int dir, Character actor)
@@ -444,6 +473,7 @@ namespace Solid_Rascal
             if (userCKI.Key == ConsoleKey.UpArrow || userCKI.Key == ConsoleKey.NumPad8)
             {
                 //North
+                newPlayer.sHunger++;
                 tileToCheck = currentMap[newPlayer.yPos - 1, newPlayer.xPos];
                 moveId = 1;
                 hasMoved = true;
@@ -451,6 +481,7 @@ namespace Solid_Rascal
             else if (userCKI.Key == ConsoleKey.DownArrow || userCKI.Key == ConsoleKey.NumPad2)
             {
                 //South
+                newPlayer.sHunger--;
                 tileToCheck = currentMap[newPlayer.yPos + 1, newPlayer.xPos];
                 moveId = 2;
                 hasMoved = true;
@@ -580,6 +611,21 @@ namespace Solid_Rascal
                     alert.Action("Stop trying hit the wall");
                 }
             }
+        }
+        //End Turn events (effects, timers, etc)
+        void EndTurn()
+        {
+            if (newPlayer.sHP < newPlayer.sMHP)
+            {
+                newPlayer.sHP += 0.05f;
+            }
+
+            if(newPlayer.sHunger <= 0)
+            {
+                newPlayer.sHP = -1;
+                alert.Warning("You starved to death");
+            }
+            newPlayer.sHunger--;
         }
 
         void UseItem(int type)
