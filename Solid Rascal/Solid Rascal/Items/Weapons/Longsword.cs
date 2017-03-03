@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Solid_Rascal.Items.Weapons
 {
-    class Mace : Weapon
+    class Longsword : Weapon
     {
-        public Mace()
+        public Longsword()
         {
-            iName = "Mace";
-            iModifier = rand.Next(-2, 3);
+            iName = "Longsword";
+            iModifier = rand.Next(-2, 5);
         }
 
         public override int DamageRoll()
         {
-            return _die.Roll(1, 6) + iModifier;
+            return _die.Roll(3, 4) + iModifier;
         }
     }
 }

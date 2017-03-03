@@ -14,6 +14,7 @@ namespace Solid_Rascal.Characters.Player
 
         public bool hasEWeapon;
         public bool hasEArmor;
+        public bool activePotion;
 
         public List<Item> inv { get; set; } //inventory
 

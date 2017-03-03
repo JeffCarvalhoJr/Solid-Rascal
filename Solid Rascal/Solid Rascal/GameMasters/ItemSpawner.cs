@@ -21,11 +21,38 @@ namespace Solid_Rascal.GameMasters
                 case 100:
                     nextItem = new Mace();
                     return nextItem;
+                case 101:
+                    nextItem = new Dagger();
+                    return nextItem;
+                case 102:
+                    nextItem = new Spear();
+                    return nextItem;
+                case 103:
+                    nextItem = new Longsword();
+                    return nextItem;
                 case 150:
                     nextItem = new LeatherA();
                     return nextItem;
+                case 151:
+                    nextItem = new ChainMail();
+                    return nextItem;
+                case 152:
+                    nextItem = new ScaleMail();
+                    return nextItem;
+                case 153:
+                    nextItem = new BandedMail();
+                    return nextItem;
+                case 154:
+                    nextItem = new PlateMail();
+                    return nextItem;
                 case 200:
                     nextItem = new Health_Potion();
+                    return nextItem;
+                case 201:
+                    nextItem = new STR_Potion();
+                    return nextItem;
+                case 202:
+                    nextItem = new DEF_Potion();
                     return nextItem;
                 case 250:
                     nextItem = new Food();

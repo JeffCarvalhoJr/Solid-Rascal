@@ -103,7 +103,7 @@ namespace Solid_Rascal
 
             //Items pool, placeholder for test.
 
-            itemPool1 = new int[] { 100, 150, 200,};
+            itemPool1 = new int[] { 100, 101, 102, 103, 150, 151, 152, 153, 154, 200, 201, 202};
 
             Console.CursorVisible = true;
             playerName = alert.Question("Who are you?");
