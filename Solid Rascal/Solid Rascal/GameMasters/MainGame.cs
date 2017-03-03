@@ -150,18 +150,18 @@ namespace Solid_Rascal
 
                 //
                 playerInfo = new Stats(MAPHeight, newPlayer);
-                while (newPlayer.sHP > 0 && nextLevel == false && !bQuit)
+                while (!(newPlayer.sHP < 1) && nextLevel == false && !bQuit)
                 {    
                     PlayerMovement();
                     EnemiesTurn();
                     EndTurn();
                 }
                
-            } while (newPlayer.sHP > 0 && !bQuit);
+            } while (!(newPlayer.sHP < 1) && !bQuit);
 
             Console.Clear();
 
-            if (newPlayer.sHP <= 0)
+            if (newPlayer.sHP < 1)
             {
                 alert.Warning("You are dead");
             }
@@ -871,12 +871,12 @@ namespace Solid_Rascal
             }
         }
 
-        public static void KillAnEnemy(Character enemy)
+        public static void KillAnCharacter(Character actor)
         {
             for (int i = 0; i < activeEnemies.Count; i++)
             {
                 Character enemyTC = activeEnemies[i];
-                if (enemyTC == enemy)
+                if (enemyTC == actor)
                 {
                     currentMap[enemyTC.yPos, enemyTC.xPos].RemoveChar();
                     activeEnemies.RemoveAt(i);

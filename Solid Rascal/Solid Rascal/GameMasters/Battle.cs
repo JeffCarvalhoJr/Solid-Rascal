@@ -47,7 +47,7 @@ namespace Solid_Rascal
             {
                 //Ded
                 _Alert.Warning("" + attacker.cName + " Defeats the " + defender.cName);
-                MainGame.KillAnEnemy(defender);
+                MainGame.KillAnCharacter(defender);
             }
         }
     }
