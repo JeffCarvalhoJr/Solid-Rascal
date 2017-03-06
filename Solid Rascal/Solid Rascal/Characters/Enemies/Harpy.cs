@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Harpy";
             cType = 107;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 20;
+            sMHP = 20;
+
+            xpDrop = 15;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(2, 6);
+            return _die.Roll(2, 10);
         }
     }
 }

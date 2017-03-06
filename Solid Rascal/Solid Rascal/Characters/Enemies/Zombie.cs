@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Zombie";
             cType = 125;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 25;
+            sMHP = 25;
+
+            xpDrop = 10;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 10);
         }
     }
 }

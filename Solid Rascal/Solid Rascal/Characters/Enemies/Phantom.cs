@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Phantom";
             cType = 115;
 
-            sHP = 25;
-            sMHP = 25;
+            sHP = 5;
+            sMHP = 5;
+
+            xpDrop = 15;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 15);
         }
     }
 }

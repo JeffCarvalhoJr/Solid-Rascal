@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Jinn";
             cType = 109;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 20;
+            sMHP =20;
+
+            xpDrop = 18;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(2, 6);
+            return _die.Roll(2, 10);
         }
     }
 }

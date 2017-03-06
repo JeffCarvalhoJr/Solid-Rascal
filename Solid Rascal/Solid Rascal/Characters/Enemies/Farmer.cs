@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Farmer";
             cType = 105;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 2;
+            sMHP = 2;
+
+            xpDrop = 6;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 5);
         }
     }
 }

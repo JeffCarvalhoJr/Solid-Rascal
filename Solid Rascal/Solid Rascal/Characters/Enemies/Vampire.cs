@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Vampire";
             cType = 121;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 25;
+            sMHP = 25;
+
+            xpDrop = 19;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(2, 6);
+            return _die.Roll(2, 10);
         }
     }
 }

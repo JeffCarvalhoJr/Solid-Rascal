@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Bat";
             cType = 101;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 5;
+            sMHP = 5;
+
+            xpDrop = 6;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 5);
         }
     }
 }

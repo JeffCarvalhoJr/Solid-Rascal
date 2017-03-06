@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Solid_Rascal.Items;
+using Solid_Rascal.UI;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Solid_Rascal.Characters
         public string cName;
 
         Random rand;
+
+        public Alert alert;
 
         public int xPos { get; set; }
         public int yPos { get; set; }
@@ -30,6 +33,12 @@ namespace Solid_Rascal.Characters
         public float sMHP { get; set; }
         public int sDiamonds { get; set; }
 
+        public int pLevel;
+        public float cXP;
+        public float mXP;
+
+        public int xpDrop { get; set; }
+
         public Weapon eWeapon;
         public Armor eArmor;
 
@@ -39,8 +48,11 @@ namespace Solid_Rascal.Characters
 
         public Character()
         {
-            cType = 0; 
+            alert = new Alert();
             _die = new Dice();
+
+            cType = 0; 
+        
             _AiState = 1;
             _AiChoice = 0;
             rand = MainGame.rand;
@@ -106,7 +118,6 @@ namespace Solid_Rascal.Characters
             return 0;
         }
 
-
         public int AiMovement()
         {
             switch (_AiState)
@@ -130,6 +141,26 @@ namespace Solid_Rascal.Characters
                     return 0;
                 default:
                     return 0;
+            }
+        }
+
+        public void ReceiveXp(int xpAmount)
+        {
+            cXP += xpAmount;
+
+            if (cXP >= mXP)
+            {
+                alert.Warning("LEVEL UP!!");
+                mXP += (mXP + mXP) * 0.1f;
+                cXP = 0;
+
+                sDEF++;
+                sMDEF++;
+                sSTR++;
+                sMSTR++;
+
+                sMHP += 10;
+                sHP += 10;
             }
         }
     }

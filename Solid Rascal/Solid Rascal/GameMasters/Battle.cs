@@ -13,7 +13,7 @@ namespace Solid_Rascal
 
         public Alert _Alert;
         public Dice _Dice;
-        public long FD, FA;
+        public float FD, FA;
 
         public int ATK, DEF;
 
@@ -24,13 +24,13 @@ namespace Solid_Rascal
 
             if (attacker.isPlayer)
             {
-                FA = attacker.sSTR + attacker.mSTR + attacker.GetAttackRoll();
-                FD = defender.sDEF + attacker.mDEF + defender.GetDefenseRoll();
+                FA = attacker.sSTR + attacker.mSTR + attacker.GetAttackRoll() + (attacker.pLevel * 0.25f);
+                FD = defender.sDEF + attacker.mDEF + defender.GetDefenseRoll() + (defender.pLevel * 0.25f);
             }
             else
             {
-                FA = attacker.sSTR + attacker.GetAttackRoll();
-                FD = defender.sDEF + defender.GetDefenseRoll();
+                FA = attacker.sSTR + attacker.GetAttackRoll() + (defender.pLevel * 0.25f);
+                FD = defender.sDEF + defender.GetDefenseRoll() + (attacker.pLevel * 0.25f);
             }
          
 
@@ -40,13 +40,13 @@ namespace Solid_Rascal
 
            // _Alert.Warning("[DEBUG] ATK: " + ATK + " DEF " + DEF + " [DEBUG]");
 
-            if (ATK > DEF)
+            if (ATK > DEF - 2)
             {
                 //Acertou
                 defender.ReduceHealth((int)FA);
-                _Alert.Warning("" + attacker.cName + " Attacks " + defender.cName + " for " + FA + " damage");
+                _Alert.Warning("" + attacker.cName + " Attacks " + defender.cName + " for " + (int)FA + " damage");
             }
-            else if(ATK <= DEF)
+            else if(ATK <= DEF - 2)
             {
                 //Errou
                 _Alert.Warning("" + attacker.cName + " Attacks " + defender.cName + " and Misses!");
@@ -56,6 +56,10 @@ namespace Solid_Rascal
             {
                 //Ded
                 _Alert.Warning("" + attacker.cName + " Defeats the " + defender.cName);
+                if (attacker.isPlayer)
+                {
+                    attacker.ReceiveXp(defender.xpDrop);
+                }
                 MainGame.KillAnCharacter(defender);
             }
         }

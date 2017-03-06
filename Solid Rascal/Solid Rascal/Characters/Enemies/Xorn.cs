@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Xorn";
             cType = 123;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 30;
+            sMHP = 30;
+
+            xpDrop = 17;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(2, 6);
+            return _die.Roll(2, 10);
         }
     }
 }

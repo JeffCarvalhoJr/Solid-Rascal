@@ -15,14 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Slime";
             cType = 118;
 
-            sHP = 10;
-            sMHP = 10;
-           
+            sHP = 20;
+            sMHP = 20;
+
+            xpDrop = 12;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 10);
         }
     }
 }

@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Cyclop";
             cType = 102;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 70;
+            sMHP = 70;
+
+            xpDrop = 80;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(3, 6);
+            return _die.Roll(3, 10);
         }
     }
 }

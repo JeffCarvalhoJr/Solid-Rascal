@@ -17,11 +17,13 @@ namespace Solid_Rascal.Characters.Enemies
 
             sHP = 30;
             sMHP = 30;
+
+            xpDrop = 10;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 6);
+            return _die.Roll(1, 10);
         }
     }
 }

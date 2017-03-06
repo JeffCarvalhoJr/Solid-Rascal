@@ -41,8 +41,8 @@ namespace Solid_Rascal
 
         ///Game
         //Player
-        string playerName;
-        Player newPlayer;
+        public string playerName;
+        public Player newPlayer;
         //Battle
         Battle battle;
         //Level
@@ -116,16 +116,14 @@ namespace Solid_Rascal
         void GameStart()
         {
             currentLevel = 0;
-            maxEnemies = 18;
+            maxEnemies = rand.Next(10,21);
 
             MAPWidth = 90;
             MAPHeight = 30;
             MaxRooms = 9;
 
-
             //init player
             newPlayer = new Player(playerName);
-
 
             //Game loop
             do
@@ -254,7 +252,7 @@ namespace Solid_Rascal
 
             int itemX, itemY;
           
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 3; i++)
             {
                 int tries = 0;
                 do
@@ -295,9 +293,6 @@ namespace Solid_Rascal
             }
 
         }
-
-     
-
         //probably need an update
         void PrintMap()
         {
@@ -345,7 +340,7 @@ namespace Solid_Rascal
             int nextItem;
             int rN;
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 100; i++)
             {
                 rN = rand.Next(0, itemPool1.Length);
                 nextItem = itemPool1[rN];

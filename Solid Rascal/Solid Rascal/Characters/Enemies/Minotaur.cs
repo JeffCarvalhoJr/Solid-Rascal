@@ -15,13 +15,15 @@ namespace Solid_Rascal.Characters.Enemies
             cName = "Minotaur";
             cType = 112;
 
-            sHP = 10;
-            sMHP = 10;
+            sHP = 75;
+            sMHP = 75;
+
+            xpDrop = 50;
         }
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(3, 6);
+            return _die.Roll(3, 10);
         }
     }
 }

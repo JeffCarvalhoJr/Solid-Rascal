@@ -1,7 +1,7 @@
 ﻿using System;
 using Solid_Rascal.Items;
 using System.Collections.Generic;
-using Solid_Rascal.UI;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Solid_Rascal.Characters.Player
 {
     class Player : Character
     {
-        Alert alert;
+        
 
         public bool hasEWeapon;
         public bool hasEArmor;
@@ -24,10 +24,11 @@ namespace Solid_Rascal.Characters.Player
 
         public int sHunger;
 
+       
+
         public Player(string name)
         {
-            alert = new Alert();
-
+           
             inv = new List<Item>();
 
             hasEWeapon = false;
@@ -46,6 +47,10 @@ namespace Solid_Rascal.Characters.Player
             sHP = 50;
             sMHP = 50;
             sDiamonds = 0;
+
+            pLevel = 1;
+            cXP = 0;
+            mXP = 25;
         }
 
         public override int GetAttackRoll()
@@ -218,11 +223,6 @@ namespace Solid_Rascal.Characters.Player
             catch { alert.Action("Invalid Choice"); }
         }
 
-        public void Consume(int type, int value = 0)
-        {
-          
-        }
-
         void IdentifyItem(int index)
         {
             //checks if inventory has items
@@ -324,5 +324,7 @@ namespace Solid_Rascal.Characters.Player
                 }
             }
         }
+
+        
     }
 }
