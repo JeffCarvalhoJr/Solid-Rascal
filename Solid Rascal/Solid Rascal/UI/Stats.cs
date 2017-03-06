@@ -24,7 +24,15 @@ namespace Solid_Rascal.UI
             for (int i = 0; i < PLAYER.inv.Count; i++)
             {
                 Console.SetCursorPosition(0, i);
-                Console.WriteLine(i + ")" + " " + PLAYER.inv[i].iName);
+                if (PLAYER.inv[i].isEquipped)
+                {
+                    Console.WriteLine(i + ")" + " " + PLAYER.inv[i].iName + " [e]");
+                }
+                else
+                {
+                    Console.WriteLine(i + ")" + " " + PLAYER.inv[i].iName);
+                }
+               
             }
         }
 

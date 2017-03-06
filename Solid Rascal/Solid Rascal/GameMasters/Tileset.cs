@@ -103,6 +103,8 @@ namespace Solid_Rascal
                 //Potions
                 case 230:
                     return "¿";
+                case 231:
+                    return "♫";
                 ///Collectibles
                 //Diamond
                 case 250:

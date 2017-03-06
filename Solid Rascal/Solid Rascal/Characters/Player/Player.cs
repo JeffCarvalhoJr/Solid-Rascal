@@ -60,7 +60,8 @@ namespace Solid_Rascal.Characters.Player
             if (hasEArmor)
             {
                 return eArmor.DefenseRoll();
-            }else
+            }
+            else
             {
                 return 1;
             }
@@ -86,13 +87,36 @@ namespace Solid_Rascal.Characters.Player
                 }
                 else
                 {
-                    alert.Action("You equipped the " + inv[index].iName);
-                    eWeapon = inv[index] as Weapon;
-                    inv[index].iName = inv[index].iName + " [e]";
-                    hasEWeapon = true;
+
+                    if (!hasEWeapon)
+                    {
+                        alert.Action("You equipped the " + inv[index].iName);
+                        eWeapon = inv[index] as Weapon;
+                        eWeapon.isEquipped = true;
+                        hasEWeapon = true;
+                    }
+                    else
+                    {
+                        if (eWeapon == inv[index])
+                        {
+                            eWeapon.isEquipped = false;
+                            eWeapon = null;
+                            hasEWeapon = false;
+
+                            alert.Action("You unequipped your weapon!");
+                        }else
+                        {
+                            eWeapon.isEquipped = false;
+                            alert.Action("You equipped the " + inv[index].iName);
+                            eWeapon = inv[index] as Weapon;
+                            eWeapon.isEquipped = true;
+                            hasEWeapon = true;
+                        }
+                    }
+
                 }
             }
-            catch{alert.Action("Invalid Choice");}
+            catch { alert.Action("Invalid Choice"); }
         }
 
         public void Wear(int index)
@@ -105,16 +129,36 @@ namespace Solid_Rascal.Characters.Player
                 }
                 else
                 {
-                    alert.Action("You equipped the " + inv[index].iName);
-                    eArmor = inv[index] as Armor;
-                    inv[index].iName = inv[index].iName + " [e]";
-                    hasEArmor = true;
+                    if (!hasEArmor)
+                    {
+                        alert.Action("You equipped the " + inv[index].iName);
+                        eArmor = inv[index] as Armor;
+                        eArmor.isEquipped = true;
+                        hasEArmor = true;
+                    }else
+                    {
+                        if(eArmor == inv[index])
+                        {
+                            eArmor.isEquipped = false;
+                            eArmor = null;
+                            hasEArmor = false;
+
+                            alert.Action("You unequipped your armor!");
+                        }else
+                        {
+                            eArmor.isEquipped = false;
+                            alert.Action("You equipped the " + inv[index].iName);
+                            eArmor = inv[index] as Armor;
+                            eArmor.isEquipped = true;
+                            hasEArmor = true;
+                        }
+                    }
                 }
             }
-            catch{alert.Action("Invalid Choice");}
+            catch { alert.Action("Invalid Choice"); }
         }
 
-        public void Drink(int index)
+        public void Use(int index)
         {
             try
             {
@@ -124,16 +168,24 @@ namespace Solid_Rascal.Characters.Player
                 }
                 else
                 {
-                    alert.Action("You consumed the " + inv[index].iName);
-                    Consumable currentPotion = inv[index] as Consumable;
-                    currentPotion.Consume(this);
-                    inv.RemoveAt(index);
+                    if (inv[index].iModifier != 5)
+                    {
+                        alert.Action("You consumed the " + inv[index].iName);
+                        Consumable currentPotion = inv[index] as Consumable;
+                        currentPotion.Consume(this);
+                        inv.RemoveAt(index);
+                    }
+                    else
+                    {
+                        //identification scroll
+                        IdentifyItem(index);
+                    }
                 }
             }
             catch { alert.Action("Invalid Choice"); }
         }
 
-        public void Consume(int type, int value, int time = 0)
+        public void Consume(int type, int value = 0, int time = 0)
         {
             switch (type)
             {
@@ -151,13 +203,69 @@ namespace Solid_Rascal.Characters.Player
                 case 4:
                     ChangeFood(value);
                     break;
+                default:
+                    break;
             }
+        }
+
+        void IdentifyItem(int index)
+        {
+            //checks if inventory has items
+            //Pick a item from your inventory
+            //Compare the category
+            //tell if it can be indentified
+            //tell if it is already indentified
+            //Identify the item: Reveal if the item has positive or negative modifier 
+            if (inv.Count > 1)
+            {
+                alert.Action("Choose an Item to identify (press i to check your inventory)");
+
+                ConsoleKeyInfo userCKI = Console.ReadKey();
+                Item itemToIdentify = null;
+                int i_Index;
+
+                if (userCKI.Key == ConsoleKey.I)
+                {
+
+                }
+                else if (char.IsDigit(userCKI.KeyChar))
+                {
+                    i_Index = int.Parse(userCKI.KeyChar.ToString());
+
+                    try
+                    {
+                        itemToIdentify = inv[i_Index];
+
+
+                        if (itemToIdentify.iCat != 1 && itemToIdentify.iCat != 2)
+                        {
+                            alert.Action("You can only identify weapons and armors");
+                        }
+                        else
+                        {
+                            inv[i_Index].iName = inv[i_Index].iName + " (" + inv[i_Index].iModifier + ")";
+                            alert.Action("You have indentified the: " + inv[i_Index].iName);
+                            inv.RemoveAt(index);
+                        }
+
+                    }
+                    catch
+                    {
+                        alert.Warning("Invalid Choice !");
+                    }
+                }
+            }
+            else
+            {
+                alert.Warning("You dont have nothing to identify");
+            }
+
         }
 
         void ChangeHealth(int amount)
         {
             sHP += amount;
-            if(sHP >= sMHP)
+            if (sHP >= sMHP)
             {
                 sHP = sMHP;
             }
@@ -166,7 +274,7 @@ namespace Solid_Rascal.Characters.Player
         void ChangeFood(int amount)
         {
             sHunger += amount;
-            if(sHunger >= 1000)
+            if (sHunger >= 1000)
             {
                 sHunger = 1000;
             }

@@ -103,7 +103,8 @@ namespace Solid_Rascal
 
             //Items pool, placeholder for test.
 
-            itemPool1 = new int[] { 100, 101, 102, 103, 150, 151, 152, 153, 154, 200, 201, 202};
+            itemPool1 = new int[] { 100, 101, 102, 103, 150, 151, 152, 153, 154, 200, 201, 202, 251 };
+            //HolderPool { 100, 101, 102, 103, 150, 151, 152, 153, 154, 200, 201, 202, 251 };
 
             Console.CursorVisible = true;
             playerName = alert.Question("Who are you?");
@@ -253,7 +254,7 @@ namespace Solid_Rascal
 
             int itemX, itemY;
           
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 30; i++)
             {
                 int tries = 0;
                 do
@@ -548,7 +549,7 @@ namespace Solid_Rascal
             }
             else if (userCKI.Key == ConsoleKey.Q)
             {
-                //Drink potions
+                //Consume items
                 UseItem(3);
                 PlayerMovement();
 
@@ -648,9 +649,9 @@ namespace Solid_Rascal
                         case 2:
                             alert.Action("Choose an Armor to wear (press i to check your inventory)");
                             break;
-                        //Potions
+                        //Consumables
                         case 3:
-                            alert.Action("Choose a Potion to drink (press i to check your inventory)");
+                            alert.Action("Choose an Item to use (press i to check your inventory)");
                             break;
                         default:
                             break;
@@ -681,7 +682,7 @@ namespace Solid_Rascal
                                 break;
                             //Potions
                             case 3:
-                                newPlayer.Drink(i_Index);
+                                newPlayer.Use(i_Index);
                                 break;
                             default:
                                 break;

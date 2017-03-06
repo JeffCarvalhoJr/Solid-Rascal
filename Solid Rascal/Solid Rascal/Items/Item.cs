@@ -18,8 +18,9 @@ namespace Solid_Rascal.Items
         public int iModifier { get; set; }
         public string iName { get; set; }
 
-        //if player have given a name for the item.
+        //{null}
         public bool catalog { get; set; }
+        public bool isEquipped { get; set; }
 
         public int xPos { get; set; }
         public int yPos { get; set; }

@@ -57,6 +57,9 @@ namespace Solid_Rascal.GameMasters
                 case 250:
                     nextItem = new Food();
                     return nextItem;
+                case 251:
+                    nextItem = new Scroll_Ident();
+                    return nextItem;
                 default:
                     nextItem = new Mace();
                     return nextItem;
