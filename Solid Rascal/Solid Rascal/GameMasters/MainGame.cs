@@ -223,7 +223,7 @@ namespace Solid_Rascal
             currentMap[newPlayer.yPos, newPlayer.xPos].SetVisible();
             currentMap[newPlayer.yPos, newPlayer.xPos].PrintTile();
 
-            //Enemies for battle tests!
+            //Enemies for battle tests! 
             for (int i = 0; i < activeEnemies.Count; i++)
             {
                 do
@@ -295,6 +295,8 @@ namespace Solid_Rascal
             }
 
         }
+
+     
 
         //probably need an update
         void PrintMap()
@@ -565,6 +567,9 @@ namespace Solid_Rascal
                 //Equip Armors
                 UseItem(2);
                 PlayerMovement();
+            }else if(userCKI.Key == ConsoleKey.D)
+            {
+                Dropitems();
             }
             else if (userCKI.Key == ConsoleKey.F)
             {
@@ -690,6 +695,57 @@ namespace Solid_Rascal
                         break;
                     }
                 } while (userCKI.Key != ConsoleKey.Escape);
+            }
+        }
+
+        void Dropitems()
+        {
+            if (newPlayer.inv.Count <= 0)
+            {
+                alert.Action("Your inventory is empty.");
+            }
+            else
+            {
+                alert.Action("Pick an item to drop (press i to check your inventory).");
+                userCKI = Console.ReadKey();
+                int i_Index;
+
+                if (userCKI.Key == ConsoleKey.I)
+                {
+                    Console.Clear();
+                    playerInfo.Inventory();
+                    Console.ReadKey();
+                    Console.Clear();
+                    PrintMap();
+                }
+                else if (char.IsDigit(userCKI.KeyChar))
+                {
+                    try
+                    {
+                        i_Index = int.Parse(userCKI.KeyChar.ToString());
+
+                        if (newPlayer.inv[i_Index].isEquipped)
+                        {
+                            alert.Warning("You must unequip the item to drop it");
+                        }else
+                        {
+                            if (currentMap[newPlayer.yPos, newPlayer.xPos].hasItem)
+                            {
+                                alert.Warning("There is already an item here");
+                            }
+                            else
+                            {
+                                alert.Action("You dropped the " + newPlayer.inv[i_Index].iName);
+                                currentMap[newPlayer.yPos, newPlayer.xPos].SetItem(newPlayer.inv[i_Index]);
+                                newPlayer.inv.RemoveAt(i_Index);
+                            }
+                        }
+                    }                       
+                    catch
+                    {
+                        alert.Warning("Invalid choice");
+                    }
+                }
             }
         }
 
