@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Solid_Rascal.Items
 {
-    class Diamond
+    class Diamond : Item
     {
+        public Diamond()
+        {
+            iName = "Diamond";
+            iType = 250;
+            iCat = 52;
+        }
     }
 }

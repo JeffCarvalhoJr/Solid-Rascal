@@ -69,6 +69,7 @@ namespace Solid_Rascal
         int[] itemPool1;
         public static List<Item> activeItems;
         public static List<Item> activeFoods;
+        public static List<Item> activeDiamonds;
 
 
         public MainGame()
@@ -88,6 +89,7 @@ namespace Solid_Rascal
             //Items
             activeItems = new List<Item>();
             activeFoods = new List<Item>();
+            activeDiamonds = new List<Item>();
 
             //Actors
             activeEnemies = new List<Character>();
@@ -129,9 +131,14 @@ namespace Solid_Rascal
             do
             {
                 nextLevel = false;
+
+                //Setup items and actors
                 activeEnemies.Clear();
+                activeFoods.Clear();
+                activeDiamonds.Clear();
                 FillEnemyList();
                 FillItemList();
+
                 //Setup map
                 Console.Clear();
                 visibleMap.Clear();
@@ -292,6 +299,26 @@ namespace Solid_Rascal
                 currentMap[activeFoods[i].yPos, activeFoods[i].xPos].SetItem(activeFoods[i]);
             }
 
+            for (int i = 0; i < activeDiamonds.Count; i++)
+            {
+                int tries = 0;
+                do
+                {
+                    randRoomX = rand.Next(0, 3);
+                    randRoomY = rand.Next(0, 3);
+                    spawnRoom = mapGen._RoomsL[randRoomX, randRoomY];
+
+                    itemX = rand.Next((spawnRoom.X + 1), spawnRoom.X + spawnRoom.Width - 1);
+                    itemY = rand.Next((spawnRoom.Y + 1), spawnRoom.Y + spawnRoom.Height - 1);
+
+                    tileToCheck = currentMap[itemY, itemX];
+                    tries++;
+                } while (tileToCheck.hasItem && tries < 100);
+                activeDiamonds[i].SetNewPosition(itemX, itemY);
+
+                currentMap[activeDiamonds[i].yPos, activeDiamonds[i].xPos].SetItem(activeDiamonds[i]);
+            }
+
         }
         //probably need an update
         void PrintMap()
@@ -349,13 +376,21 @@ namespace Solid_Rascal
 
             // food
 
-            int randomFoodN = rand.Next(1, 10);
+            int rFN = rand.Next(0, 5);
 
-            for (int i = 0; i < randomFoodN; i++)
+            for (int i = 0; i < rFN; i++)
             {
                 activeFoods.Add(itemSpawner.GetItem(250));
             }
 
+            // diamonds
+
+            int rDN = rand.Next(9, 18);
+
+            for(int i = 0; i < rDN; i++)
+            {
+                activeDiamonds.Add(itemSpawner.GetItem(252));
+            }
         }
 
         void CharacterMovement(int dir, Character actor)
@@ -586,16 +621,24 @@ namespace Solid_Rascal
                         Item itemToCheck = tileToCheck.tItem;
                         int itemType = itemToCheck.iCat;
 
-                        if (newPlayer.inv.Count < 10)
+                        if (itemType != 52)
                         {
-                            alert.Action("You have found a " + itemToCheck.iName);
-                            itemToCheck.Collect(newPlayer);
+                            if (newPlayer.inv.Count < 10)
+                            {
+                                alert.Action("You have found a " + itemToCheck.iName);
+                                itemToCheck.Collect(newPlayer); 
+                                CollectItem(itemToCheck, itemToCheck.iCat);
+                                tileToCheck.Removetem();
+                            }
+                            else
+                            {
+                                alert.Action("inventory full");
+                            }
+                        }else
+                        {
+                            newPlayer.sDiamonds++;
+                            CollectItem(itemToCheck, itemToCheck.iCat);
                             tileToCheck.Removetem();
-                            CollectItem(itemToCheck);
-                        }
-                        else
-                        {
-                            alert.Action("inventory full");
                         }
                     }
                     CharacterMovement(moveId, newPlayer);
@@ -906,14 +949,40 @@ namespace Solid_Rascal
             return 0;
         }
 
-        void CollectItem(Item item)
+        void CollectItem(Item item, int type)
         {
-            for (int i = 0; i < activeItems.Count; i++)
+            //Diamonds
+            if (type == 52)
             {
-                Item itemTC = activeItems[i];
-                if (itemTC == item)
+                for (int i = 0; i < activeDiamonds.Count; i++)
                 {
-                    activeItems.RemoveAt(i);
+                    Item itemTC = activeDiamonds[i];
+                    if (itemTC == item)
+                    {
+                        activeDiamonds.RemoveAt(i);
+                    }
+                }
+            }//Food
+            else if(type == 3)
+            {
+                for (int i = 0; i < activeFoods.Count; i++)
+                {
+                    Item itemTC = activeFoods[i];
+                    if (itemTC == item)
+                    {
+                        activeFoods.RemoveAt(i);
+                    }
+                }
+            }//Weapons, Armor and Potions
+            else
+            {
+                for (int i = 0; i < activeItems.Count; i++)
+                {
+                    Item itemTC = activeItems[i];
+                    if (itemTC == item)
+                    {
+                        activeItems.RemoveAt(i);
+                    }
                 }
             }
         }

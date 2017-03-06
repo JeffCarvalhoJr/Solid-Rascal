@@ -189,7 +189,7 @@ namespace Solid_Rascal.Characters.Player
                         {
                             //HP
                             case 1:
-                                ChangeHealth(currentCons.iValue);
+                                ChangeHealth(currentCons.iValue + (int)(pLevel * 0.1f));
                                 break;
                             //STR
                             case 2:

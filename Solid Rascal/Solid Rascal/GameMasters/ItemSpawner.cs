@@ -60,6 +60,9 @@ namespace Solid_Rascal.GameMasters
                 case 251:
                     nextItem = new Scroll_Ident();
                     return nextItem;
+                case 252:
+                    nextItem = new Diamond();
+                    return nextItem;
                 default:
                     nextItem = new Mace();
                     return nextItem;

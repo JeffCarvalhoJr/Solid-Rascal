@@ -85,6 +85,7 @@
     <Compile Include="Items\Consumable.cs" />
     <Compile Include="Items\Consumables\Food.cs" />
     <Compile Include="Items\Consumables\Scroll_Ident.cs" />
+    <Compile Include="Items\Diamond.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potions\DEF_Potion.cs" />
     <Compile Include="Items\Potions\Health_Potion.cs" />

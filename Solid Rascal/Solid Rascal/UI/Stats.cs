@@ -51,13 +51,13 @@ namespace Solid_Rascal.UI
             if (newPlayer.sHunger < 500)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.SetCursorPosition(51, UIHeight + 4);
                 Console.Write(@"Peckish");
             }
             else if (newPlayer.sHunger < 250)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.SetCursorPosition(51, UIHeight + 4);
                 Console.Write(@"Starving");
             }
             else
