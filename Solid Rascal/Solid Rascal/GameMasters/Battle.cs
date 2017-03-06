@@ -22,8 +22,17 @@ namespace Solid_Rascal
             _Alert = new Alert();
             _Dice = new Dice();
 
-            FA = attacker.sSTR + attacker.GetAttackRoll();
-            FD = defender.sDEF + defender.GetDefenseRoll();
+            if (attacker.isPlayer)
+            {
+                FA = attacker.sSTR + attacker.mSTR + attacker.GetAttackRoll();
+                FD = defender.sDEF + attacker.mDEF + defender.GetDefenseRoll();
+            }
+            else
+            {
+                FA = attacker.sSTR + attacker.GetAttackRoll();
+                FD = defender.sDEF + defender.GetDefenseRoll();
+            }
+         
 
             //doing tests 
             ATK = (int)FA;

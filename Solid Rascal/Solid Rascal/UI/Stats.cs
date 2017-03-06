@@ -43,11 +43,11 @@ namespace Solid_Rascal.UI
            
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(@"
-╔══════════╦══════════╦══════╦═════╦════════╗
-║♥HP:{0}({1})" + @"│STR:{2}({3})│DEF:{4}│♦:{5}│LEVEL:{6}║  
-╚══════════╩══════════╩══════╩═════╩════════╝", PLAYER.sHP.ToString("00"),PLAYER.sMHP.ToString("00"), 
-                                                            PLAYER.sSTR.ToString("00"), PLAYER.sMSTR.ToString("00"),
-                                                            PLAYER.sDEF.ToString("00"),PLAYER.sDiamonds.ToString("000"),MainGame.currentLevel.ToString("00"));
+╔════════════╦══════════╦══════════╦═════╦════════╗
+║♥HP:{0}({1})" + @"│STR:{2}({3})│DEF:{4}({5})│♦:{6}│LEVEL:{7}║  
+╚════════════╩══════════╩══════════╩═════╩════════╝", PLAYER.sHP.ToString("000"), PLAYER.sMHP.ToString("000"),
+                                                            (PLAYER.sSTR + PLAYER.mSTR).ToString("00"), PLAYER.sMSTR.ToString("00"),
+                                                            (PLAYER.sDEF + PLAYER.mDEF).ToString("00"), PLAYER.sMDEF.ToString("00"),PLAYER.sDiamonds.ToString("000"),MainGame.currentLevel.ToString("00"));
             if (newPlayer.sHunger < 500)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -62,7 +62,7 @@ namespace Solid_Rascal.UI
             }
             else
             {
-                Console.SetCursorPosition(45, UIHeight + 4);
+                Console.SetCursorPosition(51, UIHeight + 4);
                 Console.Write(@"FINE   ");
             }
         }

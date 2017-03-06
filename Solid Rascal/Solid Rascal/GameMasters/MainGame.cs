@@ -621,17 +621,12 @@ namespace Solid_Rascal
         //End Turn events (effects, timers, etc)
         void EndTurn()
         {
-            if (newPlayer.sHP < newPlayer.sMHP)
-            {
-                newPlayer.sHP += 0.05f;
-            }
-
+            newPlayer.UpdateStatus();
             if(newPlayer.sHunger <= 0)
             {
                 newPlayer.sHP = -1;
                 alert.Warning("You starved to death");
             }
-            newPlayer.sHunger--;
         }
 
         void UseItem(int type)

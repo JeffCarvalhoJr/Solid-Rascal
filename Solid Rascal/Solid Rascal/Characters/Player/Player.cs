@@ -16,6 +16,10 @@ namespace Solid_Rascal.Characters.Player
         public bool hasEArmor;
         public bool activePotion;
 
+        public int potionTimer;
+        public int potionType;
+        public int potionStrength;
+
         public List<Item> inv { get; set; } //inventory
 
         public int sHunger;
@@ -38,6 +42,7 @@ namespace Solid_Rascal.Characters.Player
             sSTR = 5;
             sMSTR = 5;
             sDEF = 1;
+            sMDEF = 1;
             sHP = 50;
             sMHP = 50;
             sDiamonds = 0;
@@ -171,9 +176,37 @@ namespace Solid_Rascal.Characters.Player
                     if (inv[index].iModifier != 5)
                     {
                         alert.Action("You consumed the " + inv[index].iName);
-                        Consumable currentPotion = inv[index] as Consumable;
-                        currentPotion.Consume(this);
+                        Consumable currentCons = inv[index] as Consumable;
+                        
                         inv.RemoveAt(index);
+
+                        switch (currentCons.iModifier)
+                        {
+                            //HP
+                            case 1:
+                                ChangeHealth(currentCons.iValue);
+                                break;
+                            //STR
+                            case 2:
+                                potionType = 2;
+                                potionStrength = currentCons.iValue;
+                                potionTimer = 20;
+                                activePotion = true;
+                                break;
+                            //DEF
+                            case 3:
+                                potionType = 3;
+                                potionStrength = currentCons.iValue;
+                                potionTimer = 20;
+                                activePotion = true;
+                                break;
+                            //Food
+                            case 4:
+                                ChangeFood(currentCons.iValue);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     else
                     {
@@ -185,27 +218,9 @@ namespace Solid_Rascal.Characters.Player
             catch { alert.Action("Invalid Choice"); }
         }
 
-        public void Consume(int type, int value = 0, int time = 0)
+        public void Consume(int type, int value = 0)
         {
-            switch (type)
-            {
-                //HP
-                case 1:
-                    ChangeHealth(value);
-                    break;
-                //STR
-                case 2:
-                    break;
-                //DEF
-                case 3:
-                    break;
-                //Food
-                case 4:
-                    ChangeFood(value);
-                    break;
-                default:
-                    break;
-            }
+          
         }
 
         void IdentifyItem(int index)
@@ -277,6 +292,36 @@ namespace Solid_Rascal.Characters.Player
             if (sHunger >= 1000)
             {
                 sHunger = 1000;
+            }
+        }
+
+        public void UpdateStatus()
+        {
+            sHunger--;
+
+            if (sHP < sMHP)
+            {
+               sHP += 0.05f;
+            }
+
+            if (activePotion)
+            {
+                if (potionType == 2)
+                {
+                    mSTR = potionStrength;
+                }
+                else if(potionType == 3)
+                {
+                    mDEF = potionStrength;
+                }
+
+                potionTimer--;
+                if(potionTimer <= 0)
+                {
+                    activePotion = false;
+                    mSTR = 0;
+                    mDEF = 0;
+                }
             }
         }
     }

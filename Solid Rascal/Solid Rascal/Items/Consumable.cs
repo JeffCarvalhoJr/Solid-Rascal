@@ -15,11 +15,5 @@ namespace Solid_Rascal.Items
             iType = 230;
             iCat = 3;
         }
-
-        public virtual void Consume(Player player)
-        {
-            player.Consume(iModifier, iValue);
-        }
-
     }
 }

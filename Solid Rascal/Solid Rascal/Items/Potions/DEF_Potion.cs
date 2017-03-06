@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solid_Rascal.Characters.Player;
 
 namespace Solid_Rascal.Items.Potions
 {
@@ -14,5 +15,6 @@ namespace Solid_Rascal.Items.Potions
             iValue = rand.Next(2, 4);
             iModifier = 3;
         }
+
     }
 }
