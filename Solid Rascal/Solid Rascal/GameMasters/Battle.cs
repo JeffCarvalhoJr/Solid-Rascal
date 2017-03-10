@@ -25,11 +25,11 @@ namespace Solid_Rascal
             if (attacker.isPlayer)
             {
                 FA = attacker.sSTR + attacker.mSTR + attacker.GetAttackRoll() + (attacker.pLevel * 0.25f);
-                FD = defender.sDEF + attacker.mDEF + defender.GetDefenseRoll() + (defender.pLevel * 0.25f);
+                FD = defender.sDEF + attacker.mDEF + defender.GetDefenseRoll() + (defender.pLevel * 0.50f);
             }
             else
             {
-                FA = attacker.sSTR + attacker.GetAttackRoll() + (defender.pLevel * 0.25f);
+                FA = attacker.sSTR + attacker.GetAttackRoll() + (defender.pLevel * 0.50f);
                 FD = defender.sDEF + defender.GetDefenseRoll() + (attacker.pLevel * 0.25f);
             }
          

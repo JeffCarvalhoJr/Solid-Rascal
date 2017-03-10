@@ -23,7 +23,7 @@ namespace Solid_Rascal.Characters.Enemies
 
         public override int GetAttackRoll()
         {
-            return _die.Roll(1, 20);
+            return _die.Roll(1, 10);
         }
     }
 }

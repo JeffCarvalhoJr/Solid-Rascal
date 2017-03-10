@@ -50,7 +50,7 @@ namespace Solid_Rascal.Characters.Player
 
             pLevel = 1;
             cXP = 0;
-            mXP = 25;
+            mXP = 50;
         }
 
         public override int GetAttackRoll()

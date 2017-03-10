@@ -109,6 +109,7 @@ namespace Solid_Rascal
             //HolderPool { 100, 101, 102, 103, 150, 151, 152, 153, 154, 200, 201, 202, 251 };
 
             Console.CursorVisible = true;
+            Console.Clear();
             playerName = alert.Question("Who are you?");
             Console.CursorVisible = false;
             GameStart();
@@ -156,28 +157,35 @@ namespace Solid_Rascal
 
                 //
                 playerInfo = new Stats(MAPHeight, newPlayer);
-                while (!(newPlayer.sHP < 1) && nextLevel == false && !bQuit)
+                while (!(newPlayer.sHP < 1) && nextLevel == false && !bQuit && !(currentLevel == 27))
                 {    
                     PlayerMovement();
                     EnemiesTurn();
                     EndTurn();
                 }
-               
-            } while (!(newPlayer.sHP < 1) && !bQuit);
+
+                
+            } while (!(newPlayer.sHP < 1) && !bQuit && !(currentLevel == 27));
 
             Console.Clear();
 
-            if (newPlayer.sHP < 1)
+            if (currentLevel == 27 && newPlayer.sHP > 1)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(30, 15);
+                Console.Write(@"Congratulations, you conquered my dungeon.");
+                Console.ReadKey();
+            }
+            else if (newPlayer.sHP < 1)
             {
                 alert.Warning("You are dead");
+                Console.ReadKey();
             }
             else
             {
                 alert.Warning("Bye");
+                Console.ReadKey();
             }
-
-            alert.Warning("Thanks for playing Solid Rascal Ver.0.1");
-            Console.ReadLine();
 
         }
 

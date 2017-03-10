@@ -104,6 +104,7 @@
     <Compile Include="Map Gen\Room.cs" />
     <Compile Include="GameMasters\Tileset.cs" />
     <Compile Include="UI\Alert.cs" />
+    <Compile Include="UI\MainMenu.cs" />
     <Compile Include="UI\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
